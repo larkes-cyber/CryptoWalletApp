@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/welcomeFragment">
-
+    app:startDestination="@id/subFragment">
     <fragment
-        android:id="@+id/welcomeFragment"
-        android:name="com.example.cryptowalletapp.presentation.fragment.WelcomeFragment"
-        android:label="fragment_welcome"
-        tools:layout="@layout/fragment_welcome" />
+        android:id="@+id/subFragment"
+        android:name="com.example.cryptowalletapp.presentation.fragment.SubFragment"
+        android:label="fragment_sub"
+        tools:layout="@layout/fragment_sub" />
 </navigation>
