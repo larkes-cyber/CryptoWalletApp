@@ -75,6 +75,7 @@
             />
         <androidx.cardview.widget.CardView
             android:layout_weight="0.5"
+            android:id="@+id/next"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:cardCornerRadius="16dp"
