@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.cardview.widget.CardView
+import androidx.navigation.findNavController
 import com.example.cryptowalletapp.R
 
 
@@ -24,5 +27,20 @@ class SubFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_sub, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val next: CardView = view.findViewById(R.id.next)
+        val back: ImageView = view.findViewById(R.id.back)
+
+        next.setOnClickListener {
+            view.findNavController().navigate(R.id.action_subFragment_to_passwordFragment)
+        }
+        back.setOnClickListener {
+            view.findNavController().navigate(R.id.action_subFragment_to_profileSetupFragment)
+        }
+
+
+    }
 
 }

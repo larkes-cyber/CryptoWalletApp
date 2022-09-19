@@ -26,6 +26,7 @@
             android:textSize="18sp" />
 
         <ImageView
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
@@ -126,6 +127,7 @@
         android:orientation="vertical"
         >
         <androidx.cardview.widget.CardView
+            android:id="@+id/next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
@@ -138,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:fontFamily="@font/poppinsmedium"
-                android:text="Log in"
+                android:text="Next"
                 android:layout_gravity="center"
                 android:textColor="@color/white"
                 />

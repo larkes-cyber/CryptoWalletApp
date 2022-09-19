@@ -10,7 +10,8 @@ import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import com.example.cryptowalletapp.R
 
-class SignUpFragment : Fragment() {
+
+class LogInFragment : Fragment() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,23 +24,23 @@ class SignUpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up, container, false)
+        return inflater.inflate(R.layout.fragment_log_in, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val next: CardView = view.findViewById(R.id.next)
-        val turn:TextView = view.findViewById(R.id.turn)
+        val turn: TextView = view.findViewById(R.id.turn)
 
         turn.setOnClickListener {
-            view.findNavController().navigate(R.id.action_signUpFragment_to_logInFragment)
+            view.findNavController().navigate(R.id.action_logInFragment_to_signUpFragment)
         }
-        next.setOnClickListener {
-            view.findNavController().navigate(R.id.action_signUpFragment_to_profileSetupFragment)
-        }
-
+//        next.setOnClickListener {
+//            view.findNavController().navigate(R.id.action_signUpFragment_to_profileSetupFragment)
+//        }
 
     }
+
 
 }
