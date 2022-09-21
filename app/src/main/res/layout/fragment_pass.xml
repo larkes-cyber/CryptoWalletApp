@@ -58,20 +58,28 @@
         android:orientation="horizontal"
         >
             <LinearLayout
+                android:id="@+id/first_check"
+                android:layout_width="10dp"
+                android:orientation="horizontal"
+                android:layout_height="10dp"
+                android:background="@drawable/check_password"/>
+            <LinearLayout
+                android:id="@+id/second_check"
+                android:layout_marginLeft="5dp"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:background="@drawable/checked_password"/>
+                android:background="@drawable/check_password"
+                android:orientation="horizontal" />
             <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/third_check"
                 android:layout_marginLeft="5dp"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:background="@drawable/check_password"/>
             <LinearLayout
-                android:layout_marginLeft="5dp"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:background="@drawable/check_password"/>
-            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/fourth_check"
                 android:layout_marginLeft="5dp"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
@@ -81,7 +89,7 @@
 
     <LinearLayout
         android:layout_marginHorizontal="40dp"
-        android:layout_weight="4.5"
+        android:layout_weight="5"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
@@ -89,6 +97,7 @@
 
 
         <LinearLayout
+
             android:layout_weight="2"
             android:layout_width="0dp"
             android:gravity="center"
@@ -96,6 +105,8 @@
             android:orientation="vertical"
             >
             <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/one"
                 android:layout_weight="3"
                 android:layout_width="70dp"
                 android:layout_height="0dp"
@@ -114,6 +125,7 @@
                 android:layout_height="0dp"/>
 
             <TextView
+                android:id="@+id/four"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -130,6 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"/>
             <TextView
+                android:id="@+id/seven"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -146,6 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"/>
             <TextView
+                android:id="@+id/ziro"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -167,6 +181,8 @@
             android:orientation="vertical"
             >
             <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/two"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -185,6 +201,7 @@
                 android:layout_height="0dp"/>
 
             <TextView
+                android:id="@+id/five"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -201,6 +218,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"/>
             <TextView
+                android:id="@+id/eight"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -217,6 +235,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"/>
             <TextView
+                android:id="@+id/complete"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -238,6 +257,8 @@
             android:orientation="vertical"
             >
             <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/three"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -256,6 +277,7 @@
                 android:layout_height="0dp"/>
 
             <TextView
+                android:id="@+id/six"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -272,6 +294,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"/>
             <TextView
+                android:id="@+id/nine"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -288,6 +311,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"/>
             <TextView
+                android:id="@+id/delete"
                 android:layout_weight="3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
