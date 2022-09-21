@@ -14,8 +14,12 @@ import com.example.cryptowalletapp.R
 
 class SubFragment : Fragment() {
 
-    private var selectedSub:String = ""
+    private var selectedSub:String = "free"
 
+    lateinit var free:LinearLayout
+    lateinit var ten:LinearLayout
+    lateinit var fourteen:LinearLayout
+    lateinit var hungred:LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,18 +35,36 @@ class SubFragment : Fragment() {
     }
 
 
+    private fun switchToOption(view:LinearLayout, value:String){
+
+        val array = arrayListOf<LinearLayout>(free, ten, fourteen, hungred)
+        array.forEach{it.setBackgroundResource(R.drawable.form_background)}
+
+        view.setBackgroundResource(R.drawable.form_background_selected)
+
+        selectedSub = value
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val free:LinearLayout = view.findViewById(R.id.free)
-        val ten:LinearLayout = view.findViewById(R.id.ten)
-        val fourteen:LinearLayout = view.findViewById(R.id.fourteen)
-        val hungred:LinearLayout = view.findViewById(R.id.hungred)
+         free = view.findViewById(R.id.free)
+         ten = view.findViewById(R.id.ten)
+         fourteen = view.findViewById(R.id.fourteen)
+         hungred = view.findViewById(R.id.hungred)
 
         free.setOnClickListener {
-
+            switchToOption(free, "free")
+        }
+        ten.setOnClickListener {
+            switchToOption(ten, "ten")
+        }
+        fourteen.setOnClickListener {
+            switchToOption(fourteen, "fourteen")
+        }
+        hungred.setOnClickListener {
+            switchToOption(hungred,"hung")
         }
 
         // to next
