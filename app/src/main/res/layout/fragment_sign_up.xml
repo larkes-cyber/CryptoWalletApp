@@ -137,39 +137,54 @@
             android:paddingBottom="18dp"
             />
     </LinearLayout>
+
+
     <LinearLayout
-        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:layout_marginHorizontal="24dp"
-        >
+        android:layout_weight="2"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:fontFamily="@font/poppinsmedium"
-            android:textColor="@color/opacity_white"
-            android:text="Confirm password"
             android:layout_marginLeft="4dp"
+            android:fontFamily="@font/poppinsmedium"
+            android:text="Confirm password"
+            android:textColor="@color/opacity_white"
+            android:textSize="10sp"
 
             />
+
         <EditText
             android:id="@+id/repeat_pass"
-            android:layout_marginTop="9dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColorHint="@color/opacity_white"
-            android:textColor="@color/white"
+            android:layout_marginTop="9dp"
+            android:backgroundTint="@color/opacity_white"
             android:hint="Enter password"
             android:inputType="textPassword"
-            android:textColorLink="@color/primary_dark_second"
-            android:backgroundTint="@color/opacity_white"
             android:paddingBottom="18dp"
-            />
+            android:textColor="@color/white"
+            android:textColorHint="@color/opacity_white"
+            android:textColorLink="@color/primary_dark_second"
+            android:textSize="12sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/error"
+        android:visibility="gone"
+        android:layout_marginLeft="21dp"
+        android:text="Неправильно введены данные"
+        android:textColor="@color/an_error"
+        android:fontFamily="@font/poppinsmedium"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:id="@+id/next"
@@ -191,7 +206,7 @@
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center"

@@ -25,6 +25,8 @@ class SignUpFragment : Fragment() {
         ViewModelProvider(this,vmFactory).get(SignUpViewModel::class.java)
     }
 
+    lateinit var error:TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +41,8 @@ class SignUpFragment : Fragment() {
     }
 
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -48,6 +52,9 @@ class SignUpFragment : Fragment() {
         val email:EditText = view.findViewById(R.id.email)
         val password:EditText = view.findViewById(R.id.password)
         val repeatPassword:EditText = view.findViewById(R.id.repeat_pass)
+
+        //an error
+         error = view.findViewById(R.id.error)
 
         //to next fragments
         val next: CardView = view.findViewById(R.id.next)
@@ -61,9 +68,16 @@ class SignUpFragment : Fragment() {
 
     }
 
+    private fun toShowAnError(text:String){
+        error.text = text
+        error.visibility = View.VISIBLE
+    }
+
     private fun toNextFragment(email:String, pass:String, repPass:String){
         //if input data is normal
-        if(vm.checkPass(pass) && (pass == repPass) && vm.checkEmail(email)){
+        if(vm.checkPass(pass) && (pass == repPass) && !vm.checkEmail(email)){
+
+            error.visibility = View.GONE
 
             //setup transfer data to next fragment
             val bundle = Bundle()
@@ -71,6 +85,11 @@ class SignUpFragment : Fragment() {
             bundle.putString("password", pass)
 
             requireView().findNavController().navigate(R.id.action_signUpFragment_to_profileSetupFragment, bundle)
+        }else{
+
+            if(!vm.checkPass(pass))toShowAnError("Insecure password")
+            if(pass != repPass)toShowAnError("Passwords aren't the same")
+            if(vm.checkEmail(email))toShowAnError("Wrong email")
         }
     }
 
