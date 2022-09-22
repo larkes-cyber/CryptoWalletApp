@@ -72,7 +72,17 @@ class SubFragment : Fragment() {
         val back: ImageView = view.findViewById(R.id.back)
 
         next.setOnClickListener {
-            view.findNavController().navigate(R.id.action_subFragment_to_passwordFragment)
+
+            //setup transfer data to next fragment
+            val bundle = Bundle()
+            bundle.putString("email", arguments?.get("email").toString())
+            bundle.putString("password", arguments?.get("password").toString())
+            bundle.putString("first_name",arguments?.get("first_name").toString())
+            bundle.putString("last_name",arguments?.get("last_name").toString())
+            bundle.putString("image_src", arguments?.get("image_src").toString())
+            bundle.putString("sub", selectedSub)
+
+            view.findNavController().navigate(R.id.action_subFragment_to_passwordFragment, bundle)
         }
         back.setOnClickListener {
             view.findNavController().navigate(R.id.action_subFragment_to_profileSetupFragment)

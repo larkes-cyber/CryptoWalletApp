@@ -85,7 +85,16 @@ class ProfileSetupFragment : Fragment() {
 
     private fun toNext(first:String, last:String){
         if(first.length >= 3 && last.length >= 3){
-            requireView().findNavController().navigate(R.id.action_profileSetupFragment_to_subFragment)
+
+            //setup transfer data to next fragment
+            val bundle = Bundle()
+            bundle.putString("email", arguments?.get("email").toString())
+            bundle.putString("password", arguments?.get("password").toString())
+            bundle.putString("first_name",first)
+            bundle.putString("last_name",last)
+            bundle.putString("image_src", image_profile.tag.toString())
+
+            requireView().findNavController().navigate(R.id.action_profileSetupFragment_to_subFragment, bundle)
         }
     }
 
@@ -105,7 +114,7 @@ class ProfileSetupFragment : Fragment() {
         contentResolver.takePersistableUriPermission(url!!, takeFlags)
         image_profile.visibility = View.VISIBLE
         image_profile.setImageURI(url)
-
+        image_profile.tag = url
 
     }
 

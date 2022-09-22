@@ -64,7 +64,13 @@ class SignUpFragment : Fragment() {
     private fun toNextFragment(email:String, pass:String, repPass:String){
         //if input data is normal
         if(vm.checkPass(pass) && (pass == repPass) && vm.checkEmail(email)){
-            requireView().findNavController().navigate(R.id.action_signUpFragment_to_profileSetupFragment)
+
+            //setup transfer data to next fragment
+            val bundle = Bundle()
+            bundle.putString("email", email)
+            bundle.putString("password", pass)
+
+            requireView().findNavController().navigate(R.id.action_signUpFragment_to_profileSetupFragment, bundle)
         }
     }
 
