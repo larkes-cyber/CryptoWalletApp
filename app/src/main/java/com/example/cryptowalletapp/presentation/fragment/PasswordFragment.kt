@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.fragment.app.findFragment
 import androidx.navigation.findNavController
 import com.example.cryptowalletapp.R
+import okhttp3.internal.concurrent.Task
 
 
 class PasswordFragment : Fragment() {
@@ -29,6 +30,15 @@ class PasswordFragment : Fragment() {
 
     var checkItems:List<LinearLayout>? = null
     var countOfItems = 0
+
+
+    private fun numArrayToString(array:MutableList<Int>):String{
+
+        var string = ""
+        array.forEach { string += it.toString() }
+
+        return string
+    }
 
     private fun toAnimate(item:TextView){
             // Scale the view up to 4x its default size and back
@@ -96,6 +106,19 @@ class PasswordFragment : Fragment() {
         }
         next.setOnClickListener {
             toAnimate(next)
+
+            //setup transfer data to next fragment
+            val bundle = Bundle()
+            bundle.putString("email", arguments?.get("email").toString())
+            bundle.putString("password", arguments?.get("password").toString())
+            bundle.putString("first_name",arguments?.get("first_name").toString())
+            bundle.putString("last_name",arguments?.get("last_name").toString())
+            bundle.putString("image_src", arguments?.get("image_src").toString())
+            bundle.putString("sub", arguments?.get("sub").toString())
+            bundle.putString("pincode",numArrayToString(pinCode))
+            bundle.putInt("kind", 1)
+
+            view.findNavController().navigate(R.id.action_passwordFragment_to_loadingFragment, bundle)
 
         }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/passwordFragment">
+    app:startDestination="@id/welcomeFragment">
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.example.cryptowalletapp.presentation.fragment.WelcomeFragment"
@@ -25,6 +25,13 @@
         <action
             android:id="@+id/action_logInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_logInFragment_to_loadingFragment"
+            app:destination="@id/loadingFragment" />
     </fragment>
     <fragment
         android:id="@+id/subFragment"
@@ -45,6 +52,21 @@
             app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_subFragment_to_profileSetupFragment"
             app:destination="@id/profileSetupFragment" />
+        <argument
+            android:name="image_src"
+            app:argType="string" />
+        <argument
+            android:name="last_name"
+            app:argType="string" />
+        <argument
+            android:name="first_name"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -84,6 +106,12 @@
             app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_profileSetupFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/passwordFragment"
@@ -97,5 +125,65 @@
             app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_passwordFragment_to_subFragment"
             app:destination="@id/subFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_passwordFragment_to_loadingFragment"
+            app:destination="@id/loadingFragment" />
+        <argument
+            android:name="image_src"
+            app:argType="string" />
+        <argument
+            android:name="last_name"
+            app:argType="string" />
+        <argument
+            android:name="first_name"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="sub"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/loadingFragment"
+        android:name="com.example.cryptowalletapp.presentation.fragment.LoadingFragment"
+        android:label="fragment_loading"
+        tools:layout="@layout/fragment_loading" >
+        <argument
+            android:name="last_name"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="first_name"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="image_src"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="pincode"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="sub"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="kind"
+            app:argType="integer" />
     </fragment>
 </navigation>
