@@ -40,6 +40,20 @@ class PasswordFragment : Fragment() {
         return string
     }
 
+    fun toNextFragment(){
+        val bundle = Bundle()
+        bundle.putString("email", arguments?.get("email").toString())
+        bundle.putString("password", arguments?.get("password").toString())
+        bundle.putString("first_name",arguments?.get("first_name").toString())
+        bundle.putString("last_name",arguments?.get("last_name").toString())
+        bundle.putString("image_src", arguments?.get("image_src").toString())
+        bundle.putString("sub", arguments?.get("sub").toString())
+        bundle.putString("pincode",numArrayToString(pinCode))
+        bundle.putInt("kind", 1)
+
+        requireView().findNavController().navigate(R.id.action_passwordFragment_to_loadingFragment, bundle)
+    }
+
     private fun toAnimate(item:TextView){
             // Scale the view up to 4x its default size and back
             val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.2f)
@@ -52,10 +66,10 @@ class PasswordFragment : Fragment() {
     }
 
     private fun toPutNumPass(num:Int){
-        if(countOfItems == checkItems!!.size) return
+        pinCode.add(num)
+        if(countOfItems == checkItems!!.size-1) toNextFragment()
         checkItems!![countOfItems].setBackgroundResource(R.drawable.checked_password)
         countOfItems++
-        pinCode.add(num)
     }
     private fun toDeleteNum(it:TextView){
         toAnimate(it)
@@ -108,17 +122,7 @@ class PasswordFragment : Fragment() {
             toAnimate(next)
 
             //setup transfer data to next fragment
-            val bundle = Bundle()
-            bundle.putString("email", arguments?.get("email").toString())
-            bundle.putString("password", arguments?.get("password").toString())
-            bundle.putString("first_name",arguments?.get("first_name").toString())
-            bundle.putString("last_name",arguments?.get("last_name").toString())
-            bundle.putString("image_src", arguments?.get("image_src").toString())
-            bundle.putString("sub", arguments?.get("sub").toString())
-            bundle.putString("pincode",numArrayToString(pinCode))
-            bundle.putInt("kind", 1)
-
-            view.findNavController().navigate(R.id.action_passwordFragment_to_loadingFragment, bundle)
+            toNextFragment()
 
         }
 

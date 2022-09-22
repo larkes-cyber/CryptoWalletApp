@@ -10,4 +10,5 @@
     <color name="primary_dark">#070707</color>
     <color name="primary_dark_second">#6552FE</color>
     <color name="opacity_white">#CCFFFFFF</color>
+    <color name="an_error">#DB526B</color>
 </resources>

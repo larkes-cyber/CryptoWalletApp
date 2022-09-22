@@ -139,6 +139,20 @@
             android:paddingBottom="18dp"
             />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/error"
+        android:visibility="gone"
+        android:layout_marginLeft="21dp"
+        android:text="Неправильно введены данные"
+        android:textColor="@color/an_error"
+        android:fontFamily="@font/poppinsmedium"
+        android:layout_weight="0.2"
+        android:gravity="bottom"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
     <LinearLayout
         android:layout_weight="2"
         android:layout_width="match_parent"

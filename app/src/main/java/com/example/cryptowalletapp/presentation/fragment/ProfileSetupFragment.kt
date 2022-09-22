@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import com.example.cryptowalletapp.R
@@ -20,6 +21,8 @@ class ProfileSetupFragment : Fragment() {
 
     private var SELECT_IMAGE_CODE = 1
     lateinit var image_profile:ImageView
+
+    lateinit var error:TextView
 
     private fun showGallery(code:Int){
         val intent = Intent(Intent.ACTION_PICK,
@@ -56,6 +59,11 @@ class ProfileSetupFragment : Fragment() {
 
         val imageButton:CardView = view.findViewById(R.id.profile)
 
+
+
+        //an error
+        error = view.findViewById(R.id.error)
+
         //to select image profile
         imageButton.setOnClickListener {
             showGallery(SELECT_IMAGE_CODE)
@@ -63,6 +71,7 @@ class ProfileSetupFragment : Fragment() {
 
         //profile image
         image_profile = view.findViewById(R.id.img_profile)
+        image_profile.tag = "null"
 
         //names
         val firstName:EditText = view.findViewById(R.id.first)
@@ -83,8 +92,13 @@ class ProfileSetupFragment : Fragment() {
 
     }
 
+    private fun toShowAnError(text:String){
+        error.text = text
+        error.visibility = View.VISIBLE
+    }
+
     private fun toNext(first:String, last:String){
-        if(first.length >= 3 && last.length >= 3){
+        if(first.length >= 3 && last.length >= 3 && image_profile.tag != "null"){
 
             //setup transfer data to next fragment
             val bundle = Bundle()
@@ -95,6 +109,11 @@ class ProfileSetupFragment : Fragment() {
             bundle.putString("image_src", image_profile.tag.toString())
 
             requireView().findNavController().navigate(R.id.action_profileSetupFragment_to_subFragment, bundle)
+        }else{
+            if(first.length < 3 && last.length < 3) toShowAnError("short name")
+
+            if(image_profile.tag == "null") toShowAnError("didn't select the picture")
+
         }
     }
 
