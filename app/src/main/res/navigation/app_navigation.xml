@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/welcomeFragment">
+    app:startDestination="@id/alreadyThereFragment">
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.example.cryptowalletapp.presentation.fragment.WelcomeFragment"
@@ -185,5 +185,25 @@
         <argument
             android:name="kind"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_loadingFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/alreadyThereFragment"
+        android:name="com.example.cryptowalletapp.presentation.fragment.AlreadyThereFragment"
+        android:label="fragment_already_there"
+        tools:layout="@layout/fragment_already_there" >
+        <action
+            android:id="@+id/action_alreadyThereFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
+        <action
+            android:id="@+id/action_alreadyThereFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.cryptowalletapp.presentation.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
 </navigation>

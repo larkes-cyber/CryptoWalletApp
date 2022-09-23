@@ -20,6 +20,8 @@
         <entry key="app/src/main/res/drawable/ic_logo.xml" value="0.191" />
         <entry key="app/src/main/res/font/font.xml" value="0.32974358974358975" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2776268115942029" />
+        <entry key="app/src/main/res/layout/fragment_already_there.xml" value="0.19427083333333334" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.6551946004231771" />
         <entry key="app/src/main/res/layout/fragment_loading.xml" value="0.2776268115942029" />
         <entry key="app/src/main/res/layout/fragment_pass.xml" value="0.5365079365079365" />
         <entry key="app/src/main/res/layout/fragment_profile_setup.xml" value="0.20099334716796874" />
