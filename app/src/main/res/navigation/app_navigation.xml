@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/alreadyThereFragment">
+    app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.example.cryptowalletapp.presentation.fragment.WelcomeFragment"
