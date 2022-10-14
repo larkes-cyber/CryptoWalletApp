@@ -1,5 +1,6 @@
 package com.example.cryptowalletapp.data.retrofit.repository
 
+import android.util.Log
 import com.example.cryptowalletapp.data.retrofit.api.CompareApi
 import com.example.cryptowalletapp.data.retrofit.api.PaprikaApi
 import com.example.cryptowalletapp.data.retrofit.model.CoinDetail
@@ -10,20 +11,36 @@ class RetrofitRepository(
 ):RetrofitInterface {
 
     override suspend fun getCoinHistory(id: String): List<Int> {
-        val data = compareApi.getCryptoHistory(id,"USD",2)
+
+        Log.d("use_get_coin_history","start")
+
+        val action = compareApi.getCryptoHistory("BTC","USD",4)
+
+        val data = action.body()
 
         val output:MutableList<Int> = ArrayList()
 
-        data.data?.data?.forEach {
-            it?.close?.let { it1 -> output.add(it1.toInt()) }
+        Log.d("crypto_d",data.toString())
+
+        data?.data?.data?.forEach {
+            output.add(it!!.close!!.toInt())
         }
 
-        return data as List<Int>
+
+        Log.d("use_get_coin_history","code:${action.code()}")
+
+        return output
 
     }
 
     override suspend fun getCoinInfo(id: String): CoinDetail {
-        return paprikaApi.getCoinById(id)
+        Log.d("use_get_coin_info","start")
+
+        val action = paprikaApi.getCoinById(id)
+
+        Log.d("use_get_coin_info","code:${action.code()}")
+
+        return action.body()!!
     }
 
 
