@@ -2,6 +2,7 @@ package com.example.cryptowalletapp.di
 
 import android.content.Context
 import com.example.cryptowalletapp.domain.usecase.UseCheckAlreadyUser
+import com.example.cryptowalletapp.domain.usecase.UseGetSmallCoinInfo
 import com.example.cryptowalletapp.domain.usecase.UseGetUserData
 import com.example.cryptowalletapp.domain.usecase.UseInsertUserData
 import com.example.cryptowalletapp.presentation.viewmodel.already_there_view_model.AlreadyThereViewModelFactory
@@ -36,10 +37,12 @@ class AppModule(val context: Context) {
 
     @Provides
     fun provideLoadingViewModelFactory(
-        useInsertUserData: UseInsertUserData
+        useInsertUserData: UseInsertUserData,
+        useGetSmallCoinInfo: UseGetSmallCoinInfo
     ):LoadingViewModelFactory{
         return LoadingViewModelFactory(
-            useInsertUserData = useInsertUserData
+            useInsertUserData = useInsertUserData,
+            useGetSmallCoinInfo = useGetSmallCoinInfo
         )
     }
 

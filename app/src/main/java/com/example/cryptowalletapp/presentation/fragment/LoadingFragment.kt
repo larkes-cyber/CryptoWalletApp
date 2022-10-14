@@ -53,6 +53,10 @@ class LoadingFragment : BaseFragment() {
 
         val kind = arguments?.getInt("kind")
 
+        launch {
+            val data = vm.useGetSmallCoinInfo.execute("btc-bitcoin")
+            Log.d("success",data.src)
+        }
         if(kind == 1){
 
             val data = UserData(
@@ -67,6 +71,8 @@ class LoadingFragment : BaseFragment() {
             launch {
                 vm.saveData(data)
             }
+
+
 
         }
 

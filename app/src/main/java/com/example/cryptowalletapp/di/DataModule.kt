@@ -2,13 +2,18 @@ package com.example.cryptowalletapp.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.cryptowalletapp.common.Constants.CRYPTO_PRICE_URL
 import com.example.cryptowalletapp.common.Constants.CRYPTO_URL
 import com.example.cryptowalletapp.data.database.AppDatabase
 import com.example.cryptowalletapp.data.database.dao.UserDataDao
 import com.example.cryptowalletapp.data.database.repository.DatabaseRepository
 import com.example.cryptowalletapp.data.repositoty.AuthRepositoryData
-import com.example.cryptowalletapp.data.retrofit.api.RetrofitApi
+import com.example.cryptowalletapp.data.repositoty.CoinRepositoryData
+import com.example.cryptowalletapp.data.retrofit.api.CompareApi
+import com.example.cryptowalletapp.data.retrofit.api.PaprikaApi
+import com.example.cryptowalletapp.data.retrofit.repository.RetrofitRepository
 import com.example.cryptowalletapp.domain.repository.AuthRepository
+import com.example.cryptowalletapp.domain.repository.CoinRepository
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -51,19 +56,49 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideRetrofitApiBuilder():Retrofit{
-        return Retrofit.Builder()
-            .baseUrl(CRYPTO_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    fun provideRetrofitRepository(
+        paprikaApi: PaprikaApi,
+        compareApi: CompareApi
+    ):RetrofitRepository{
+        return RetrofitRepository(
+            paprikaApi = paprikaApi,
+            compareApi = compareApi
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideCoinRepository(
+        retrofitRepository: RetrofitRepository
+    ):CoinRepository{
+        return CoinRepositoryData(
+            retrofitRepository = retrofitRepository
+        )
     }
 
     @Singleton
     @Provides
     fun provideApi(
-        retrofit:Retrofit
-    ):RetrofitApi{
-        return retrofit.create(RetrofitApi::class.java)
+    ):PaprikaApi{
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(CRYPTO_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        return retrofit.create(PaprikaApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCryptoPriceApi(
+    ):CompareApi{
+        val retrofit = Retrofit.Builder()
+            .baseUrl(CRYPTO_PRICE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        return retrofit.create(CompareApi::class.java)
     }
 
 
