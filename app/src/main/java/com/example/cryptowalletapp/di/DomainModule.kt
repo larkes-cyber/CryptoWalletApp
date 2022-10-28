@@ -2,10 +2,7 @@ package com.example.cryptowalletapp.di
 
 import com.example.cryptowalletapp.domain.repository.AuthRepository
 import com.example.cryptowalletapp.domain.repository.CoinRepository
-import com.example.cryptowalletapp.domain.usecase.UseCheckAlreadyUser
-import com.example.cryptowalletapp.domain.usecase.UseGetSmallCoinInfo
-import com.example.cryptowalletapp.domain.usecase.UseGetUserData
-import com.example.cryptowalletapp.domain.usecase.UseInsertUserData
+import com.example.cryptowalletapp.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 
@@ -29,6 +26,11 @@ class DomainModule {
     @Provides
     fun provideUseGetSmallCoinInfo(coinRepository: CoinRepository):UseGetSmallCoinInfo{
         return UseGetSmallCoinInfo(coinRepository)
+    }
+
+    @Provides
+    fun provideUseGetCurrencyLogoBySyb(coinRepository: CoinRepository):UseGetCurrencyLogoBySym{
+        return UseGetCurrencyLogoBySym(coinRepository)
     }
 
 }

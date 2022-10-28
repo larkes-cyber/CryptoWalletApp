@@ -1,5 +1,6 @@
 package com.example.cryptowalletapp.data.retrofit.api
 
+import com.example.cryptowalletapp.data.retrofit.model.CoinTop
 import com.example.cryptowalletapp.data.retrofit.model.CryptoHistory
 import com.example.cryptowalletapp.data.retrofit.model.CurrencyPrice
 import retrofit2.Response
@@ -21,4 +22,9 @@ interface CompareApi {
         @Query("limit") limit:Int
     ):Response<CryptoHistory>
 
+    @GET("data/top/mktcapfull")
+    suspend fun getCryptoTop(
+        @Query("tsym") tsym:String,
+        @Query("limit") limit:Int
+    ):Response<CoinTop>
 }

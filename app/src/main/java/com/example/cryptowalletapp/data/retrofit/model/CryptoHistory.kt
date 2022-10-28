@@ -8,7 +8,7 @@ data class CryptoHistory(
 	val response: String? = null,
 
 	@field:SerializedName("RateLimit")
-	val rateLimit: RateLimit? = null,
+	val rateLimit: RateLimitTop? = null,
 
 	@field:SerializedName("Type")
 	val type: Int? = null,

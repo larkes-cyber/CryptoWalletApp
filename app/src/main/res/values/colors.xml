@@ -14,4 +14,7 @@
     <color name="opacity_white">#CCFFFFFF</color>
     <color name="an_error">#DB526B</color>
     <color name="for_card_elem">#33FFFFFF</color>
+    <color name="strong">#17181A</color>
+    <color name="light">#E8F2FF</color>
+    <color name="primary_first">#39A798</color>
 </resources>
