@@ -33,4 +33,9 @@ class DomainModule {
         return UseGetCurrencyLogoBySym(coinRepository)
     }
 
+    @Provides
+    fun provideUseGetTopCoins(coinRepository: CoinRepository):UseGetTopCoins{
+        return UseGetTopCoins(coinRepository)
+    }
+
 }

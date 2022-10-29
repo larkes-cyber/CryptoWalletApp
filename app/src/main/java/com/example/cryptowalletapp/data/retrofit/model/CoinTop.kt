@@ -1,5 +1,6 @@
 package com.example.cryptowalletapp.data.retrofit.model
 
+import androidx.core.view.ContentInfoCompat.Flags
 import com.google.gson.annotations.SerializedName
 
 data class CoinTop(
@@ -203,7 +204,7 @@ data class CoinInfo(
 	val rating: Rating? = null,
 
 	@field:SerializedName("BlockTime")
-	val blockTime: Int? = null,
+	val blockTime: Float? = null,
 
 	@field:SerializedName("ImageUrl")
 	val imageUrl: String? = null,

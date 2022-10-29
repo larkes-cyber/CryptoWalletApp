@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.cryptowalletapp.domain.model.CoinInfo
 import com.example.cryptowalletapp.domain.usecase.UseGetCurrencyLogoBySym
 import com.example.cryptowalletapp.domain.usecase.UseGetSmallCoinInfo
+import com.example.cryptowalletapp.domain.usecase.UseGetTopCoins
 import java.lang.Double.max
 
 import java.lang.Math.min
@@ -13,11 +14,19 @@ import java.text.DecimalFormat
 
 class HomeViewModel(
     val useGetSmallCoinInfo: UseGetSmallCoinInfo,
-    val useGetCurrencyLogoBySym: UseGetCurrencyLogoBySym
+    val useGetCurrencyLogoBySym: UseGetCurrencyLogoBySym,
+    val useGetTopCoins: UseGetTopCoins
 ):ViewModel() {
 
     private var lifeFirstCurrencyResult = MutableLiveData<CoinInfo>()
     val lifeFirstCurrencyResultConst = lifeFirstCurrencyResult
+
+    private var lifeTopCoinsResult = MutableLiveData<List<CoinInfo>>()
+    val lifeTopCoinsResultConst = lifeTopCoinsResult
+
+    suspend fun getTopCoins(){
+        lifeTopCoinsResult.value = useGetTopCoins.execute()
+    }
 
     suspend fun getSmallCoinInfo(id:String){
         lifeFirstCurrencyResult.value = useGetSmallCoinInfo.execute(id)

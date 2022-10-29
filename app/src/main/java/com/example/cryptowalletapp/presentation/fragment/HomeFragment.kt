@@ -68,6 +68,20 @@ class HomeFragment : BaseFragment() {
             vm.getSmallCoinInfo("btc-bitcoin")
         }
 
+        //top coins
+        vm.lifeTopCoinsResultConst.observe(viewLifecycleOwner){data ->
+
+            data.forEach {
+                Log.d("coin_info",it.src)
+            }
+
+        }
+
+        launch {
+            vm.getTopCoins()
+        }
+
+
     }
 
 

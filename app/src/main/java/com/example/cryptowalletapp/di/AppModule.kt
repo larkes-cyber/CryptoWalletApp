@@ -47,11 +47,13 @@ class AppModule(val context: Context) {
     @Provides
     fun provideHomeViewModelFactory(
         useGetSmallCoinInfo: UseGetSmallCoinInfo,
-        useGetCurrencyLogoBySym: UseGetCurrencyLogoBySym
+        useGetCurrencyLogoBySym: UseGetCurrencyLogoBySym,
+        useGetTopCoins: UseGetTopCoins
     ):HomeViewModelFactory{
         return HomeViewModelFactory(
             useGetSmallCoinInfo = useGetSmallCoinInfo,
-            useGetCurrencyLogoBySym = useGetCurrencyLogoBySym
+            useGetCurrencyLogoBySym = useGetCurrencyLogoBySym,
+            useGetTopCoins = useGetTopCoins
         )
     }
 
