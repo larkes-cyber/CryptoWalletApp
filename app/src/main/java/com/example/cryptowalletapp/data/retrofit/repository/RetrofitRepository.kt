@@ -1,9 +1,12 @@
 package com.example.cryptowalletapp.data.retrofit.repository
 
 import android.util.Log
+import com.example.cryptowalletapp.common.Constants.CRYPTO_LOGO_URL
 import com.example.cryptowalletapp.data.retrofit.api.CompareApi
 import com.example.cryptowalletapp.data.retrofit.api.PaprikaApi
 import com.example.cryptowalletapp.data.retrofit.model.CoinDetail
+import com.example.cryptowalletapp.data.retrofit.model.CoinTop
+import retrofit2.Response
 
 class RetrofitRepository(
     val paprikaApi: PaprikaApi,
@@ -13,7 +16,7 @@ class RetrofitRepository(
     override suspend fun getCoinHistory(id: String): List<Int> {
 
         Log.d("use_get_coin_history","start")
-
+        Log.d("use_get_coin_history",id)
         val action = compareApi.getCryptoHistory("BTC","USD",4)
 
         val data = action.body()
@@ -41,6 +44,14 @@ class RetrofitRepository(
         Log.d("use_get_coin_info","code:${action.code()}")
 
         return action.body()!!
+    }
+
+    override fun getCoinLogoBySymbol(sym: String): String {
+        return "${CRYPTO_LOGO_URL}${sym.lowercase()}@2x.png"
+    }
+
+    override suspend fun getCoinsTopMarket(): Response<CoinTop> {
+        return compareApi.getCryptoTop("USD",5)
     }
 
 
