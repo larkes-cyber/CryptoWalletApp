@@ -20,5 +20,6 @@
     <color name="opacity_light_second">#8B9199</color>
     <color name="primary_first">#39A798</color>
     <color name="for_coin_item">#252A30</color>
+    <color name="title_color">#5D6166</color>
 
 </resources>

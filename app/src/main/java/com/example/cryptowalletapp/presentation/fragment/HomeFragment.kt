@@ -7,12 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptowalletapp.App.App
 import com.example.cryptowalletapp.R
+import com.example.cryptowalletapp.domain.model.CoinInfo
+import com.example.cryptowalletapp.presentation.adapters.top_coins_adapter.TopCoinsAdapter
 import com.example.cryptowalletapp.presentation.viewmodel.home_view_model.HomeViewModel
 import com.example.cryptowalletapp.presentation.viewmodel.home_view_model.HomeViewModelFactory
 import com.squareup.picasso.Picasso
@@ -29,6 +34,10 @@ class HomeFragment : BaseFragment() {
     val vm by lazy {
         ViewModelProvider(this,vmFactory).get(HomeViewModel::class.java)
     }
+
+    private val topCoinAdapter = TopCoinsAdapter()
+    private var topCoinRcView:RecyclerView? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,29 +64,35 @@ class HomeFragment : BaseFragment() {
         val currencyPerc:TextView = view.findViewById(R.id.curr_perc)
         val progressForFirst:RelativeLayout = view.findViewById(R.id.progress_for_first_curr)
 
+        val progressForTopCoins:ProgressBar = view.findViewById(R.id.progress_top_coins)
+
+        topCoinRcView = view.findViewById(R.id.top_coins_rc)
+
         //get info about first currency
         vm.lifeFirstCurrencyResultConst.observe(viewLifecycleOwner){
             Picasso.get().load(it.src).into(currencyImg)
             currencyName.text = it.name
             currencyPrice.text = vm.getPrice(it.price)
-            currencyPerc.text = vm.findPerc(it.priceHistory[0],it.priceHistory[it.priceHistory.size - 1]) + "%"
+           // currencyPerc.text = vm.findPerc(it.priceHistory[0],it.priceHistory[it.priceHistory.size - 1]) + "%"
 
             progressForFirst.visibility = View.GONE
         }
-        launch {
-            vm.getSmallCoinInfo("btc-bitcoin")
-        }
+
+        val lManager = LinearLayoutManager(requireContext())
+        lManager.orientation = LinearLayoutManager.HORIZONTAL
 
         //top coins
         vm.lifeTopCoinsResultConst.observe(viewLifecycleOwner){data ->
 
-            data.forEach {
-                Log.d("coin_info",it.src)
-            }
+            topCoinRcView!!.layoutManager = lManager
+            topCoinRcView!!.adapter = topCoinAdapter
+            progressForTopCoins.visibility = View.GONE
+            topCoinAdapter.addTasks(data as MutableList<CoinInfo>)
 
         }
 
         launch {
+            vm.getSmallCoinInfo("btc-bitcoin")
             vm.getTopCoins()
         }
 

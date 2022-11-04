@@ -13,20 +13,20 @@ class RetrofitRepository(
     val compareApi: CompareApi
 ):RetrofitInterface {
 
-    override suspend fun getCoinHistory(id: String): List<Int> {
+    override suspend fun getCoinHistory(id: String): List<Double> {
 
         Log.d("use_get_coin_history","start")
         Log.d("use_get_coin_history",id)
-        val action = compareApi.getCryptoHistory("BTC","USD",4)
+        val action = compareApi.getCryptoHistory(id,"USD",4)
 
         val data = action.body()
 
-        val output:MutableList<Int> = ArrayList()
+        val output:MutableList<Double> = ArrayList()
 
         Log.d("crypto_d",data.toString())
 
         data?.data?.data?.forEach {
-            output.add(it!!.close!!.toInt())
+            output.add(it!!.close!!)
         }
 
 

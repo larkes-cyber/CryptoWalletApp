@@ -4,6 +4,6 @@ class CoinInfo(
     val name:String,
     val symbol:String,
     val src:String,
-    val price:Int,
-    val priceHistory:List<Int>
+    val price: Double,
+    val priceHistory:List<Double>
 )

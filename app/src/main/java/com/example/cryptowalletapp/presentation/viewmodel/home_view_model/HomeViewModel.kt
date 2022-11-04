@@ -29,7 +29,7 @@ class HomeViewModel(
     }
 
     suspend fun getSmallCoinInfo(id:String){
-        lifeFirstCurrencyResult.value = useGetSmallCoinInfo.execute(id)
+        lifeFirstCurrencyResult.value = useGetSmallCoinInfo.execute(id,"BTC")
     }
 
     fun geyLogo(syb:String):String{
@@ -49,7 +49,7 @@ class HomeViewModel(
         return "%.2f".format(number)
     }
 
-    fun getPrice(num:Int):String{
+    fun getPrice(num:Double):String{
         return roundOffDecimal(1.0 / num)!!
     }
 

@@ -1,7 +1,9 @@
 package com.example.cryptowalletapp.domain.usecase
 
+import android.util.Log
 import com.example.cryptowalletapp.domain.model.CoinInfo
 import com.example.cryptowalletapp.domain.repository.CoinRepository
+import java.util.Collections.max
 
 class UseGetTopCoins(val coinRepository: CoinRepository) {
 
@@ -12,12 +14,13 @@ class UseGetTopCoins(val coinRepository: CoinRepository) {
 
         data.forEach {
             val src = coinRepository.getCoinLogoSrc(it.coinInfo!!.name!!)
-            val history = coinRepository.getCoinHistory(it.coinInfo.id!!)
+            Log.d("get_coin_history_bef",it.coinInfo.name!!)
+            val history = coinRepository.getCoinHistory(it.coinInfo.name!!)
             output.add(CoinInfo(
                 name = it.coinInfo.fullName!!,
-                symbol = it.coinInfo.name!!,
+                symbol = it.coinInfo.name,
                 src = src,
-                price = history[history.size-1],
+                price = max(history),
                 priceHistory = history
             ))
         }

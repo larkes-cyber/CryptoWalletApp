@@ -1,5 +1,6 @@
 package com.example.cryptowalletapp.presentation.adapters.top_coins_adapter
 import android.system.Os.bind
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,8 @@ import com.example.cryptowalletapp.databinding.FragmentSubBinding.bind
 import com.example.cryptowalletapp.domain.model.CoinInfo
 import com.example.cryptowalletapp.presentation.fragment.TopCoinFragment
 import com.squareup.picasso.Picasso
-import java.lang.Double
+import kotlin.math.max
+
 
 class TopCoinsAdapter : RecyclerView.Adapter<TopCoinsAdapter.TasksHolder>() {
 
@@ -21,12 +23,12 @@ class TopCoinsAdapter : RecyclerView.Adapter<TopCoinsAdapter.TasksHolder>() {
 
     class TasksHolder(val item: View):RecyclerView.ViewHolder(item){
 
-        fun roundForPerc(number: kotlin.Double): String? {
+        fun roundForPerc(number: Double): String? {
             return "%.2f".format(number)
         }
-        fun findPerc(num1:Int, num2:Int):String{
-            val perc = (100 * num2).toDouble() / num1
-            return roundForPerc(Double.max(100.0, perc) - 100.0.coerceAtMost(perc))!!
+        fun findPerc(num1:Double, num2:Double):String{
+            val perc = (100f * num2.toFloat()).toDouble() / num1.toFloat()
+            return roundForPerc(max(100.0, perc) - 100.0.coerceAtMost(perc))!!
         }
 
         fun bind(data:CoinInfo){
@@ -38,6 +40,17 @@ class TopCoinsAdapter : RecyclerView.Adapter<TopCoinsAdapter.TasksHolder>() {
 
             name.text = data.name
             Picasso.get().load(data.src).into(img)
+
+            val priceHistory = data.priceHistory
+
+            Log.d("history_coin","${data.name} ######")
+            priceHistory.forEach {
+                Log.d("history_coin","${data.name}:${it}")
+
+            }
+
+            perc.text = findPerc(priceHistory[0],priceHistory[priceHistory.size-1])
+            price.text = data.price.toString()
 
         }
 

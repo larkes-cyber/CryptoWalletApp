@@ -7,7 +7,7 @@ import com.example.cryptowalletapp.domain.model.CoinInfo
 
 
 interface CoinRepository {
-    suspend fun getCoinHistory(id:String):List<Int>
+    suspend fun getCoinHistory(id:String):List<Double>
     suspend fun getCoinInfo(id:String): CoinDetail
     suspend fun getTopCoinsMarket(): List<DataItemTop>
     fun getCoinLogoSrc(symbol:String):String

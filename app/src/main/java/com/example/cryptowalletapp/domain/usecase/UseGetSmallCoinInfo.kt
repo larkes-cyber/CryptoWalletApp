@@ -7,10 +7,10 @@ import java.util.Collections.max
 
 class UseGetSmallCoinInfo(val coinRepository: CoinRepository) {
 
-    suspend fun execute(id:String):CoinInfo{
+    suspend fun execute(id:String,syb:String):CoinInfo{
 
         val dataFromPaprika = coinRepository.getCoinInfo(id)
-        val history = coinRepository.getCoinHistory(id)
+        val history = coinRepository.getCoinHistory(syb)
 
         history.forEach {
             Log.d("usecase",it.toString())

@@ -1,5 +1,6 @@
 package com.example.cryptowalletapp.data.repositoty
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.example.cryptowalletapp.data.retrofit.model.CoinDetail
 import com.example.cryptowalletapp.data.retrofit.model.CoinTop
@@ -12,7 +13,7 @@ class CoinRepositoryData(
     val retrofitRepository: RetrofitRepository
 ):CoinRepository {
 
-    override suspend fun getCoinHistory(id: String): List<Int> {
+    override suspend fun getCoinHistory(id: String): List<Double> {
 
         val output = retrofitRepository.getCoinHistory(id)
 
@@ -28,6 +29,7 @@ class CoinRepositoryData(
         return retrofitRepository.getCoinInfo(id)
     }
 
+    @SuppressLint("LongLogTag")
     override suspend fun getTopCoinsMarket(): List<DataItemTop> {
         Log.d("use_get_top_coins_market","started")
         val resp = retrofitRepository.getCoinsTopMarket()
