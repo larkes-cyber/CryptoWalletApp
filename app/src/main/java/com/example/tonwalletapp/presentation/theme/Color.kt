@@ -12,3 +12,4 @@ val PrimaryLightBlue = Color(0xFF339CEC)
 val TitleColor = Color(0xFF222222)
 
 val PrimaryLightGray = Color(0xFF757575)
+val KeyboardButtonsColor = Color(0xFFF0F0F0)

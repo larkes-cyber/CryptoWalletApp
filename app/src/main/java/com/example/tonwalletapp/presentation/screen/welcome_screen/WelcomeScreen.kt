@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.component.*
+import com.example.tonwalletapp.presentation.navigation.Screen
 import com.example.tonwalletapp.presentation.theme.PrimaryLightBlue
 import com.example.tonwalletapp.presentation.theme.TitleColor
 import com.example.tonwalletapp.presentation.theme.roboto
@@ -50,7 +51,7 @@ fun WelcomeScreen(
 
             item {
                 ButtonComponent("Create my wallet"){
-
+                    navController.navigate(Screen.CongratulationsScreen.route)
                 }
                 Spacer(modifier = Modifier.height(22.dp))
                 TextButtonComponent("Import existing wallet"){

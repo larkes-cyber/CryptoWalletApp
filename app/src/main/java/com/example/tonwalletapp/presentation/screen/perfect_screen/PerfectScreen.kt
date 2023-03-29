@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.component.*
+import com.example.tonwalletapp.presentation.navigation.Screen
 import com.example.tonwalletapp.presentation.theme.PrimaryLightBlue
 import com.example.tonwalletapp.presentation.theme.inter
 
@@ -80,7 +81,7 @@ fun PerfectScreen(
                 item {
                     Spacer(modifier = Modifier.height(20.dp))
                     ButtonComponent(title = "Set a Passcode") {
-
+                        navController.navigate(Screen.SetPasscodeScreen.route)
                     }
                     Spacer(modifier = Modifier.height(100.dp))
                 }
@@ -88,6 +89,8 @@ fun PerfectScreen(
         }
 
     },
-        callback = {  }
+        callback = {
+            navController.popBackStack()
+        }
     )
 }

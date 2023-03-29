@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.component.*
+import com.example.tonwalletapp.presentation.navigation.Screen
 
 @Composable
 fun TestWordsScreen(
@@ -97,14 +98,14 @@ fun TestWordsScreen(
                     }
                     item {
                         ButtonComponent(title = "Continue") {
-
+                            navController.navigate(Screen.PerfectScreen.route)
                         }
                         Spacer(modifier = Modifier.height(92.dp))
                     }
                 }
             }
         },callback = {
-
+            navController.popBackStack()
         }
     )
 

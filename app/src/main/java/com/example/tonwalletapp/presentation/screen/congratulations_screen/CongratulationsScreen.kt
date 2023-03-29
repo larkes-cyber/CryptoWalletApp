@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.presentation.screen.congratulations_screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +11,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +24,7 @@ import com.example.tonwalletapp.presentation.component.ButtonComponent
 import com.example.tonwalletapp.presentation.component.ContentWrapperWithNavIconComponent
 import com.example.tonwalletapp.presentation.component.SubtitleComponent
 import com.example.tonwalletapp.presentation.component.TitleComponent
+import com.example.tonwalletapp.presentation.navigation.Screen
 
 @Composable
 fun CongratulationsScreen(
@@ -30,7 +33,9 @@ fun CongratulationsScreen(
 
     ContentWrapperWithNavIconComponent(
         content = {
-            Box(modifier = Modifier.fillMaxSize().padding(bottom = 100.dp), contentAlignment = Alignment.BottomCenter) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 100.dp), contentAlignment = Alignment.BottomCenter) {
                 LazyColumn(modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 40.dp),
@@ -58,14 +63,14 @@ fun CongratulationsScreen(
                     }
                     item {
                         ButtonComponent(title = "Proceed") {
-
+                            navController.navigate(Screen.RecoveryPhraseScreen.route)
                         }
                     }
                 }
             }
         },
         callback = {
-
+            navController.popBackStack()
         }
     )
 

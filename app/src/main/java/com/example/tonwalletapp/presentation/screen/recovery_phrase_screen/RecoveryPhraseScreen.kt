@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.component.*
+import com.example.tonwalletapp.presentation.navigation.Screen
 import com.example.tonwalletapp.presentation.theme.roboto
 
 @Composable
@@ -41,7 +42,7 @@ fun RecoveryPhraseScreen(navController: NavController) {
                         showAlertDialog.value = false
                     },
                     onConfirm = {
-
+                        navController.navigate(Screen.TestWordsScreen.route)
                     }
                 )
             }
@@ -75,7 +76,7 @@ fun RecoveryPhraseScreen(navController: NavController) {
                 item { 
                     Spacer(modifier = Modifier.height(4.dp))
                     ButtonComponent(title = "Done") {
-                        
+                        navController.navigate(Screen.TestWordsScreen.route)
                     }
                     Spacer(modifier = Modifier.height(56.dp))
                 }
@@ -91,7 +92,9 @@ fun RecoveryPhraseScreen(navController: NavController) {
                 color = Color.Black
             )
         },
-        callback = {},
+        callback = {
+            navController.popBackStack()
+        },
         elevation = 3
     )
 
