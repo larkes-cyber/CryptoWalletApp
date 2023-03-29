@@ -60,14 +60,11 @@ fun RecoveryPhraseScreen(navController: NavController) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Image(
-                            painterResource(id = R.drawable.list_img),
-                            contentDescription = "",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.size(100.dp)
+                        SameHeaderComponent(
+                            image = R.drawable.list_img,
+                            title = "Your Recovery Phrase",
+                            subtitle = "Write down these 24 words in this exact order and keep them in a secure place. Do not share this list with anyone. If you lose it, you will irrevocably lose access to your TON account."
                         )
-                        TitleComponent("Your Recovery Phrase")
-                        SubtitleComponent("Write down these 24 words in this exact order and keep them in a secure place. Do not share this list with anyone. If you lose it, you will irrevocably lose access to your TON account.",)
                     }
                 }
                 

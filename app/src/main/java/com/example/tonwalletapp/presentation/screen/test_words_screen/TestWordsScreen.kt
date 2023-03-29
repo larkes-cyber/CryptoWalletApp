@@ -14,10 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
-import com.example.tonwalletapp.presentation.component.ButtonComponent
-import com.example.tonwalletapp.presentation.component.ContentWrapperWithNavIconComponent
-import com.example.tonwalletapp.presentation.component.SubtitleComponent
-import com.example.tonwalletapp.presentation.component.TitleComponent
+import com.example.tonwalletapp.presentation.component.*
 
 @Composable
 fun TestWordsScreen(
@@ -28,8 +25,25 @@ fun TestWordsScreen(
         mutableStateOf("")
     }
 
+    val showAlertDialog = remember {
+        mutableStateOf(true)
+    }
+
     ContentWrapperWithNavIconComponent(
         content = {
+
+            if(showAlertDialog.value){
+                AlertDialogComponent(
+                    title = "Incorrect words",
+                    subtitle = "The secret words you have entered\n" +
+                            "do not match the ones in the list.",
+                    dismissTitle = "See words",
+                    confirmTitle = "Try again",
+                    onClose = {
+                        showAlertDialog.value = false
+                    })
+            }
+
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter){
                 LazyColumn(
                     modifier = Modifier
@@ -44,15 +58,12 @@ fun TestWordsScreen(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            Image(
-                                painterResource(id = R.drawable.teacher),
-                                contentDescription = "",
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier.size(100.dp)
+                            SameHeaderComponent(
+                                image = R.drawable.teacher,
+                                title = "Test Time!",
+                                subtitle = "Let’s check that you wrote them down correctly. Please enter the words \n" +
+                                        "5, 15 and 18."
                             )
-                            TitleComponent("Test Time!")
-                            SubtitleComponent("Let’s check that you wrote them down correctly. Please enter the words \n" +
-                                    "5, 15 and 18.",)
                         }
                     }
                     item {

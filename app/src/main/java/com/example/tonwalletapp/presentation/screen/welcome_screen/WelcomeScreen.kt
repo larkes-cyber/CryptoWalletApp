@@ -22,10 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
-import com.example.tonwalletapp.presentation.component.ButtonComponent
-import com.example.tonwalletapp.presentation.component.SubtitleComponent
-import com.example.tonwalletapp.presentation.component.TextButtonComponent
-import com.example.tonwalletapp.presentation.component.TitleComponent
+import com.example.tonwalletapp.presentation.component.*
 import com.example.tonwalletapp.presentation.theme.PrimaryLightBlue
 import com.example.tonwalletapp.presentation.theme.TitleColor
 import com.example.tonwalletapp.presentation.theme.roboto
@@ -44,20 +41,11 @@ fun WelcomeScreen(
         ){
 
             item {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Image(
-                        painterResource(id = R.drawable.crystall),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(100.dp)
-                    )
-                    TitleComponent("TON Wallet")
-                    SubtitleComponent("TON Wallet allows you to make fast and secure blockchain-based payments without intermediaries.",)
-                }
+                SameHeaderComponent(
+                    image = R.drawable.crystall,
+                    title = "TON Wallet",
+                    subtitle = "TON Wallet allows you to make fast and secure blockchain-based payments without intermediaries."
+                )
             }
 
             item {
