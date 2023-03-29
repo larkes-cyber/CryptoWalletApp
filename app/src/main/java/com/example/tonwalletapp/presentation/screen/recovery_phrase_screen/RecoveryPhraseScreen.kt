@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.component.*
@@ -22,7 +23,10 @@ import com.example.tonwalletapp.presentation.navigation.Screen
 import com.example.tonwalletapp.presentation.theme.roboto
 
 @Composable
-fun RecoveryPhraseScreen(navController: NavController) {
+fun RecoveryPhraseScreen(
+    navController: NavController,
+    viewModel: RecoveryPhraseViewModel = hiltViewModel()
+) {
 
     val showAlertDialog = remember {
         mutableStateOf(false)
