@@ -27,15 +27,19 @@ class SetPasscodeViewModel @Inject constructor(
 
 
     fun editPassword(pass:String){
-        _passwordState.value = pass
-        if((pass.length == 4) || (pass.length == 6)) {
-            _hasBeenFilled.value = true
+        if(!showPassOptionsState.value) {
+            _passwordState.value = pass
+            if ((pass.length == 4 && passLenState.value == 4) || (pass.length == 6 && passLenState.value == 6)) {
+                _hasBeenFilled.value = true
+            }
         }
     }
 
     fun removeLastSymbol(){
-        if(_passwordState.value.isEmpty()) return
-        _passwordState.value = passwordState.value.substring(0, passwordState.value.length-1)
+        if(!showPassOptionsState.value) {
+            if (_passwordState.value.isEmpty()) return
+            _passwordState.value = passwordState.value.substring(0, passwordState.value.length - 1)
+        }
     }
 
     fun setShowPassOptionsState(bool:Boolean) {
@@ -44,6 +48,11 @@ class SetPasscodeViewModel @Inject constructor(
     fun setPassLen(count:Int){
         _passwordState.value = ""
         _passLenState.value = count
+    }
+
+    fun resetScreen(){
+        setPassLen(4)
+        _hasBeenFilled.value = false
     }
 
 }

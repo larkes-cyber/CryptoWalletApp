@@ -36,7 +36,10 @@ fun SetPasscodeScreen(
      val hasBeenFilled by viewModel.hasBeenFilled
 
      LaunchedEffect(hasBeenFilled){
-         if(hasBeenFilled) navController.navigate(Screen.ConfirmPassScreen.withArgs(pass))
+         if(hasBeenFilled) {
+             navController.navigate(Screen.ConfirmPassScreen.withArgs(pass))
+             viewModel.resetScreen()
+         }
      }
 
     ContentWrapperWithNavIconComponent(

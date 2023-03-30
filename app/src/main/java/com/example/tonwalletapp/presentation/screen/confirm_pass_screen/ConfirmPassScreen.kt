@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.presentation.screen.confirm_pass_screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,6 +38,7 @@ fun ConfirmPassScreen(
         if(hasBeenConfirmed) navController.navigate(Screen.AllSetScreen.route)
     }
 
+    Log.d("sdfgdsgsd",password)
 
     ContentWrapperWithNavIconComponent(
         content = {
