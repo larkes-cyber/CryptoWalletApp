@@ -4,14 +4,13 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.component.*
@@ -19,21 +18,26 @@ import com.example.tonwalletapp.presentation.navigation.Screen
 
 @Composable
 fun TestWordsScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: TestWordsViewModel = hiltViewModel(),
 ) {
 
-    val wordState = remember{
-        mutableStateOf("")
-    }
+    val checkNumbers = viewModel.numbers
 
-    val showAlertDialog = remember {
-        mutableStateOf(true)
+    val wordState1 = viewModel.wordState1
+    val wordState2 = viewModel.wordState2
+    val wordState3 = viewModel.wordState3
+
+    val status by viewModel.statusState
+
+    LaunchedEffect(status.succeed){
+        if(status.succeed) navController.navigate(Screen.PerfectScreen.route)
     }
 
     ContentWrapperWithNavIconComponent(
         content = {
 
-            if(showAlertDialog.value){
+            if(status.inCorrect){
                 AlertDialogComponent(
                     title = "Incorrect words",
                     subtitle = "The secret words you have entered\n" +
@@ -41,8 +45,16 @@ fun TestWordsScreen(
                     dismissTitle = "See words",
                     confirmTitle = "Try again",
                     onClose = {
-                        showAlertDialog.value = false
-                    })
+                        viewModel.tryAgain()
+                    },
+                    onConfirm = {
+                        viewModel.tryAgain()
+                    },
+                    onDismiss = {
+                        viewModel.tryAgain()
+                        navController.popBackStack()
+                    }
+                )
             }
 
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter){
@@ -63,7 +75,7 @@ fun TestWordsScreen(
                                 image = R.drawable.teacher,
                                 title = "Test Time!",
                                 subtitle = "Let’s check that you wrote them down correctly. Please enter the words \n" +
-                                        "5, 15 and 18."
+                                        "${checkNumbers!![0]}, ${checkNumbers[1]} and ${checkNumbers[2]}."
                             )
                         }
                     }
@@ -74,31 +86,31 @@ fun TestWordsScreen(
                             verticalArrangement = Arrangement.spacedBy(17.dp)
                         ) {
                             TextFieldTestWordComponent(
-                                word = wordState.value,
+                                word = wordState1.value,
                                 onChange = {
-                                    wordState.value = it
+                                    wordState1.value = it
                                 },
-                                num = 5
+                                num = checkNumbers!![0]
                             )
                             TextFieldTestWordComponent(
-                                word = wordState.value,
+                                word = wordState2.value,
                                 onChange = {
-                                    wordState.value = it
+                                    wordState2.value = it
                                 },
-                                num = 5
+                                num = checkNumbers[1]
                             )
                             TextFieldTestWordComponent(
-                                word = wordState.value,
+                                word = wordState3.value,
                                 onChange = {
-                                    wordState.value = it
+                                    wordState3.value = it
                                 },
-                                num = 5
+                                num = checkNumbers[2]
                             )
                         }
                     }
                     item {
                         ButtonComponent(title = "Continue") {
-                            navController.navigate(Screen.PerfectScreen.route)
+                            viewModel.checkWords()
                         }
                         Spacer(modifier = Modifier.height(92.dp))
                     }

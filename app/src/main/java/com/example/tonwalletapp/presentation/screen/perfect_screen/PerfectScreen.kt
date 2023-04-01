@@ -34,63 +34,56 @@ fun PerfectScreen(
         mutableStateOf(false)
     }
 
-    ContentWrapperWithNavIconComponent(content = {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                item {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        SameHeaderComponent(
-                            image = R.drawable.happy_sticker,
-                            title = "Perfect!",
-                            subtitle = "Now set up a passcode to secure\n" +
-                                    "transactions."
-                        )
-                    }
-                }
-                item{
-                    Spacer(modifier = Modifier.height(42.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Checkbox(
-                            checked = checkboxState.value,
-                            onCheckedChange = { checkboxState.value = it },
-                            colors = CheckboxDefaults.colors(checkedColor = PrimaryLightBlue),
-                            modifier = Modifier.absoluteOffset((-8).dp, 0.dp)
-                        )
-                        Text(
-                            text = "Enable Biometric Auth",
-                            fontWeight = FontWeight.Normal,
-                            fontFamily = inter,
-                            fontSize = 14.sp,
-                            color = Color.Black,
-                            modifier = Modifier.absoluteOffset((-8).dp, 0.dp)
-                        )
-                    }
-                }
-                item {
-                    Spacer(modifier = Modifier.height(20.dp))
-                    ButtonComponent(title = "Set a Passcode") {
-                        navController.navigate(Screen.SetPasscodeScreen.route)
-                    }
-                    Spacer(modifier = Modifier.height(100.dp))
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter
+    ) {
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            item {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    SameHeaderComponent(
+                        image = R.drawable.happy_sticker,
+                        title = "Perfect!",
+                        subtitle = "Now set up a passcode to secure\n" +
+                                "transactions."
+                    )
                 }
             }
+            item{
+                Spacer(modifier = Modifier.height(42.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox(
+                        checked = checkboxState.value,
+                        onCheckedChange = { checkboxState.value = it },
+                        colors = CheckboxDefaults.colors(checkedColor = PrimaryLightBlue),
+                        modifier = Modifier.absoluteOffset((-8).dp, 0.dp)
+                    )
+                    Text(
+                        text = "Enable Biometric Auth",
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = inter,
+                        fontSize = 14.sp,
+                        color = Color.Black,
+                        modifier = Modifier.absoluteOffset((-8).dp, 0.dp)
+                    )
+                }
+            }
+            item {
+                Spacer(modifier = Modifier.height(20.dp))
+                ButtonComponent(title = "Set a Passcode") {
+                    navController.navigate(Screen.SetPasscodeScreen.route)
+                }
+                Spacer(modifier = Modifier.height(100.dp))
+            }
         }
-
-    },
-        callback = {
-            navController.popBackStack()
-        }
-    )
+    }
 }

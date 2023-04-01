@@ -1,4 +1,4 @@
-package com.example.tonwalletapp.data.remote.repository
+package com.example.tonwalletapp.data.repository
 
 import com.example.tonwalletapp.domain.repository.RemoteRepository
 import org.ton.mnemonic.Mnemonic

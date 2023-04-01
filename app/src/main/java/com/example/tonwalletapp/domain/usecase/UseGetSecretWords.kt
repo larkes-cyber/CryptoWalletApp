@@ -16,7 +16,6 @@ class UseGetSecretWords(
             val words = remoteRepository.getSecretWords()
             emit(Resource.Success(words))
         }catch (e:Exception){
-            Log.d("sfsdfsdf",e.toString())
             emit(Resource.Error("Server error"))
         }
 
