@@ -30,5 +30,12 @@ object Constants {
             "do not match the ones in the list."
     const val IncorrectWordErrorSeeWordsOption = "See words"
     const val IncorrectWordErrorTryAgainOption = "Try again"
+    const val PerfectTitle = "Perfect!"
+    const val PerfectText = "Now set up a passcode to secure\n" +
+            "transactions."
+    const val PerfectBtnText = "Set a Passcode"
+    const val SetPasswordTitle = "Set a Passcode"
+    const val SetPasswordText = "Enter the 4 digits in the passcode. "
+
 
 }

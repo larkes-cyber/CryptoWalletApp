@@ -78,7 +78,7 @@ fun InfoScreenSkeleton(
                 onBtnClick()
             }
         }
-        if(!visibleOptionalBtn) Spacer(modifier = Modifier.height(60.dp))
+        if(!visibleOptionalBtn && visibleBtn) Spacer(modifier = Modifier.height(60.dp))
         if(visibleOptionalBtn) {
             Spacer(modifier = Modifier.height(22.dp))
             ClickableText(
