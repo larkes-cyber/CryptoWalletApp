@@ -1,20 +1,22 @@
 package com.example.tonwalletapp.presentation.screen.set_password_screen
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
+import com.example.tonwalletapp.presentation.navigation.Screen
+import com.example.tonwalletapp.presentation.view.DigitalKeyboard
 import com.example.tonwalletapp.presentation.view.InfoScreenSkeleton
 import com.example.tonwalletapp.presentation.view.PasswordProgressBar
 import com.example.tonwalletapp.presentation.view.TopBarApp
 import com.example.tonwalletapp.until.Constants
+import com.example.tonwalletapp.until.Constants.ConfirmPasswordTitle
 
 @Composable
 fun SetPasswordScreen(
@@ -22,22 +24,49 @@ fun SetPasswordScreen(
     viewModel: SetPasswordViewModel
 ) {
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+    val passwordUIState by viewModel.passwordUIState.collectAsState()
+    val hasBeenDoneUIState by viewModel.hasBeenDoneUIState.collectAsState()
+
+    LaunchedEffect(hasBeenDoneUIState){
+        if(hasBeenDoneUIState){
+            navController.navigate(Screen.ReadyToGoScreen.route)
+        }
+    }
+
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
         TopBarApp() {
-            navController.popBackStack()
+            if(passwordUIState.confirmPassword == null) navController.popBackStack()
+            else viewModel.resetPassword()
         }
-        InfoScreenSkeleton(
-            image = R.drawable.set_password_frame,
-            title = Constants.SetPasswordTitle,
-            subtitle = Constants.SetPasswordText,
-            visibleBtn = false
-        )
-        Spacer(modifier = Modifier.height(40.dp))
-        PasswordProgressBar(progress = 2)
-
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            InfoScreenSkeleton(
+                image = R.drawable.set_password_frame,
+                title = if(passwordUIState.confirmPassword != null) ConfirmPasswordTitle else Constants.SetPasswordTitle,
+                subtitle = Constants.SetPasswordText,
+                visibleBtn = false
+            )
+            Spacer(modifier = Modifier.height(40.dp))
+            PasswordProgressBar(progress = passwordUIState.password.length)
+            Spacer(modifier = Modifier.height(100.dp))
+            Box(modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .padding(bottom = 15.dp)) {
+                DigitalKeyboard(
+                    onBtnClick = {letter ->
+                         viewModel.onNewPassSymbol(letter.toString())
+                    },
+                    onDeleteBtnClick = {
+                         viewModel.deleteLastChar()
+                    }
+                )
+            }
+        }
     }
 
 }

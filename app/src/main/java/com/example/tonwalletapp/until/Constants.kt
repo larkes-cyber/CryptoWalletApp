@@ -35,7 +35,14 @@ object Constants {
             "transactions."
     const val PerfectBtnText = "Set a Passcode"
     const val SetPasswordTitle = "Set a Passcode"
-    const val SetPasswordText = "Enter the 4 digits in the passcode. "
+    const val SetPasswordText = "Enter the 4 digits in the passcode."
+    const val ConfirmPasswordTitle = "Confirm a Passcode"
+    const val ReadyToGoTitle = "Ready to go!"
+    const val ReadyToGoText = "You are all set. Now you have a wallet that\n" +
+            "only you control — directly, without\n" +
+            "middlemen or bankers. "
+    const val VisitWalletBtnText = "View my wallet"
+
 
 
 }

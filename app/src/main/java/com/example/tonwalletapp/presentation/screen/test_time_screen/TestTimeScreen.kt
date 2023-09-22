@@ -30,7 +30,7 @@ fun TestTimeScreen(
 
     LaunchedEffect(hasBeenDoneUIState){
         if(hasBeenDoneUIState){
-            navController.navigate(Screen.SuccessScreen.route)
+            navController.navigate(Screen.SetPasswordScreen.route)
         }
     }
 

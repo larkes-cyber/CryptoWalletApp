@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.tonwalletapp.presentation.screen.congrats_screen.CongratsScreen
+import com.example.tonwalletapp.presentation.screen.ready_to_go_screen.ReadyToGoScreen
 import com.example.tonwalletapp.presentation.screen.recovery_phrase_screen.RecoveryPhraseScreen
 import com.example.tonwalletapp.presentation.screen.recovery_phrase_screen.RecoveryPhraseViewModel
 import com.example.tonwalletapp.presentation.screen.set_password_screen.SetPasswordScreen
@@ -19,7 +20,7 @@ import com.example.tonwalletapp.presentation.screen.test_time_screen.TestTimeVie
 @Composable
 fun Navigation(navController: NavHostController) {
 
-    NavHost(navController = navController, startDestination = Screen.SetPasswordScreen .route ){
+    NavHost(navController = navController, startDestination = Screen.StartScreen.route ){
 
         composable(Screen.StartScreen.route){
             StartScreen(navController = navController)
@@ -48,6 +49,9 @@ fun Navigation(navController: NavHostController) {
         composable(Screen.SetPasswordScreen.route){
             val viewModel:SetPasswordViewModel = hiltViewModel()
             SetPasswordScreen(navController = navController, viewModel = viewModel)
+        }
+        composable(Screen.ReadyToGoScreen.route){
+            ReadyToGoScreen(navController = navController)
         }
         
 
