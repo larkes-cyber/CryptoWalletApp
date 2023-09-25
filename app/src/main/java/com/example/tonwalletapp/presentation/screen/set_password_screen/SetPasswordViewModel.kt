@@ -3,6 +3,8 @@ package com.example.tonwalletapp.presentation.screen.set_password_screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tonwalletapp.domain.usecase.user_usecase.UseGetPassCode
+import com.example.tonwalletapp.domain.usecase.user_usecase.UseSavePassCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +13,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SetPasswordViewModel @Inject constructor():ViewModel() {
+class SetPasswordViewModel @Inject constructor(
+    private val useSavePassCode: UseSavePassCode,
+    private val useGetPassCode: UseGetPassCode
+):ViewModel() {
 
     private val _passwordUIState = MutableStateFlow(PasswordUIState())
     val passwordUIState:StateFlow<PasswordUIState> = _passwordUIState
@@ -26,6 +31,7 @@ class SetPasswordViewModel @Inject constructor():ViewModel() {
                 _passwordUIState.value = PasswordUIState(confirmPassword = passwordUIState.value.password)
             }else if(passwordUIState.value.password.length >= 4){
                 if(passwordUIState.value.confirmPassword == passwordUIState.value.password){
+                    useSavePassCode.execute(passwordUIState.value.confirmPassword!!)
                     _hasBeenDoneUIState.value = true
                     resetPassword()
                 }else{
