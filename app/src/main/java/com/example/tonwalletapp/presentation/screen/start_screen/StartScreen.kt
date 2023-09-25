@@ -46,7 +46,9 @@ fun StartScreen(navController: NavController) {
                 onBtnClick = {
                     navController.navigate(Screen.CongratsScreen.route)
                 },
-                onOptionBtnClick = {}
+                onOptionBtnClick = {
+                    navController.navigate(Screen.ImportPhraseScreen.route)
+                }
             ){
                 Spacer(modifier = Modifier.height(100.dp))
             }

@@ -1,6 +1,7 @@
 package com.example.tonwalletapp.presentation.view
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -23,7 +24,8 @@ fun TopBarApp(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .background(AppTheme.colors.background)
+            .padding(10.dp),
         horizontalArrangement = Arrangement.spacedBy(24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

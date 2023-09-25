@@ -1,35 +1,57 @@
 package com.example.tonwalletapp.presentation.view
 
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Divider
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwalletapp.ui.theme.AppTheme
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PhraseWordTextField(
+    focused:Boolean = false,
     rangePlace:Int = 0,
     word:String = "",
+    onNextClick:() -> Unit = {},
     onWordChange:(String) -> Unit
-) {
+    ) {
 
     val isFormFocused = rememberSaveable {
         mutableStateOf(false)
+    }
+
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(focused){
+        if(focused){
+            focusRequester.requestFocus()
+        }
     }
 
     Box(
@@ -50,13 +72,20 @@ fun PhraseWordTextField(
                 onValueChange = {
                     onWordChange(it)
                 },
-                textStyle = TextStyle(
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        onNextClick()
+                    }
+                ),                textStyle = TextStyle(
                     fontSize = 15.sp,
                     color = AppTheme.colors.primaryTitle
                 ),
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxHeight()
+                    .focusRequester(focusRequester)
+                    .bringIntoViewRequester(bringIntoViewRequester)
                     .onFocusChanged {
                         isFormFocused.value = it.isFocused
                     },
@@ -67,7 +96,7 @@ fun PhraseWordTextField(
             modifier = Modifier
                 .height(1.dp)
                 .fillMaxWidth()
-                .background(if(isFormFocused.value)AppTheme.colors.primaryBackground else AppTheme.colors.strokeFormColor)
+                .background(if (isFormFocused.value) AppTheme.colors.primaryBackground else AppTheme.colors.strokeFormColor)
                 .align(Alignment.BottomEnd)
         )
     }

@@ -57,8 +57,9 @@ fun InfoScreenSkeleton(
             fontFamily = roboto,
             fontWeight = FontWeight.Normal,
             modifier = Modifier.padding(vertical = 12.dp),
-            color = AppTheme.colors.primaryTitle
-        )
+            color = AppTheme.colors.primaryTitle,
+            textAlign = TextAlign.Center
+            )
         Text(
             text = subtitle,
             fontSize = 15.sp,

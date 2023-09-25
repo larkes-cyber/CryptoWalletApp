@@ -7,6 +7,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.tonwalletapp.presentation.screen.congrats_screen.CongratsScreen
+import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportPhraseScreen
+import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportPhraseViewModel
+import com.example.tonwalletapp.presentation.screen.import_success_screen.ImportSuccessScreen
 import com.example.tonwalletapp.presentation.screen.ready_to_go_screen.ReadyToGoScreen
 import com.example.tonwalletapp.presentation.screen.recovery_phrase_screen.RecoveryPhraseScreen
 import com.example.tonwalletapp.presentation.screen.recovery_phrase_screen.RecoveryPhraseViewModel
@@ -16,6 +19,7 @@ import com.example.tonwalletapp.presentation.screen.start_screen.StartScreen
 import com.example.tonwalletapp.presentation.screen.success_screen.SuccessScreen
 import com.example.tonwalletapp.presentation.screen.test_time_screen.TestTimeScreen
 import com.example.tonwalletapp.presentation.screen.test_time_screen.TestTimeViewModel
+import com.example.tonwalletapp.presentation.screen.wrong_phrase_screen.WrongPhraseScreen
 
 @Composable
 fun Navigation(navController: NavHostController) {
@@ -53,7 +57,20 @@ fun Navigation(navController: NavHostController) {
         composable(Screen.ReadyToGoScreen.route){
             ReadyToGoScreen(navController = navController)
         }
-        
+        composable(Screen.ImportPhraseScreen.route){
+            val viewModel:ImportPhraseViewModel = hiltViewModel()
+            ImportPhraseScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
+        composable(Screen.ImportSuccessScreen.route)
+        {
+            ImportSuccessScreen(navController = navController)
+        }
+        composable(Screen.WrongPhraseScreen.route){
+            WrongPhraseScreen(navController = navController)
+        }
 
     }
 

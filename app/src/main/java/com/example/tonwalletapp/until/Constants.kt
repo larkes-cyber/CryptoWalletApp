@@ -42,7 +42,16 @@ object Constants {
             "only you control — directly, without\n" +
             "middlemen or bankers. "
     const val VisitWalletBtnText = "View my wallet"
-
-
+    const val ImportPhraseTitle = "24 Secret Words"
+    const val ImportPhraseText = "You can restore access to your wallet by entering 24 words you wrote when down you creating the wallet."
+    const val DontHavePhraseBtnTitle = "I don’t have those"
+    const val ContinueBtnTitle = "Continue"
+    const val IncorrectImportedPhraseText = "Sorry, you have entered incorrect secret words. Please double check and try again."
+    const val OkBtnText = "OK"
+    const val ImportSuccessTitle = "Your wallet has just been imported!"
+    const val WrongPhraseTitle = "Too Bad!"
+    const val WrongPhraseText = "Without the secret words you can’t restore access to the wallet."
+    const val EnterWordsBtnTitle = "Enter 24 secret words"
+    const val CreateNewWalletBtnTitle = "Create a new empty wallet instead"
 
 }

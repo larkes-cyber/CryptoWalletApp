@@ -8,5 +8,7 @@ sealed class Screen(val route:String) {
     object SuccessScreen:Screen("success_screen")
     object SetPasswordScreen:Screen("set_password_screen")
     object ReadyToGoScreen:Screen("ready_to_go_screen")
-
+    object ImportPhraseScreen:Screen("import_phrase_screen")
+    object ImportSuccessScreen:Screen("import_success_screen")
+    object WrongPhraseScreen:Screen("wrong_phrase_screen")
 }
