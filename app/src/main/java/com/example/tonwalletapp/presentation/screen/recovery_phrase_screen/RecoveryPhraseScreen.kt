@@ -1,10 +1,13 @@
 package com.example.tonwalletapp.presentation.screen.recovery_phrase_screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -14,6 +17,7 @@ import com.example.tonwalletapp.presentation.view.AlertDialogApp
 import com.example.tonwalletapp.presentation.view.InfoScreenSkeleton
 import com.example.tonwalletapp.presentation.view.RecoveryPhraseTable
 import com.example.tonwalletapp.presentation.view.TopBarApp
+import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants
 import com.example.tonwalletapp.until.Constants.DidntHaveEnoughTimeAgreeOption
 import com.example.tonwalletapp.until.Constants.DidntHaveEnoughTimeSkipOption
@@ -29,7 +33,7 @@ fun RecoveryPhraseScreen(
     viewModel: RecoveryPhraseViewModel
 ) {
 
-    val phraseWords by viewModel.phraseWords.collectAsState()
+    val phraseWordsUIState by viewModel.phraseWordsUIState.collectAsState()
     val activeTimeAlertDialogUIState by viewModel.activeTimeAlertDialogUIState.collectAsState()
     val hasBeenDoneUIState by viewModel.hasBeenDoneUIState.collectAsState()
 
@@ -42,6 +46,7 @@ fun RecoveryPhraseScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(AppTheme.colors.background)
     ) {
         if(activeTimeAlertDialogUIState){
             AlertDialogApp(
@@ -63,7 +68,8 @@ fun RecoveryPhraseScreen(
         }
         Column(modifier = Modifier
             .padding(horizontal = 40.dp)
-            .padding(top = 68.dp)) {
+            .padding(top = 68.dp)
+        ) {
             InfoScreenSkeleton(
                 image = R.drawable.recovery_phrase_frame,
                 title = TonRecoveryPhraseTitle,
@@ -79,7 +85,12 @@ fun RecoveryPhraseScreen(
                 }
             ){
                 Spacer(modifier = Modifier.height(40.dp))
-                RecoveryPhraseTable(words = phraseWords)
+                if(phraseWordsUIState.isLoading){
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
+                    }
+                }
+                if(phraseWordsUIState.words.isNotEmpty()) RecoveryPhraseTable(words = phraseWordsUIState.words)
                 Spacer(modifier = Modifier.height(44.dp))
             }
             Spacer(modifier = Modifier.height(60.dp))

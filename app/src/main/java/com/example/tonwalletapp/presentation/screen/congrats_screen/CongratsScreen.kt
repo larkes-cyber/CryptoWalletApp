@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.presentation.screen.congrats_screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -10,6 +11,7 @@ import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.navigation.Screen
 import com.example.tonwalletapp.presentation.view.InfoScreenSkeleton
 import com.example.tonwalletapp.presentation.view.TopBarApp
+import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants.ProceedBtnText
 import com.example.tonwalletapp.until.Constants.TonCongratsText
 import com.example.tonwalletapp.until.Constants.TonCongratsTitle
@@ -21,7 +23,10 @@ fun CongratsScreen(navController: NavController) {
             .fillMaxSize()
     ) {
         Box(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 40.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(AppTheme.colors.background)
+                .padding(horizontal = 40.dp),
             contentAlignment = Alignment.Center
         ) {
             InfoScreenSkeleton(

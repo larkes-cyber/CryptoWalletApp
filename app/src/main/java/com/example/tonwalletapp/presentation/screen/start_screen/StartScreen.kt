@@ -1,6 +1,7 @@
 package com.example.tonwalletapp.presentation.screen.start_screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
@@ -32,7 +33,7 @@ import com.example.tonwalletapp.until.Constants.TonWalletTitle
 @Composable
 fun StartScreen(navController: NavController) {
         Box(
-            modifier = Modifier.padding(horizontal = 30.dp).fillMaxSize(),
+            modifier = Modifier.fillMaxSize().background(AppTheme.colors.background).padding(horizontal = 30.dp),
             contentAlignment = Alignment.Center
         ) {
             InfoScreenSkeleton(

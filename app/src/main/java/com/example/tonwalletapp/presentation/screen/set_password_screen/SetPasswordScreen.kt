@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.presentation.screen.set_password_screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,6 +16,7 @@ import com.example.tonwalletapp.presentation.view.DigitalKeyboard
 import com.example.tonwalletapp.presentation.view.InfoScreenSkeleton
 import com.example.tonwalletapp.presentation.view.PasswordProgressBar
 import com.example.tonwalletapp.presentation.view.TopBarApp
+import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants
 import com.example.tonwalletapp.until.Constants.ConfirmPasswordTitle
 import com.example.tonwalletapp.until.Constants.WalletActionCreate
@@ -37,7 +39,7 @@ fun SetPasswordScreen(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(AppTheme.colors.background)
     ) {
         TopBarApp() {
             if(passwordUIState.confirmPassword == null) navController.popBackStack()

@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.presentation.screen.test_time_screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -11,6 +12,7 @@ import com.example.tonwalletapp.presentation.view.AlertDialogApp
 import com.example.tonwalletapp.presentation.view.InfoScreenSkeleton
 import com.example.tonwalletapp.presentation.view.PhraseWordTextField
 import com.example.tonwalletapp.presentation.view.TopBarApp
+import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants.ContinueBtnText
 import com.example.tonwalletapp.until.Constants.IncorrectWordErrorSeeWordsOption
 import com.example.tonwalletapp.until.Constants.IncorrectWordErrorText
@@ -38,6 +40,7 @@ fun TestTimeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(AppTheme.colors.background)
     ) {
         if(testTimeUIState.activeIncorrectWordDialog){
             AlertDialogApp(

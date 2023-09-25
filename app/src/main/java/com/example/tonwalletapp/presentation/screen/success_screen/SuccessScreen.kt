@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.presentation.screen.success_screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.view.InfoScreenSkeleton
 import com.example.tonwalletapp.presentation.view.TopBarApp
+import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants.PerfectBtnText
 import com.example.tonwalletapp.until.Constants.PerfectText
 import com.example.tonwalletapp.until.Constants.PerfectTitle
@@ -22,7 +24,7 @@ import com.example.tonwalletapp.until.Constants.PerfectTitle
 @Composable
 fun SuccessScreen(navController: NavController) {
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().background(AppTheme.colors.background)) {
         TopBarApp() {
            navController.popBackStack()
         }
