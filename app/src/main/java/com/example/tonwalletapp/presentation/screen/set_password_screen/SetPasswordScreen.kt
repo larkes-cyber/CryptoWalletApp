@@ -17,11 +17,13 @@ import com.example.tonwalletapp.presentation.view.PasswordProgressBar
 import com.example.tonwalletapp.presentation.view.TopBarApp
 import com.example.tonwalletapp.until.Constants
 import com.example.tonwalletapp.until.Constants.ConfirmPasswordTitle
+import com.example.tonwalletapp.until.Constants.WalletActionCreate
 
 @Composable
 fun SetPasswordScreen(
     navController: NavController,
-    viewModel: SetPasswordViewModel
+    viewModel: SetPasswordViewModel,
+    walletAction:String
 ) {
 
     val passwordUIState by viewModel.passwordUIState.collectAsState()
@@ -29,7 +31,8 @@ fun SetPasswordScreen(
 
     LaunchedEffect(hasBeenDoneUIState){
         if(hasBeenDoneUIState){
-            navController.navigate(Screen.ReadyToGoScreen.route)
+            if(walletAction == WalletActionCreate) navController.navigate(Screen.ReadyToGoScreen.route)
+            else navController.navigate(Screen.ImportSuccessScreen.route)
         }
     }
 

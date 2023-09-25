@@ -53,5 +53,7 @@ object Constants {
     const val WrongPhraseText = "Without the secret words you can’t restore access to the wallet."
     const val EnterWordsBtnTitle = "Enter 24 secret words"
     const val CreateNewWalletBtnTitle = "Create a new empty wallet instead"
+    const val WalletActionImport = "import_wallet"
+    const val WalletActionCreate = "create_wallet"
 
 }

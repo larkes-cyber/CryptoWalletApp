@@ -18,6 +18,7 @@ import com.example.tonwalletapp.until.Constants.IncorrectWordErrorTitle
 import com.example.tonwalletapp.until.Constants.IncorrectWordErrorTryAgainOption
 import com.example.tonwalletapp.until.Constants.TestTimeText
 import com.example.tonwalletapp.until.Constants.TestTimeTitle
+import com.example.tonwalletapp.until.Constants.WalletActionCreate
 
 @Composable
 fun TestTimeScreen(
@@ -30,7 +31,7 @@ fun TestTimeScreen(
 
     LaunchedEffect(hasBeenDoneUIState){
         if(hasBeenDoneUIState){
-            navController.navigate(Screen.SetPasswordScreen.route)
+            navController.navigate(Screen.SetPasswordScreen.withArgs(WalletActionCreate))
         }
     }
 

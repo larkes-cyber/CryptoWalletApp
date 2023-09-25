@@ -29,10 +29,10 @@ fun WrongPhraseScreen(
             visibleOptionalBtn = true,
             visibleBtn = true,
             onBtnClick = {
-                navController.navigate(Screen.CongratsScreen.route)
+                navController.navigate(Screen.ImportPhraseScreen.route)
             },
             onOptionBtnClick = {
-                navController.navigate(Screen.ImportPhraseScreen.route)
+                navController.navigate(Screen.CongratsScreen.route)
             }
         ){
             Spacer(modifier = Modifier.height(100.dp))

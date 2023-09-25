@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.tonwalletapp.presentation.screen.congrats_screen.CongratsScreen
 import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportPhraseScreen
 import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportPhraseViewModel
@@ -50,9 +52,18 @@ fun Navigation(navController: NavHostController) {
         composable(Screen.SuccessScreen.route){
             SuccessScreen(navController = navController)
         }
-        composable(Screen.SetPasswordScreen.route){
+        composable(
+            route = Screen.SetPasswordScreen.route + "/{walletAction}",
+            arguments = listOf(
+                navArgument("walletAction"){
+                    type = NavType.StringType
+                    defaultValue = "none"
+                }
+            )
+        ){
             val viewModel:SetPasswordViewModel = hiltViewModel()
-            SetPasswordScreen(navController = navController, viewModel = viewModel)
+            val walletAct = it.arguments!!.getString("walletAction")
+            SetPasswordScreen(navController = navController, viewModel = viewModel, walletAction = walletAct!!)
         }
         composable(Screen.ReadyToGoScreen.route){
             ReadyToGoScreen(navController = navController)

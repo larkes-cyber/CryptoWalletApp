@@ -11,4 +11,12 @@ sealed class Screen(val route:String) {
     object ImportPhraseScreen:Screen("import_phrase_screen")
     object ImportSuccessScreen:Screen("import_success_screen")
     object WrongPhraseScreen:Screen("wrong_phrase_screen")
+    fun withArgs(vararg args: String):String{
+        return buildString {
+            append(route)
+            args.forEach { arg ->
+                append("/$arg")
+            }
+        }
+    }
 }

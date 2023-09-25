@@ -26,6 +26,7 @@ import com.example.tonwalletapp.until.Constants.ContinueBtnTitle
 import com.example.tonwalletapp.until.Constants.DontHavePhraseBtnTitle
 import com.example.tonwalletapp.until.Constants.ImportPhraseText
 import com.example.tonwalletapp.until.Constants.ImportPhraseTitle
+import com.example.tonwalletapp.until.Constants.WalletActionImport
 
 @Composable
 fun ImportPhraseScreen(
@@ -60,7 +61,7 @@ fun ImportPhraseScreen(
                 btnTitle = ContinueBtnTitle,
                 visibleBtn = true,
                 onBtnClick = {
-                    navController.navigate(Screen.SetPasswordScreen.route)
+                    navController.navigate(Screen.SetPasswordScreen.withArgs(WalletActionImport))
                 },
                 image = R.drawable.recovery_phrase_frame
             ){
