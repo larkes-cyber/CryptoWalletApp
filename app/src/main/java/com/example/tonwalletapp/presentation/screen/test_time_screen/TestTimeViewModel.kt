@@ -1,10 +1,21 @@
 package com.example.tonwalletapp.presentation.screen.test_time_screen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetSecretWords
+import com.example.tonwalletapp.until.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TestTimeViewModel():ViewModel() {
+@HiltViewModel
+class TestTimeViewModel @Inject constructor(
+    private val useGetSecretWords: UseGetSecretWords
+):ViewModel() {
 
     private val _testTimeUIState = MutableStateFlow(TestTimeUIState())
     val testTimeUIState:StateFlow<TestTimeUIState> = _testTimeUIState
@@ -13,13 +24,20 @@ class TestTimeViewModel():ViewModel() {
     val hasBeenDoneUIState:StateFlow<Boolean> = _hasBeenDoneUIState
 
     init {
-        _testTimeUIState.value = TestTimeUIState(
-            words = listOf(
-                Pair(5, "network"),
-                Pair(15, "banana"),
-                Pair(18, "coffee")
-            )
-        )
+        useGetSecretWords.invoke().onEach {res ->
+            when(res){
+                is Resource.Success -> {
+                    val shuffledWords = res.data!!.mapIndexed { index, item ->
+                        Pair(index + 1, item)
+                    }.shuffled()
+                    _testTimeUIState.value = TestTimeUIState(
+                        words = listOf(shuffledWords[0], shuffledWords[1], shuffledWords[2]).sortedBy { it.first }
+                    )
+                }
+                is Resource.Error -> {}
+                else -> {}
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun onFirstWordChange(word:String){

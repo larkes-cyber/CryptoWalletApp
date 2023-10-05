@@ -56,4 +56,5 @@ object Constants {
     const val WalletActionImport = "import_wallet"
     const val WalletActionCreate = "create_wallet"
 
+    const val TON_GLOBAL_CONFIG_URL = "https://ton.org/global-config.json"
 }

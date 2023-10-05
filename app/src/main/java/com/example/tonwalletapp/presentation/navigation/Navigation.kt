@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.tonwalletapp.presentation.screen.congrats_screen.CongratsScreen
+import com.example.tonwalletapp.presentation.screen.congrats_screen.CongratsViewModel
 import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportPhraseScreen
 import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportPhraseViewModel
 import com.example.tonwalletapp.presentation.screen.import_success_screen.ImportSuccessScreen
@@ -33,7 +34,11 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(Screen.CongratsScreen.route){
-            CongratsScreen(navController = navController)
+            val viewModel:CongratsViewModel = hiltViewModel()
+            CongratsScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
         }
         composable(Screen.RecoveryPhraseScreen.route){
             val viewModel:RecoveryPhraseViewModel = hiltViewModel()

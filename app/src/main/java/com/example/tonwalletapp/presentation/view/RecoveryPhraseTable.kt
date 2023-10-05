@@ -17,8 +17,8 @@ import com.example.tonwalletapp.ui.theme.AppTheme
 fun RecoveryPhraseTable(
     words:List<String>
 ) {
-    val firstColumn = words.slice(0..9)
-    val secondColumn = words.slice(10..19)
+    val firstColumn = words.slice(0..11)
+    val secondColumn = words.slice(12..23)
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -42,7 +42,7 @@ fun RecoveryPhraseTable(
         ) {
             secondColumn.forEachIndexed { index, item ->
                 Text(
-                    text = "${index + 14}. $item",
+                    text = "${index + 13}. $item",
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Medium,
                     color = AppTheme.colors.primaryTitle,

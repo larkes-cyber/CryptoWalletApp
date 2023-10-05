@@ -1,11 +1,18 @@
 package com.example.tonwalletapp.data.repository
 
-import com.example.tonwalletapp.data.wallet_data_source.WalletRemoteDataSource
+import com.example.tonwalletapp.data.wallet_data_source.WalletDiskDataSource
+import com.example.tonwalletapp.data.wallet_data_source.WalletTonDataSource
 import com.example.tonwalletapp.domain.repository.WalletRepository
-import kotlinx.coroutines.flow.Flow
 
 class WalletRepositoryImpl(
-    private val walletRemoteDataSource: WalletRemoteDataSource
+    private val walletDiskDataSource: WalletDiskDataSource,
+    private val walletTonDataSource: WalletTonDataSource
 ):WalletRepository {
-    override suspend fun generateSecretWords(): List<String> = walletRemoteDataSource.generateSecretWords()
+    override suspend fun getSecretWords(): List<String> = walletTonDataSource.getSecretWords()
+    override suspend fun createWallet() {
+        val words = getSecretWords()
+        if(words.isEmpty()){
+            walletTonDataSource.createWallet(walletTonDataSource.generateWords())
+        }
+    }
 }

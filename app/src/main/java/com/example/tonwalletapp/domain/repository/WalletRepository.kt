@@ -1,7 +1,6 @@
 package com.example.tonwalletapp.domain.repository
 
-import kotlinx.coroutines.flow.Flow
-
 interface WalletRepository {
-    suspend fun generateSecretWords(): List<String>
+    suspend fun getSecretWords(): List<String>
+    suspend fun createWallet()
 }
