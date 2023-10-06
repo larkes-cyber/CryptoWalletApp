@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -36,60 +38,79 @@ fun ImportPhraseScreen(
 
     val phraseUIState by viewModel.phraseUIState.collectAsState()
     val currentFocusPositionUIState by viewModel.currentFocusPositionUIState.collectAsState()
+    val walletUIState by viewModel.walletUIState.collectAsState()
+
+
+    LaunchedEffect(walletUIState){
+        if(walletUIState.success){
+            navController.navigate(Screen.ImportSuccessScreen.route)
+        }
+    }
 
     Box(modifier = Modifier
         .fillMaxSize()
         .background(AppTheme.colors.background)) {
-//        AlertDialogApp(
-//            title = Constants.IncorrectWordErrorTitle,
-//            subtitle = Constants.IncorrectImportedPhraseText,
-//            firstOptionButtonTitle = Constants.OkBtnText,
-//            onFirstOptionButtonClick = {
-//            },
-//            onDismiss = {
-//            }
-//        )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 72.dp)
-                .padding(horizontal = 40.dp)
-        ) {
-            InfoScreenSkeleton(
-                title = ImportPhraseTitle,
-                subtitle = ImportPhraseText,
-                btnTitle = ContinueBtnTitle,
-                visibleBtn = true,
-                onBtnClick = {
-                    navController.navigate(Screen.SetPasswordScreen.withArgs(WalletActionImport))
+        if(walletUIState.error.isNotEmpty()){
+            AlertDialogApp(
+                title = Constants.IncorrectWordErrorTitle,
+                subtitle = Constants.IncorrectImportedPhraseText,
+                firstOptionButtonTitle = Constants.OkBtnText,
+                onFirstOptionButtonClick = {
+                    viewModel.resetWalletState()
                 },
-                image = R.drawable.recovery_phrase_frame
-            ){
-                Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    ClickableText(
-                        modifier = Modifier.padding(top = 12.dp, bottom = 3.dp),
-                        text = AnnotatedString(DontHavePhraseBtnTitle),
-                        style = MaterialTheme.typography.button.copy(color = AppTheme.colors.primaryBackground),
-                        onClick = {
-                            navController.navigate(Screen.WrongPhraseScreen.route)
+                onDismiss = {
+                    viewModel.resetWalletState()
+                }
+            )
+        }
+        if(walletUIState.isLoading){
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+        if(!walletUIState.isLoading && walletUIState.error.isEmpty()){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 72.dp)
+                    .padding(horizontal = 40.dp)
+            ) {
+                InfoScreenSkeleton(
+                    title = ImportPhraseTitle,
+                    subtitle = ImportPhraseText,
+                    btnTitle = ContinueBtnTitle,
+                    visibleBtn = true,
+                    onBtnClick = {
+                        viewModel.onFinish()
+                    },
+                    image = R.drawable.recovery_phrase_frame
+                ){
+                    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                        ClickableText(
+                            modifier = Modifier.padding(top = 12.dp, bottom = 3.dp),
+                            text = AnnotatedString(DontHavePhraseBtnTitle),
+                            style = MaterialTheme.typography.button.copy(color = AppTheme.colors.primaryBackground),
+                            onClick = {
+                                navController.navigate(Screen.WrongPhraseScreen.route)
+                            }
+                        )
+                        (1..24).forEach{position ->
+                            Box(modifier = Modifier.padding(top = 17.dp)) {
+                                PhraseWordTextField(
+                                    focused = currentFocusPositionUIState == position,
+                                    word = phraseUIState[position-1],
+                                    rangePlace = position,
+                                    onWordChange = {
+                                        viewModel.onPhraseChange(position = position, word = it)
+                                    },
+                                    onNextClick = {
+                                        viewModel.onCurrentPosition(position + 1)
+                                    }
+                                )
+                            }
                         }
-                    )
-                    (1..24).forEach{position ->
-                        Box(modifier = Modifier.padding(top = 17.dp)) {
-                            PhraseWordTextField(
-                                focused = currentFocusPositionUIState == position,
-                                word = phraseUIState[position-1],
-                                rangePlace = position,
-                                onWordChange = {
-                                    viewModel.onPhraseChange(position = position, word = it)
-                                },
-                                onNextClick = {
-                                    viewModel.onCurrentPosition(position + 1)
-                                }
-                            )
-                        }
+                        Spacer(modifier = Modifier.height(30.dp))
                     }
-                    Spacer(modifier = Modifier.height(30.dp))
                 }
             }
         }

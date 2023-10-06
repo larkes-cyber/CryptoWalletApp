@@ -38,12 +38,11 @@ class TonLiteClient(
         val privateKey = PrivateKeyEd25519.of(keyPair)
         val publicKey = PublicKeyEd25519.of(privateKey)
 
+        Log.d("seed_words", words.toString())
+
         val walletContract = WalletV4R2Contract(0,  publicKey)
-        Log.d("address", MsgAddressInt.toString(walletContract.address))
-
-
+        Log.d("crypto_ton_address", MsgAddressInt.toString(walletContract.address))
     }
-
 
 
 }

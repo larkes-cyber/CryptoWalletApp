@@ -3,6 +3,7 @@ package com.example.tonwalletapp.di.domain
 import com.example.tonwalletapp.domain.repository.WalletRepository
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseCreateWallet
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetSecretWords
+import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseImportWallet
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +25,13 @@ object WalletUseCaseModule {
         walletRepository: WalletRepository
     ):UseCreateWallet{
         return UseCreateWallet(walletRepository = walletRepository)
+    }
+
+    @Provides
+    fun provideUseImportWallet(
+        walletRepository: WalletRepository
+    ):UseImportWallet{
+        return UseImportWallet(walletRepository = walletRepository)
     }
 
 }

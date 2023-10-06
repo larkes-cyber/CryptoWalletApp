@@ -12,7 +12,11 @@ class WalletRepositoryImpl(
     override suspend fun createWallet() {
         val words = getSecretWords()
         if(words.isEmpty()){
-            walletTonDataSource.createWallet(walletTonDataSource.generateWords())
+            walletTonDataSource.setupWallet(walletTonDataSource.generateWords())
         }
+    }
+
+    override suspend fun importWallet(words: List<String>) {
+        walletTonDataSource.setupWallet(words)
     }
 }

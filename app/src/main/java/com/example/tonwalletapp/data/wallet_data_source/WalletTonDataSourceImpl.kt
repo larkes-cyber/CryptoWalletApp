@@ -8,7 +8,7 @@ class WalletTonDataSourceImpl(
 ):WalletTonDataSource {
 
     private var _secretWords = listOf<String>()
-    override suspend fun createWallet(words: List<String>) {
+    override suspend fun setupWallet(words: List<String>) {
         tonLiteClient.setUpWallet(words)
     }
 
