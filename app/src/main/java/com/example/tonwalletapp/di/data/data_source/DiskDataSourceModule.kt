@@ -1,6 +1,7 @@
 package com.example.tonwalletapp.di.data.data_source
 
 import android.content.Context
+import com.example.tonwalletapp.data.database.dao.WalletDao
 import com.example.tonwalletapp.data.user_data_source.UserDiskDataSource
 import com.example.tonwalletapp.data.user_data_source.UserDiskDataSourceImpl
 import com.example.tonwalletapp.data.wallet_data_source.WalletDiskDataSource
@@ -21,8 +22,8 @@ object DiskDataSourceModule {
 
     @Singleton
     @Provides
-    fun provideWalletDiskDataSource():WalletDiskDataSource{
-        return WalletDiskDataSourceImpl()
+    fun provideWalletDiskDataSource(walletDao: WalletDao):WalletDiskDataSource{
+        return WalletDiskDataSourceImpl(walletDao = walletDao)
     }
 
 }

@@ -2,7 +2,7 @@ package com.example.tonwalletapp.presentation.screen.import_phrase_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseImportWallet
+import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseSetupWallet
 import com.example.tonwalletapp.until.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ImportPhraseViewModel @Inject constructor(
-    private val useImportWallet: UseImportWallet
+    private val useSetupWallet: UseSetupWallet
 ):ViewModel() {
 
     private val _phraseUIState = MutableStateFlow((0..23).map { "" })
@@ -36,7 +36,7 @@ class ImportPhraseViewModel @Inject constructor(
     }
 
     fun onFinish(){
-        useImportWallet.invoke(_phraseUIState.value).onEach {res ->
+        useSetupWallet.invoke(_phraseUIState.value).onEach { res ->
             when(res){
                 is Resource.Loading -> {
                     _walletUIState.value = WalletState(isLoading = true)
