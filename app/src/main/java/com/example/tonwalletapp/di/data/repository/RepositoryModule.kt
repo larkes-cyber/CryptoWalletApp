@@ -3,6 +3,7 @@ package com.example.tonwalletapp.di.data.repository
 import com.example.tonwalletapp.data.repository.UserRepositoryImpl
 import com.example.tonwalletapp.data.repository.WalletRepositoryImpl
 import com.example.tonwalletapp.data.user_data_source.UserDiskDataSource
+import com.example.tonwalletapp.data.user_data_source.UserTonDataSource
 import com.example.tonwalletapp.data.wallet_data_source.WalletDiskDataSource
 import com.example.tonwalletapp.data.wallet_data_source.WalletTonDataSource
 import com.example.tonwalletapp.domain.repository.UserRepository
@@ -18,9 +19,13 @@ object RepositoryModule {
 
     @Provides
     fun provideUserRepository(
-        userDiskDataSource: UserDiskDataSource
+        userDiskDataSource: UserDiskDataSource,
+        walletDiskDataSource: WalletDiskDataSource,
+        userTonDataSource: UserTonDataSource
     ):UserRepository = UserRepositoryImpl(
-        userDiskDataSource = userDiskDataSource
+        userDiskDataSource = userDiskDataSource,
+        walletDiskDataSource = walletDiskDataSource,
+        userTonDataSource = userTonDataSource
     )
 
     @Provides

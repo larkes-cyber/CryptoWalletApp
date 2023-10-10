@@ -21,4 +21,8 @@ interface WalletDao {
     @Delete
     suspend fun deleteWallet(walletEntity: WalletEntity)
 
+    @Query("DELETE FROM WalletEntity")
+    suspend fun nukeTable()
+
+
 }

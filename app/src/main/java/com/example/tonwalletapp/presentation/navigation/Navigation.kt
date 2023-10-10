@@ -13,6 +13,8 @@ import com.example.tonwalletapp.presentation.screen.congrats_screen.CongratsView
 import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportPhraseScreen
 import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportPhraseViewModel
 import com.example.tonwalletapp.presentation.screen.import_success_screen.ImportSuccessScreen
+import com.example.tonwalletapp.presentation.screen.main_wallet_screen.MainWalletScreen
+import com.example.tonwalletapp.presentation.screen.main_wallet_screen.MainWalletViewModel
 import com.example.tonwalletapp.presentation.screen.ready_to_go_screen.ReadyToGoScreen
 import com.example.tonwalletapp.presentation.screen.recovery_phrase_screen.RecoveryPhraseScreen
 import com.example.tonwalletapp.presentation.screen.recovery_phrase_screen.RecoveryPhraseViewModel
@@ -27,7 +29,7 @@ import com.example.tonwalletapp.presentation.screen.wrong_phrase_screen.WrongPhr
 @Composable
 fun Navigation(navController: NavHostController) {
 
-    NavHost(navController = navController, startDestination = Screen.StartScreen.route ){
+    NavHost(navController = navController, startDestination = Screen.MainWalletScreen.route ){
 
         composable(Screen.StartScreen.route){
             StartScreen(navController = navController)
@@ -86,6 +88,12 @@ fun Navigation(navController: NavHostController) {
         }
         composable(Screen.WrongPhraseScreen.route){
             WrongPhraseScreen(navController = navController)
+        }
+        composable(Screen.MainWalletScreen.route){
+
+            val viewModel:MainWalletViewModel = hiltViewModel()
+
+            MainWalletScreen(navController = navController, viewModel = viewModel)
         }
 
     }

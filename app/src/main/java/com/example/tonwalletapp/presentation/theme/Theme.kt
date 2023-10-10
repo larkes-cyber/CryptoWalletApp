@@ -20,7 +20,8 @@ private val DarkColorPalette = Colors(
     btnBackground = Color(0xFFF0F0F0),
     btnSubtitle = Color(0xFFA8A8A8),
     strokeFormColor = Color(0xFF757575),
-    buttonColor = Color(0xFFF0F0F0)
+    buttonColor = Color(0xFFF0F0F0),
+    thirdBackground = Color(0xFF000000)
 )
 
 
@@ -34,7 +35,8 @@ private val LightColorPalette = Colors(
     btnBackground = Color(0xFFF0F0F0),
     btnSubtitle = Color(0xFFA8A8A8),
     strokeFormColor = Color(0xFF757575),
-    buttonColor = Color(0xFFF0F0F0)
+    buttonColor = Color(0xFFF0F0F0),
+    thirdBackground = Color(0xFF000000)
 )
 
 
@@ -57,7 +59,8 @@ data class Colors(
     val btnBackground:Color,
     val btnSubtitle:Color,
     val strokeFormColor:Color,
-    val buttonColor:Color
+    val buttonColor:Color,
+    val thirdBackground:Color
 )
 
 object AppTheme {

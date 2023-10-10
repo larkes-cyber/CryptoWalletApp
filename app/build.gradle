@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace 'com.example.tonwalletapp'
-    compileSdk 33
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.example.tonwalletapp"
         minSdk 24
-        targetSdk 33
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -52,7 +52,7 @@ android {
 dependencies {
 
     def sqldelight = "2.5.5"
-    def ktor_version = "1.6.3"
+    def ktor_version = "2.0.0"
     def room_version = "2.4.0-alpha03"
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -69,7 +69,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
     //ton sdk
-    implementation "org.ton:ton-kotlin:0.2.16"
+    implementation "org.ton:ton-kotlin:0.2.15"
 
 
     //compose navigation
@@ -90,8 +90,17 @@ dependencies {
     // Ktor
     implementation "io.ktor:ktor-client-core:$ktor_version"
     implementation "io.ktor:ktor-client-cio:$ktor_version"
-    implementation "io.ktor:ktor-client-serialization:$ktor_version"
     implementation "io.ktor:ktor-client-logging:$ktor_version"
+    implementation "ch.qos.logback:logback-classic:1.2.6"
+    implementation "io.ktor:ktor-client-serialization:$ktor_version"
+    implementation "io.ktor:ktor-client-gson:$ktor_version"
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+
+
+
+
+
 
     // room db
     implementation "androidx.room:room-runtime:$room_version"

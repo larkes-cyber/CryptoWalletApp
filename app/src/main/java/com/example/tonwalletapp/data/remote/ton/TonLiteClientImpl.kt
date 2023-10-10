@@ -2,6 +2,7 @@ package com.example.tonwalletapp.data.remote.ton
 
 import android.util.Log
 import com.example.tonwalletapp.data.database.entity.WalletEntity
+import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
 import com.example.tonwalletapp.data.remote.model.WalletTon
 import com.example.tonwalletapp.until.Constants.TON_GLOBAL_CONFIG_URL
 import kotlinx.coroutines.CoroutineScope
@@ -19,20 +20,21 @@ import org.ton.mnemonic.Mnemonic
 import java.net.URL
 
 class TonLiteClientImpl(
-    private val coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope,
+    private val tonLiteClientConfig: TonLiteClientConfig
+
 ):TonLiteClient {
 
     private var liteClient:LiteClient? = null
 
-    init {
-        coroutineScope.launch {
-            val liteConfig = Json{ ignoreUnknownKeys = true }.decodeFromString<LiteClientConfigGlobal>(URL(TON_GLOBAL_CONFIG_URL).readText())
-            liteClient = LiteClient(coroutineContext = coroutineContext, liteConfig)
-        }
-
+    suspend fun initLiteClient(){
+        liteClient = LiteClient(coroutineScope.coroutineContext, tonLiteClientConfig.getConfig())
+        Log.d("dfsdfsdfsdf","##################")
     }
 
+
     override suspend fun getWalletInfo(words: List<String>): WalletTon {
+
         val keyPair = Mnemonic.toSeed(mnemonic = words)
 
         val privateKey = PrivateKeyEd25519.of(keyPair)
@@ -48,7 +50,17 @@ class TonLiteClientImpl(
         )
     }
 
+    override suspend fun getWalletBalance(address: String): Float {
+        initLiteClient()
+        initLiteClient()
+        val account = liteClient!!.getAccount("EQCZDt4LYNyknIoYnrhsK5Ka2fHdC1BP2YYO9ig8U7oTdlEK")
+        Log.d("sdfsdfsdfsdfsdf",account.toString())
+        return account!!.storage.balance.coins.amount.toFloat()
+    }
 
+    override suspend fun getTransactionsList(address: String): List<TransactionDetailTon> {
+        return listOf()
+    }
 
 
 }

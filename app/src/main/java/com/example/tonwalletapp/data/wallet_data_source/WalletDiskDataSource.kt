@@ -7,5 +7,7 @@ interface WalletDiskDataSource {
     suspend fun getWallets():List<WalletEntity>
     suspend fun getWalletById(id:String):WalletEntity
     suspend fun deleteWallet(id:String)
+    suspend fun nukeWalletTable()
+
 
 }

@@ -57,4 +57,10 @@ object Constants {
     const val WalletActionCreate = "create_wallet"
 
     const val TON_GLOBAL_CONFIG_URL = "https://ton.org/global-config.json"
+
+    const val IS_AUTHORIZED = 1
+    const val IS_NOT_AUTHORIZED = 2
+    const val NOT_STATED_AUTH_STATUS = 3
+
+
 }

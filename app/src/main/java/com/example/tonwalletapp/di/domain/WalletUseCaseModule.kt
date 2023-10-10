@@ -34,4 +34,18 @@ object WalletUseCaseModule {
         return UseGetAllWallets(walletRepository)
     }
 
+    @Provides
+    fun provideUseGetAllWalletsId(
+        walletRepository: WalletRepository
+    ):UseGetAllWalletsId{
+        return UseGetAllWalletsId(walletRepository = walletRepository)
+    }
+
+    @Provides
+    fun provideUseGetWalletDetailInfo(
+        walletRepository: WalletRepository
+    ):UseGetWalletDetailInfo{
+        return UseGetWalletDetailInfo(walletRepository = walletRepository)
+    }
+
 }
