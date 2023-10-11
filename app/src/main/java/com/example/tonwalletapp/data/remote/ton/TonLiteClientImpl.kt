@@ -6,15 +6,20 @@ import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
 import com.example.tonwalletapp.data.remote.model.WalletTon
 import com.example.tonwalletapp.until.Constants.TON_GLOBAL_CONFIG_URL
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.ton.api.liteclient.config.LiteClientConfigGlobal
+import org.ton.api.liteserver.LiteServerDesc
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.api.pub.PublicKeyEd25519
 import org.ton.block.MsgAddressExt
 import org.ton.block.MsgAddressInt
-import org.ton.contract.wallet.WalletV4R2Contract
+import org.ton.contract.wallet.v4.ContractV4R2
+import org.ton.crypto.base64
 import org.ton.lite.client.LiteClient
 import org.ton.mnemonic.Mnemonic
 import java.net.URL
@@ -24,30 +29,55 @@ class TonLiteClientImpl(
 ):TonLiteClient {
 
 
-    private val liteClient = tonLiteClientFactory.getLiteClient()
-
     override suspend fun getWalletInfo(words: List<String>): WalletTon {
 
-        val keyPair = Mnemonic.toSeed(mnemonic = words)
+        val keyPair = Mnemonic.toSeed(mnemonic = words.toTypedArray())
 
         val privateKey = PrivateKeyEd25519.of(keyPair)
         val publicKey = PublicKeyEd25519.of(privateKey)
 
-        val walletContract = WalletV4R2Contract(0,  publicKey)
-
+        var address:String? = null
+        val job = CoroutineScope(Dispatchers.IO).launch {
+            val tonLiteClient = LiteClient(this.coroutineContext, liteClientConfigGlobal = tonLiteClientFactory.getLiteClientConfig())
+            val walletContract = ContractV4R2(tonLiteClient,  privateKey)
+            walletContract.createStateInit()
+            walletContract.createDataInit()
+            walletContract.createExternalInitMessage()
+            walletContract.deploy()
+            address = walletContract.address().toString(userFriendly = true)
+        }
+        job.join()
         return WalletTon(
             privateKey = privateKey,
             publicKey = publicKey,
-            address = MsgAddressInt.toString(walletContract.address),
+            address = address!!,
             words = words
         )
     }
 
     override suspend fun getWalletBalance(address: String): Float {
 
-        val accountInfo = liteClient.getAccount("UQC1yUHwfKkbPXQKB0keNjlKog8-o_mtL9KS1J14d2R5JEzr")!!.storage
-        Log.d("sdfsdfsdfsdfsdf",accountInfo.balance.coins.toString())
-        return accountInfo.balance.coins.amount.toFloat()
+        var accountBalance:Float? = null
+
+        val job = CoroutineScope(Dispatchers.IO).launch {
+            Log.d("sadsdfsdfsdfddd", address)
+
+            val tonLiteClient = LiteClient(this.coroutineContext, liteClientConfigGlobal = LiteClientConfigGlobal(
+                liteServers = listOf(
+                    LiteServerDesc(id = PublicKeyEd25519(base64("n4VDnSCUuSpjnCyUk9e3QOOd6o0ItSWYbTnW3Wnn8wk=")), ip = 84478511, port = 19949)
+                )
+            ))
+
+            val accountInfo = tonLiteClient.getAccount(address)
+
+
+            Log.d("dsfdfddff",accountInfo.toString())
+            accountBalance = 12f
+        }//accountInfo.balance.coins.toString().toFloat()
+
+        job.join()
+
+        return accountBalance!!
     }
 
     override suspend fun getTransactionsList(address: String): List<TransactionDetailTon> {

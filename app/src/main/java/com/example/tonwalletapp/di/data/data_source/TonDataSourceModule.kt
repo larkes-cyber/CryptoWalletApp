@@ -16,13 +16,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object TonDataSourceModule {
-
-    @Singleton
-    @Provides
-    fun provideTonLiteClientFactory(httpClient: HttpClient):TonLiteClientFactory{
-        return TonLiteClientFactory(httpClient = httpClient)
-    }
-
     @Singleton
     @Provides
     fun provideWalletTonDataSource(

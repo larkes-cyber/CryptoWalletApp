@@ -17,7 +17,7 @@ object KtorModule {
     @Singleton
     @Provides
     fun provideHttpClient():HttpClient{
-        return HttpClient(CIO){
+        return HttpClient(){
             install(ContentNegotiation){
                 json()
             }

@@ -1,11 +1,14 @@
 package com.example.tonwalletapp.data.remote.ton
 
+import android.util.Log
 import com.example.tonwalletapp.until.Constants.TON_GLOBAL_CONFIG_URL
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.ton.api.liteclient.config.LiteClientConfigGlobal
@@ -15,18 +18,16 @@ import kotlin.coroutines.CoroutineContext
 class TonLiteClientFactory(
     private val httpClient: HttpClient
 ) {
-
-    private var liteClient:LiteClient? = null
-    private val coroutineContext = CoroutineScope(Dispatchers.IO).coroutineContext
+    private var liteClientConfig:LiteClientConfigGlobal? = null
 
     suspend fun initLiteClient(){
         val response = httpClient.get(TON_GLOBAL_CONFIG_URL).bodyAsText()
-        val tonConfig = Json{ ignoreUnknownKeys = true }.decodeFromString<LiteClientConfigGlobal>(response)
-        liteClient = LiteClient(coroutineContext = coroutineContext, tonConfig)
+        Log.d("dfsdfsdfsdfsdfsdf",response.toString())
+        liteClientConfig = Json{ ignoreUnknownKeys = true }.decodeFromString<LiteClientConfigGlobal>(response)
     }
 
-    fun getLiteClient():LiteClient{
-        return liteClient!!
+    fun getLiteClientConfig():LiteClientConfigGlobal{
+        return liteClientConfig!!
     }
 
 }

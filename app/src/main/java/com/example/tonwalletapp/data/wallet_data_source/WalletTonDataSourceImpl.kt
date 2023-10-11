@@ -14,7 +14,7 @@ class WalletTonDataSourceImpl(
 
 
     override suspend fun generateWords():List<String> {
-        _secretWords = Mnemonic.generate()
+        _secretWords = Mnemonic.generate().toList()
         return _secretWords
     }
     override fun getSecretWords(): List<String> {

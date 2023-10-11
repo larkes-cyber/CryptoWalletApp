@@ -69,7 +69,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
     //ton sdk
-    implementation "org.ton:ton-kotlin:0.2.15"
+    implementation "org.ton:ton-kotlin:0.2.7"
 
 
     //compose navigation

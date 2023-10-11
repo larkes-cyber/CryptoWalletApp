@@ -6,7 +6,6 @@ import com.example.tonwalletapp.data.remote.model.WalletTon
 import com.example.tonwalletapp.domain.model.Wallet
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.api.pub.PublicKeyEd25519
-import org.ton.contract.wallet.WalletV4R2Contract
 import org.ton.mnemonic.Mnemonic
 
 fun Wallet.toWalletEntity():WalletEntity{
@@ -20,7 +19,7 @@ fun Wallet.toWalletEntity():WalletEntity{
 
 fun WalletEntity.toWallet():Wallet{
 
-    val keyPair = Mnemonic.toSeed(mnemonic = words.toWordsList())
+    val keyPair = Mnemonic.toSeed(mnemonic = words.toWordsList().toTypedArray())
     val privateKey = PrivateKeyEd25519.of(keyPair)
     val publicKey = PublicKeyEd25519.of(privateKey)
 
