@@ -5,5 +5,5 @@ interface UserRepository {
     fun savePassCode(pass:String)
     fun getPassCode():String
     suspend fun cleanUpUserData()
-    suspend fun setupTonConfig()
+    suspend fun initializeTonLiteClient()
 }

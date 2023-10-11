@@ -18,7 +18,8 @@ class UserRepositoryImpl(
         walletDiskDataSource.nukeWalletTable()
     }
 
-    override suspend fun setupTonConfig() {
-        userTonDataSource.setupTonConfig()
+    override suspend fun initializeTonLiteClient() {
+        userTonDataSource.initializeTonLiteClient()
     }
+
 }

@@ -20,18 +20,11 @@ import org.ton.mnemonic.Mnemonic
 import java.net.URL
 
 class TonLiteClientImpl(
-    private val coroutineScope: CoroutineScope,
-    private val tonLiteClientConfig: TonLiteClientConfig
-
+    private val tonLiteClientFactory: TonLiteClientFactory
 ):TonLiteClient {
 
-    private var liteClient:LiteClient? = null
 
-    suspend fun initLiteClient(){
-        liteClient = LiteClient(coroutineScope.coroutineContext, tonLiteClientConfig.getConfig())
-        Log.d("dfsdfsdfsdf","##################")
-    }
-
+    private val liteClient = tonLiteClientFactory.getLiteClient()
 
     override suspend fun getWalletInfo(words: List<String>): WalletTon {
 
@@ -51,11 +44,10 @@ class TonLiteClientImpl(
     }
 
     override suspend fun getWalletBalance(address: String): Float {
-        initLiteClient()
-        initLiteClient()
-        val account = liteClient!!.getAccount("EQCZDt4LYNyknIoYnrhsK5Ka2fHdC1BP2YYO9ig8U7oTdlEK")
-        Log.d("sdfsdfsdfsdfsdf",account.toString())
-        return account!!.storage.balance.coins.amount.toFloat()
+
+        val accountInfo = liteClient.getAccount("UQC1yUHwfKkbPXQKB0keNjlKog8-o_mtL9KS1J14d2R5JEzr")!!.storage
+        Log.d("sdfsdfsdfsdfsdf",accountInfo.balance.coins.toString())
+        return accountInfo.balance.coins.amount.toFloat()
     }
 
     override suspend fun getTransactionsList(address: String): List<TransactionDetailTon> {

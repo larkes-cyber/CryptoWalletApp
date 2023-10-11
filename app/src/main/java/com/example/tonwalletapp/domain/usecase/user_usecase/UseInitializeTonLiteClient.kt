@@ -5,20 +5,17 @@ import com.example.tonwalletapp.until.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class UseSetupTonConfig(
+class UseInitializeTonLiteClient(
     private val userRepository: UserRepository
 ) {
 
-    operator fun invoke(): Flow<Resource<String>> = flow {
-
-        emit(Resource.Loading())
-        try {
-            userRepository.setupTonConfig()
-            emit(Resource.Success("success"))
+    suspend fun execute():Resource<String>{
+        return try {
+            userRepository.initializeTonLiteClient()
+            Resource.Success("success")
         }catch (e:Exception){
-            emit(Resource.Error(e.message!!))
+            Resource.Error(e.message!!)
         }
-
     }
 
 }
