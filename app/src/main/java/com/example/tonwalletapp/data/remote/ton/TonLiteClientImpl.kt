@@ -1,28 +1,19 @@
 package com.example.tonwalletapp.data.remote.ton
 
 import android.util.Log
-import com.example.tonwalletapp.data.database.entity.WalletEntity
 import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
 import com.example.tonwalletapp.data.remote.model.WalletTon
-import com.example.tonwalletapp.until.Constants.TON_GLOBAL_CONFIG_URL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import org.ton.api.liteclient.config.LiteClientConfigGlobal
 import org.ton.api.liteserver.LiteServerDesc
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.api.pub.PublicKeyEd25519
-import org.ton.block.MsgAddressExt
-import org.ton.block.MsgAddressInt
 import org.ton.contract.wallet.v4.ContractV4R2
 import org.ton.crypto.base64
 import org.ton.lite.client.LiteClient
 import org.ton.mnemonic.Mnemonic
-import java.net.URL
 
 class TonLiteClientImpl(
     private val tonLiteClientFactory: TonLiteClientFactory
@@ -38,7 +29,7 @@ class TonLiteClientImpl(
 
         var address:String? = null
         val job = CoroutineScope(Dispatchers.IO).launch {
-            val tonLiteClient = LiteClient(this.coroutineContext, liteClientConfigGlobal = tonLiteClientFactory.getLiteClientConfig())
+            val tonLiteClient = LiteClient(this.coroutineContext, liteClientConfigGlobal = tonLiteClientFactory.getLiteClient())
             val walletContract = ContractV4R2(tonLiteClient,  privateKey)
             walletContract.createStateInit()
             walletContract.createDataInit()
@@ -47,6 +38,9 @@ class TonLiteClientImpl(
             address = walletContract.address().toString(userFriendly = true)
         }
         job.join()
+        job.invokeOnCompletion {
+
+        }
         return WalletTon(
             privateKey = privateKey,
             publicKey = publicKey,
