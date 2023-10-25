@@ -1,9 +1,8 @@
 package com.example.tonwalletapp.data.remote.transfer
 
-import android.util.Log
 import com.example.tonwalletapp.data.remote.model.WalletTon
 import com.example.tonwalletapp.data.remote.state.TonStateModule
-import com.example.tonwalletapp.data.remote.ton.TonLiteClientFactory
+import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
 import com.example.tonwalletapp.data.remote.wallet.TonWalletModule
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.bitstring.BitString
@@ -24,9 +23,7 @@ import org.ton.cell.CellBuilder
 import org.ton.cell.buildCell
 import org.ton.contract.wallet.WalletContract
 import org.ton.contract.wallet.WalletTransfer
-import org.ton.lite.api.LiteApi
 import org.ton.lite.api.liteserver.functions.LiteServerSendMessage
-import org.ton.lite.client.LiteClient
 import org.ton.tlb.CellRef
 import org.ton.tlb.constructor.AnyTlbConstructor
 import org.ton.tlb.storeRef

@@ -13,13 +13,14 @@ fun Wallet.toWalletEntity():WalletEntity{
         id = id,
         words = words.toWordsString(),
         name = name,
-        address = address
+        address = address,
+        initialized = initialized
     )
 }
 
 fun WalletEntity.toWallet():Wallet{
 
-    val keyPair = Mnemonic.toSeed(mnemonic = words.toWordsList().toTypedArray())
+    val keyPair = Mnemonic.toSeed(mnemonic = words.toWordsList())
     val privateKey = PrivateKeyEd25519.of(keyPair)
     val publicKey = PublicKeyEd25519.of(privateKey)
 
@@ -29,19 +30,29 @@ fun WalletEntity.toWallet():Wallet{
         name = name,
         privateKey = privateKey,
         publicKey = publicKey,
-        address = address
+        address = address,
+        initialized = initialized
     )
 }
 
 fun WalletTon.toWallet():Wallet{
-
     return Wallet(
         publicKey = publicKey,
         privateKey = privateKey,
         address = address,
-        words = words
+        words = words,
+        initialized = false
     )
+}
 
+fun Wallet.toWalletTon():WalletTon{
+    return WalletTon(
+        publicKey = publicKey,
+        privateKey = privateKey,
+        address = address,
+        words = words,
+        initialized = initialized
+    )
 }
 
 fun WalletTon.toWalletEntity():WalletEntity{

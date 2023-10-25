@@ -67,6 +67,10 @@ object Constants {
     const val OUT_TRANSACTION = "OUT"
     const val IN_TRANSACTION = "IN"
 
+    const val STATUS_TRANSACTION_SUCCESS = "success"
+    const val STATUS_TRANSACTION_PROCESSING = "processing"
+    const val STATUS_TRANSACTION_DENIED = "denied"
+
 }
 
 object OpCodes {

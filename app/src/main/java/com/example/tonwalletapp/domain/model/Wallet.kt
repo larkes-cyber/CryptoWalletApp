@@ -10,5 +10,6 @@ data class Wallet(
     val privateKey: PrivateKeyEd25519,
     val publicKey: PublicKeyEd25519,
     val words:List<String>,
-    val address:String
+    val address:String,
+    val initialized:Boolean
 )

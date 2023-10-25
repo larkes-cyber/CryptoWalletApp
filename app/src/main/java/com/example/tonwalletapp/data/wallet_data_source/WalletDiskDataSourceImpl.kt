@@ -9,6 +9,7 @@ class WalletDiskDataSourceImpl(
     private val walletDao: WalletDao
 ):WalletDiskDataSource {
     override suspend fun insertWallet(wallet: WalletEntity) {
+        wallet.id = wallet.address
         walletDao.insertWallet(wallet)
     }
 
@@ -16,12 +17,13 @@ class WalletDiskDataSourceImpl(
        return walletDao.observeAllLocalWallets()
     }
 
-    override suspend fun getWalletById(id: String): WalletEntity {
-        return walletDao.observeWalletById(id)
+    override suspend fun getWalletByAddress(address: String): WalletEntity {
+       return walletDao.observeWalletById(address)
     }
 
+
     override suspend fun deleteWallet(id: String) {
-        walletDao.deleteWallet(getWalletById(id))
+        walletDao.deleteWallet(getWalletByAddress(id))
     }
 
     override suspend fun nukeWalletTable() {

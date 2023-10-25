@@ -1,6 +1,6 @@
 package com.example.tonwalletapp.data.user_data_source
 
-import com.example.tonwalletapp.data.remote.ton.TonLiteClientFactory
+import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
 
 
 class UserTonDataSourceImpl(

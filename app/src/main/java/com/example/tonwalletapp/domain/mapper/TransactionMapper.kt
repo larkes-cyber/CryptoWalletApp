@@ -7,6 +7,9 @@ import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
 import com.example.tonwalletapp.domain.model.TransactionDetail
 import com.example.tonwalletapp.until.Constants.IN_TRANSACTION
 import com.example.tonwalletapp.until.Constants.OUT_TRANSACTION
+import com.example.tonwalletapp.until.Constants.STATUS_TRANSACTION_DENIED
+import com.example.tonwalletapp.until.Constants.STATUS_TRANSACTION_PROCESSING
+import com.example.tonwalletapp.until.Constants.STATUS_TRANSACTION_SUCCESS
 import com.example.tonwalletapp.until.OpCodes
 import org.ton.bitstring.BitString
 import org.ton.block.AccountStatus
@@ -67,7 +70,8 @@ fun TransactionDetailTon.toTransactionDetail():TransactionDetail{
          senderAddr = senderAddr,
          comment = message,
          storageFee = storageFee!!.toFloat() / 1000000000,
-         transactionType = if(inMsg == null) OUT_TRANSACTION else IN_TRANSACTION
+         transactionType = if(inMsg == null) OUT_TRANSACTION else IN_TRANSACTION,
+         status = if(actionSucceed == null) STATUS_TRANSACTION_PROCESSING else if(actionSucceed) STATUS_TRANSACTION_SUCCESS else STATUS_TRANSACTION_DENIED
     )
 }
 

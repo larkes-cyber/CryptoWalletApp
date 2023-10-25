@@ -1,4 +1,4 @@
-package com.example.tonwalletapp.data.remote.ton
+package com.example.tonwalletapp.data.remote.ton_lite_client
 
 import com.example.tonwalletapp.until.Constants.TON_GLOBAL_CONFIG_URL
 import io.ktor.client.HttpClient
