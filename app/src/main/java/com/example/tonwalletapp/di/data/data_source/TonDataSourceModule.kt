@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.di.data.data_source
 
+import com.example.tonwalletapp.data.remote.TonClient
 import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
 import com.example.tonwalletapp.data.user_data_source.UserTonDataSource
 import com.example.tonwalletapp.data.user_data_source.UserTonDataSourceImpl
@@ -17,9 +18,9 @@ object TonDataSourceModule {
     @Singleton
     @Provides
     fun provideWalletTonDataSource(
-        tonLiteClient: TonLiteClient
+        tonClient: TonClient
     ): WalletTonDataSource = WalletTonDataSourceImpl(
-        tonLiteClient = tonLiteClient
+        tonClient = tonClient
     )
 
     @Provides

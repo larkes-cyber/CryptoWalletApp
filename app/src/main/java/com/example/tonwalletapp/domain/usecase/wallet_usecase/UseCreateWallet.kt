@@ -5,19 +5,18 @@ import com.example.tonwalletapp.until.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class UseGetSecretWords(
+class UseCreateWallet(
     private val walletRepository: WalletRepository
 ) {
 
-    operator fun invoke():Flow<Resource<List<String>>> = flow {
+    operator fun invoke(): Flow<Resource<String>> = flow {
         emit(Resource.Loading())
         try {
-            val words = walletRepository.getSecretWords()
-            emit(Resource.Success(words))
+            walletRepository.createWallet()
+            emit(Resource.Success(""))
         }catch (e:Exception){
-            emit(Resource.Error(e.message!!))
+            emit(Resource.Error(""))
         }
-
     }
 
 }

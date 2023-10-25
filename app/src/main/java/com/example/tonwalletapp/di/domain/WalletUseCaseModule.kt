@@ -12,40 +12,26 @@ import dagger.hilt.components.SingletonComponent
 object WalletUseCaseModule {
 
     @Provides
-    fun provideUseGetSecretWords(
-        walletRepository:WalletRepository
-    ):UseGetSecretWords{
-        return UseGetSecretWords(walletRepository = walletRepository)
+    fun provideUseCreateWallet(walletRepository:WalletRepository):UseCreateWallet{
+        return UseCreateWallet(
+            walletRepository = walletRepository
+        )
     }
-
-
     @Provides
-    fun provideUseSetupWalletWallet(
-        walletRepository: WalletRepository
-    ):UseSetupWallet{
-        return UseSetupWallet(walletRepository = walletRepository)
+    fun provideUseGetFirstWalletWords(walletRepository: WalletRepository):UseGetFirstWalletWords{
+        return UseGetFirstWalletWords(walletRepository)
     }
-
-
     @Provides
-    fun provideUseGetWallets(
-        walletRepository: WalletRepository
-    ):UseGetAllWallets{
-        return UseGetAllWallets(walletRepository)
+    fun provideUseGetWalletInfo(walletRepository: WalletRepository):UseGetWalletInfo{
+        return UseGetWalletInfo(walletRepository)
+    }
+    @Provides
+    fun provideUseImportWallet(walletRepository: WalletRepository):UseImportWallet{
+        return UseImportWallet(walletRepository)
     }
 
     @Provides
-    fun provideUseGetAllWalletsId(
-        walletRepository: WalletRepository
-    ):UseGetAllWalletsId{
-        return UseGetAllWalletsId(walletRepository = walletRepository)
+    fun provideUseGetWallets(walletRepository: WalletRepository):UseGetWallets{
+        return UseGetWallets(walletRepository)
     }
-
-    @Provides
-    fun provideUseGetWalletDetailInfo(
-        walletRepository: WalletRepository
-    ):UseGetWalletDetailInfo{
-        return UseGetWalletDetailInfo(walletRepository = walletRepository)
-    }
-
 }

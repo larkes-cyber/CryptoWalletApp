@@ -5,21 +5,18 @@ import com.example.tonwalletapp.until.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class UseGetAllWalletsId(
+class UseImportWallet(
     private val walletRepository: WalletRepository
 ) {
 
-    operator fun invoke(): Flow<Resource<List<String>>> = flow {
-
+    operator fun invoke(words:List<String>): Flow<Resource<String>> = flow {
         emit(Resource.Loading())
-
         try {
-            val wallets = walletRepository.getAllWallets().map { it.id }
-            emit(Resource.Success(wallets))
+            walletRepository.importWallet(words)
+            emit(Resource.Success(""))
         }catch (e:Exception){
-            emit(Resource.Error(e.message!!))
+            emit(Resource.Error(""))
         }
-
     }
 
 }

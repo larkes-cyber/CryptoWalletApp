@@ -11,5 +11,5 @@ data class WalletEntity(
     val name:String,
     val words:String,
     val address:String,
-    val initialized:Boolean
+    var initialized:Boolean
 )

@@ -9,5 +9,5 @@ data class WalletTon(
     val privateKey: PrivateKeyEd25519,
     val address:String,
     val words:List<String>,
-    val initialized: Boolean
+    var initialized: Boolean
 )

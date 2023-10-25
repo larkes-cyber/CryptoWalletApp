@@ -41,7 +41,7 @@ fun WalletTon.toWallet():Wallet{
         privateKey = privateKey,
         address = address,
         words = words,
-        initialized = false
+        initialized = initialized
     )
 }
 
@@ -60,7 +60,6 @@ fun WalletTon.toWalletEntity():WalletEntity{
 }
 
 fun List<String>.toWordsString():String{
-    Log.d("dfvcderfgfdf", this.toString())
     return this.joinToString(",")
 }
 

@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.data.remote.wallet
 
+import android.util.Log
 import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
 import com.example.tonwalletapp.data.remote.model.WalletTon
 import com.example.tonwalletapp.data.remote.state.TonStateModule
@@ -7,6 +8,7 @@ import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
 import com.example.tonwalletapp.domain.mapper.mapTx
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.api.pub.PublicKeyEd25519
+import org.ton.block.AccountInfo
 import org.ton.block.AddrStd
 import org.ton.block.MsgAddressInt
 import org.ton.block.VmStack
@@ -48,8 +50,16 @@ class TonWalletModuleImpl(
         }
     }
 
-    override suspend fun getWalletBalance(address: String): Float {
-       return 0f
+    override suspend fun getWalletBalance(address: String): Float? {
+        return try {
+            val account = liteClient.getAccountState(AddrStd(address)).account.value
+            val info = account as AccountInfo
+
+            info.storage.balance.coins.amount.toFloat()
+        }catch (e:Exception){
+            Log.d("dsfsdfsdfsdffsd",e.message.toString())
+            null
+        }
     }
 
 

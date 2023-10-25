@@ -1,7 +1,7 @@
 package com.example.tonwalletapp.di.data.ton
 
-import com.example.tonwalletapp.data.remote.TonModule
-import com.example.tonwalletapp.data.remote.TonModuleImpl
+import com.example.tonwalletapp.data.remote.TonClient
+import com.example.tonwalletapp.data.remote.TonClientImpl
 import com.example.tonwalletapp.data.remote.state.TonStateModule
 import com.example.tonwalletapp.data.remote.state.TonStateModuleImpl
 import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
@@ -19,7 +19,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object TonDepModule {
+object TonModule {
 
     @Singleton
     @Provides
@@ -65,12 +65,12 @@ object TonDepModule {
 
     @Singleton
     @Provides
-    fun provideTonModule(
+    fun provideTonСlient(
         tonWalletModule: TonWalletModule,
         tonStateModule: TonStateModule,
         tonTransferModule: TonTransferModule
-    ):TonModule{
-        return TonModuleImpl(
+    ):TonClient{
+        return TonClientImpl(
             tonWalletModule = tonWalletModule,
             tonStateModule = tonStateModule,
             tonTransferModule = tonTransferModule

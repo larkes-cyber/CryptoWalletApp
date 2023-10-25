@@ -2,14 +2,11 @@ package com.example.tonwalletapp.presentation.screen.main_wallet_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tonwalletapp.domain.usecase.user_usecase.UseInitializeTonLiteClient
-import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetAllWalletsId
-import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWalletDetailInfo
+import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWalletInfo
+import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWallets
 import com.example.tonwalletapp.until.Constants.IS_NOT_AUTHORIZED
 import com.example.tonwalletapp.until.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -18,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainWalletViewModel @Inject constructor(
-    private val useGetAllWalletsId: UseGetAllWalletsId,
-    private val useGetWalletDetailInfo: UseGetWalletDetailInfo
+    private val useGetWallets: UseGetWallets,
+    private val useGetWalletInfo: UseGetWalletInfo
 ):ViewModel() {
 
     private val _walletUIState = MutableStateFlow(WalletUIState())
@@ -30,7 +27,7 @@ class MainWalletViewModel @Inject constructor(
     }
 
     private fun setupMainWallet(){
-        useGetAllWalletsId.invoke().onEach {res ->
+        useGetWallets.invoke().onEach {res ->
             when(res){
                 is Resource.Loading -> {
                     _walletUIState.value = WalletUIState(isLoading = true)
@@ -40,7 +37,7 @@ class MainWalletViewModel @Inject constructor(
                     if(res.data!!.isEmpty()){
                         _walletUIState.value = WalletUIState(authStatus = IS_NOT_AUTHORIZED)
                     }else{
-                        getWalletDetailInfo(wallets!![0])
+                        getWalletDetailInfo(wallets!![0].address)
                     }
                 }
                 is Resource.Error -> {
@@ -51,7 +48,7 @@ class MainWalletViewModel @Inject constructor(
     }
 
     private fun getWalletDetailInfo(id:String){
-        useGetWalletDetailInfo.invoke(id).onEach {res ->
+        useGetWalletInfo.invoke(id).onEach {res ->
             when(res){
                 is Resource.Loading -> {
                     _walletUIState.value = WalletUIState(isLoading = true)

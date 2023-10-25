@@ -1,17 +1,16 @@
 package com.example.tonwalletapp.data.remote
 
-import com.example.tonwalletapp.data.database.entity.WalletEntity
 import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
 import com.example.tonwalletapp.data.remote.model.WalletTon
 import com.example.tonwalletapp.data.remote.state.TonStateModule
 import com.example.tonwalletapp.data.remote.transfer.TonTransferModule
 import com.example.tonwalletapp.data.remote.wallet.TonWalletModule
 
-class TonModuleImpl(
+class TonClientImpl(
     private val tonStateModule: TonStateModule,
     private val tonTransferModule: TonTransferModule,
     private val tonWalletModule: TonWalletModule
-):TonModule {
+):TonClient {
     override suspend fun makeTransfer(walletTon: WalletTon, address: String, amount:Double) {
         if(!walletTon.initialized){
             tonTransferModule.makeWalletInitTransfer(walletTon, address)
@@ -27,8 +26,8 @@ class TonModuleImpl(
         return tonWalletModule.getTransactionList(address)
     }
 
-    override suspend fun getWalletBalance(address: String): Float {
-        TODO("Not yet implemented")
+    override suspend fun getWalletBalance(address: String): Float? {
+        return tonWalletModule.getWalletBalance(address)
     }
 
 

@@ -10,6 +10,6 @@ interface TonWalletModule {
     suspend fun getSeqno(address:String):Int?
     suspend fun getWalletAddress(publicKeyEd25519: PublicKeyEd25519):String
     suspend fun getTransactionList(address: String):List<TransactionDetailTon>
-    suspend fun getWalletBalance(address: String):Float
+    suspend fun getWalletBalance(address: String):Float?
 
 }

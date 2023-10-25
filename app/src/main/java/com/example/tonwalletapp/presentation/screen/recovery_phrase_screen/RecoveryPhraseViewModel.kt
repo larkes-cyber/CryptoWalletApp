@@ -2,7 +2,7 @@ package com.example.tonwalletapp.presentation.screen.recovery_phrase_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetSecretWords
+import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetFirstWalletWords
 import com.example.tonwalletapp.until.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecoveryPhraseViewModel @Inject constructor(
-    private val useGetSecretWords: UseGetSecretWords
+    private val useGetFirstWalletWords: UseGetFirstWalletWords
 ):ViewModel() {
 
     private val _phraseWordsUIState = MutableStateFlow(PhraseWordsUIState())
@@ -30,7 +30,7 @@ class RecoveryPhraseViewModel @Inject constructor(
     }
 
     private fun fetchWords(){
-        useGetSecretWords.invoke().onEach { res ->
+        useGetFirstWalletWords.invoke().onEach { res ->
             when(res){
                 is Resource.Loading -> {
                     _phraseWordsUIState.value = PhraseWordsUIState(isLoading = true)

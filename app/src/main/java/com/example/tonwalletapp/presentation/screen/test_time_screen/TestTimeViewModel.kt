@@ -2,19 +2,18 @@ package com.example.tonwalletapp.presentation.screen.test_time_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetSecretWords
+import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetFirstWalletWords
 import com.example.tonwalletapp.until.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TestTimeViewModel @Inject constructor(
-    private val useGetSecretWords: UseGetSecretWords
+    private val useGetFirstWalletWords: UseGetFirstWalletWords
 ):ViewModel() {
 
     private val _testTimeUIState = MutableStateFlow(TestTimeUIState())
@@ -24,7 +23,7 @@ class TestTimeViewModel @Inject constructor(
     val hasBeenDoneUIState:StateFlow<Boolean> = _hasBeenDoneUIState
 
     init {
-        useGetSecretWords.invoke().onEach {res ->
+        useGetFirstWalletWords.invoke().onEach {res ->
             when(res){
                 is Resource.Success -> {
                     val shuffledWords = res.data!!.mapIndexed { index, item ->
