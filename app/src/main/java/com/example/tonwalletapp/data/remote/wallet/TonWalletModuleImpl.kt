@@ -2,7 +2,9 @@ package com.example.tonwalletapp.data.remote.wallet
 
 import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
 import com.example.tonwalletapp.data.remote.model.WalletTon
+import com.example.tonwalletapp.data.remote.state.TonStateModule
 import com.example.tonwalletapp.data.remote.ton.TonLiteClientFactory
+import com.example.tonwalletapp.domain.mapper.mapTx
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.api.pub.PublicKeyEd25519
 import org.ton.block.AddrStd
@@ -22,6 +24,7 @@ import org.ton.lite.api.liteserver.functions.LiteServerRunSmcMethod
 import org.ton.mnemonic.Mnemonic
 
 class TonWalletModuleImpl(
+    private val tonStateModule: TonStateModule,
     private val tonLiteClientFactory: TonLiteClientFactory
 ):TonWalletModule {
 
@@ -53,33 +56,17 @@ class TonWalletModuleImpl(
         )
     }
 
-    override suspend fun getTransactionList(address: AddrStd, lt:Long, hash:ByteArray): List<TransactionDetailTon> {
-        val liteClient = tonLiteClientFactory.getLiteClient()
-        liteClient.liteApi.invoke(LiteServerGetTransactions(10, LiteServerAccountId(0, address.address),lt, hash ))
-    }
-//.lookupBlockByLt(accountState.shard_blk, getLastTransactionLt(address))
-    private suspend fun getLastTransactionLtHash(address: AddrStd) : Pair<Long, ByteArray>? {
-        val account = LiteServerAccountId(0, address.address)
-        val lastBlockId = liteClient.getLastBlockId()
-        val accountState = liteClient.liteApi.invoke(LiteServerGetAccountState(lastBlockId, account))
-        val trBlockHeader = liteClient.liteApi.invoke(LiteServerLookupBlock(mode = 4, id = lastBlockId, lt = getLastTransactionLt(address.toString(userFriendly = true)), utime = 0))
-        val trBlock = liteClient.liteApi(LiteServerGetBlock(trBlockHeader.id))
-        val accountBlocks = trBlock.data.get()
-        for (node in accountBlocks.nodes()) {
-            if (node.first.account_addr == account.toMsgAddressIntStd().address) {
-                val blocks = node.first.transactions
-                for (tr in blocks.nodes()) {
-                    return Pair(tr.first.lt.toLong(), tr.first.hash())
-                }
-            }
-        }
-        return null
-    }
 
-    private suspend fun getLastTransactionLt(address: String) : Long {
-        val accountInfo = liteClient.getAccount(address)
-        val lastTransTt = accountInfo?.storage?.lastTransLt
-        return lastTransTt?.toLong() ?: 0
+    override suspend fun getTransactionList(address: String): List<TransactionDetailTon> {
+
+        val account = tonStateModule.getAccountState(address)
+        return liteClient.getTransactions(
+            accountAddress =AddrStd(address),
+            fromTransactionId = account.lastTransactionId!!,
+            count = 10
+        ).map {
+            mapTx(it.transaction.value, it.blockId.seqno, it.blockId.workchain)
+        }
     }
 
 

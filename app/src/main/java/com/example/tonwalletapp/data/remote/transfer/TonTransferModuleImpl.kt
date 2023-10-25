@@ -144,7 +144,7 @@ class TonTransferModuleImpl(
                 storeRef(MessageRelaxed.tlbCodec(AnyTlbConstructor), intMsg)
             }
         }
-        val signature = BitString(privateKey.sign(unsignedBody.hash()))
+        val signature = BitString(privateKey.sign(unsignedBody.hash().toByteArray()))
 
         return CellBuilder.createCell {
             storeBits(signature)

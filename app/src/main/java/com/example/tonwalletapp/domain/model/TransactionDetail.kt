@@ -1,11 +1,15 @@
 package com.example.tonwalletapp.domain.model
 
-import java.time.LocalDate
 
 data class TransactionDetail(
-    val fromWalletAddress:String,
     val amount:Float,
     val fee:Float,
     val message:String,
-    val time:LocalDate
+    val time:String,
+    val recipientAddr:String?,
+    val senderAddr:String?,
+    val comment:String?,
+    val storageFee:Float,
+    val transactionType:String,
+    val status:String
 )
