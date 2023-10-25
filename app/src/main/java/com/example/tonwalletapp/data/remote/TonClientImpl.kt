@@ -5,6 +5,11 @@ import com.example.tonwalletapp.data.remote.model.WalletTon
 import com.example.tonwalletapp.data.remote.state.TonStateModule
 import com.example.tonwalletapp.data.remote.transfer.TonTransferModule
 import com.example.tonwalletapp.data.remote.wallet.TonWalletModule
+import org.ton.api.pk.PrivateKeyEd25519
+import org.ton.block.AddrStd
+import org.ton.block.StateInit
+import org.ton.cell.buildCell
+import org.ton.tlb.storeTlb
 
 class TonClientImpl(
     private val tonStateModule: TonStateModule,
@@ -28,6 +33,10 @@ class TonClientImpl(
 
     override suspend fun getWalletBalance(address: String): Float? {
         return tonWalletModule.getWalletBalance(address)
+    }
+
+    override suspend fun getWalletAddress(privateKeyEd25519: PrivateKeyEd25519): String {
+        return AddrStd(0, buildCell { storeTlb(StateInit, tonStateModule.createStateInit(privateKeyEd25519)) }.hash()).toString(userFriendly = true)
     }
 
 

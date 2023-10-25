@@ -6,6 +6,16 @@ import com.example.tonwalletapp.data.remote.model.WalletTon
 import com.example.tonwalletapp.data.remote.state.TonStateModule
 import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
 import com.example.tonwalletapp.domain.mapper.mapTx
+import com.example.tonwalletapp.until.Constants
+import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.job
+import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import org.ton.api.liteclient.config.LiteClientConfigGlobal
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.api.pub.PublicKeyEd25519
 import org.ton.block.AccountInfo
@@ -18,7 +28,9 @@ import org.ton.contract.wallet.WalletV4R2Contract
 import org.ton.lite.api.liteserver.LiteServerAccountId
 import org.ton.lite.api.liteserver.functions.LiteServerGetMasterchainInfo
 import org.ton.lite.api.liteserver.functions.LiteServerRunSmcMethod
+import org.ton.lite.client.LiteClient
 import org.ton.mnemonic.Mnemonic
+import java.net.URL
 
 class TonWalletModuleImpl(
     private val tonStateModule: TonStateModule,
@@ -51,11 +63,21 @@ class TonWalletModuleImpl(
     }
 
     override suspend fun getWalletBalance(address: String): Float? {
+        Log.d("dsfsdfsdfsdffsd", address)
         return try {
-            val account = liteClient.getAccountState(AddrStd(address)).account.value
-            val info = account as AccountInfo
+            val jon = CoroutineScope(Dispatchers.IO).launch {
+                val response = URL(Constants.TON_GLOBAL_CONFIG_URL).readText()
+                val liteClientConfig = Json{ ignoreUnknownKeys = true }.decodeFromString<LiteClientConfigGlobal>(response)
+                val liteClienttt = LiteClient(this.coroutineContext, liteClientConfigGlobal = liteClientConfig)
 
-            info.storage.balance.coins.amount.toFloat()
+                val account = liteClienttt.getAccountState(AddrStd(address)).account.value
+                val info = account as AccountInfo
+
+                Log.d("sfsdfsdfsdfsdfsdf",info.storage.balance.coins.amount.value.toFloat().toString())
+            }
+            jon.join()
+            0f
+
         }catch (e:Exception){
             Log.d("dsfsdfsdfsdffsd",e.message.toString())
             null

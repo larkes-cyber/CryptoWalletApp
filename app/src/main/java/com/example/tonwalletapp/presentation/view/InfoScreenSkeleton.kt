@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
@@ -35,6 +36,7 @@ fun InfoScreenSkeleton(
     optionalBtnTitle:String = "",
     visibleBtn:Boolean = false,
     visibleOptionalBtn:Boolean = false,
+    error:String = "",
     onBtnClick:() -> Unit = {},
     onOptionBtnClick:() -> Unit = {},
     body:@Composable ()() -> Unit = {}
@@ -70,6 +72,10 @@ fun InfoScreenSkeleton(
         )
 
         body()
+
+        if(error.isNotEmpty()){
+            Text(text = error, fontSize = 12.sp, color = Color.Red)
+        }
 
         if(visibleBtn) {
             PrimaryButtonApp(

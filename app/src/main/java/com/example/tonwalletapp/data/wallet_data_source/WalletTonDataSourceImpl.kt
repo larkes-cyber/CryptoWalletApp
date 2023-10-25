@@ -1,13 +1,20 @@
 package com.example.tonwalletapp.data.wallet_data_source
 
+import android.util.Log
 import com.example.tonwalletapp.data.remote.TonClient
 import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
 import com.example.tonwalletapp.data.remote.model.WalletTon
+import com.example.tonwalletapp.data.remote.state.TonStateModule
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.api.pub.PublicKeyEd25519
+import org.ton.bitstring.BitString
+import org.ton.block.AddrStd
 import org.ton.block.MsgAddressInt
+import org.ton.block.StateInit
+import org.ton.cell.buildCell
 import org.ton.contract.wallet.WalletV4R2Contract
 import org.ton.mnemonic.Mnemonic
+import org.ton.tlb.storeTlb
 
 class WalletTonDataSourceImpl(
     private val tonClient: TonClient
@@ -20,8 +27,9 @@ class WalletTonDataSourceImpl(
         val seedPhrase = Mnemonic.toSeed(words)
         val privateKey = PrivateKeyEd25519.of(seedPhrase)
         val publicKey = PublicKeyEd25519(privateKey)
-        val walletContract = WalletV4R2Contract(0, publicKey)
-        val address = MsgAddressInt.toString(walletContract.address)
+        val address = tonClient.getWalletAddress(privateKey)
+        Log.d("sdfsfsdfsdfsdf", address)
+        Log.d("sdfsfsdfsdfsdf", words.toString())
 
         val init = tonClient.getWalletBalance(address) != null
 
@@ -46,5 +54,6 @@ class WalletTonDataSourceImpl(
     override suspend fun getWalletBalance(address: String): Float? {
         return tonClient.getWalletBalance(address)
     }
+
 
 }

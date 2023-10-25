@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -38,6 +39,7 @@ fun PhraseWordTextField(
     rangePlace:Int = 0,
     word:String = "",
     onNextClick:() -> Unit = {},
+    onWrongValueChange:(Boolean) -> Unit = {},
     onWordChange:(String) -> Unit
     ) {
 
@@ -47,6 +49,10 @@ fun PhraseWordTextField(
 
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val focusRequester = remember { FocusRequester() }
+
+    val wrongValue = rememberSaveable {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(focused){
         if(focused){
@@ -69,8 +75,10 @@ fun PhraseWordTextField(
             )
             BasicTextField(
                 value = word,
-                onValueChange = {
-                    onWordChange(it)
+                onValueChange = {value ->
+                    onWordChange(value)
+                    onWrongValueChange(value.any { it.isWhitespace() })
+                    wrongValue.value = value.any { it.isWhitespace() }
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
@@ -96,7 +104,7 @@ fun PhraseWordTextField(
             modifier = Modifier
                 .height(1.dp)
                 .fillMaxWidth()
-                .background(if (isFormFocused.value) AppTheme.colors.primaryBackground else AppTheme.colors.strokeFormColor)
+                .background(if(wrongValue.value) Color.Red else if (isFormFocused.value) AppTheme.colors.primaryBackground else AppTheme.colors.strokeFormColor)
                 .align(Alignment.BottomEnd)
         )
     }

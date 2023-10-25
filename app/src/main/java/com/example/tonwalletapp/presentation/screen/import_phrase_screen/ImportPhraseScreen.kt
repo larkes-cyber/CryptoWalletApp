@@ -79,6 +79,7 @@ fun ImportPhraseScreen(
                     title = ImportPhraseTitle,
                     subtitle = ImportPhraseText,
                     btnTitle = ContinueBtnTitle,
+                    error = walletUIState.error,
                     visibleBtn = true,
                     onBtnClick = {
                         viewModel.onFinish()
@@ -105,6 +106,12 @@ fun ImportPhraseScreen(
                                     },
                                     onNextClick = {
                                         viewModel.onCurrentPosition(position + 1)
+                                    },
+                                    onWrongValueChange = {
+                                        viewModel.onWrongValueError(
+                                            num = position,
+                                            bool = it
+                                        )
                                     }
                                 )
                             }

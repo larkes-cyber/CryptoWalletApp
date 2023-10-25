@@ -1,6 +1,7 @@
 package com.example.tonwalletapp.di.data.data_source
 
 import com.example.tonwalletapp.data.remote.TonClient
+import com.example.tonwalletapp.data.remote.state.TonStateModule
 import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
 import com.example.tonwalletapp.data.user_data_source.UserTonDataSource
 import com.example.tonwalletapp.data.user_data_source.UserTonDataSourceImpl
