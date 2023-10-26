@@ -39,7 +39,7 @@ class WalletRepositoryImpl(
         return walletDiskDataSource.getWallets()
     }
 
-    override suspend fun getWalletTransactions(address: String): List<TransactionDetailTon> {
+    override suspend fun getWalletTransactions(address: String): List<TransactionDetailTon>? {
         return walletTonDataSource.getWalletTransactions(address)
     }
 

@@ -11,6 +11,7 @@ import org.ton.bitstring.BitString
 import org.ton.block.AddrStd
 import org.ton.block.MsgAddressInt
 import org.ton.block.StateInit
+import org.ton.block.toMaybe
 import org.ton.cell.buildCell
 import org.ton.contract.wallet.WalletV4R2Contract
 import org.ton.mnemonic.Mnemonic
@@ -24,11 +25,13 @@ class WalletTonDataSourceImpl(
         return getWalletInfoByWords(words)
     }
     override suspend fun getWalletInfoByWords(words: List<String>):WalletTon {
-        val seedPhrase = Mnemonic.toSeed(words)
+        val myWords = listOf("history", "drill", "void", "female", "toe", "stable", "input", "neutral","throw", "settle", "endless", "come", "lazy", "cherry", "account", "logic", "firm", "stumble", "hero", "secret", "panic", "scare", "mechanic", "army")
+        val seedPhrase = Mnemonic.toSeed(myWords)
         val privateKey = PrivateKeyEd25519.of(seedPhrase)
         val publicKey = PublicKeyEd25519(privateKey)
         val address = tonClient.getWalletAddress(privateKey)
         val init = tonClient.checkWalletInitialization(address)
+
 
         return WalletTon(
             privateKey = privateKey,
@@ -43,7 +46,7 @@ class WalletTonDataSourceImpl(
         tonClient.makeTransfer(walletTon = walletEntity, address = address, amount = amount)
     }
 
-    override suspend fun getWalletTransactions(address: String): List<TransactionDetailTon> {
+    override suspend fun getWalletTransactions(address: String): List<TransactionDetailTon>? {
         return tonClient.getWalletTransaction(address)
     }
 

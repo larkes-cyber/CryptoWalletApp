@@ -6,6 +6,7 @@ import com.example.tonwalletapp.data.remote.model.TonTxMsg
 import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
 import com.example.tonwalletapp.domain.model.TransactionDetail
 import com.example.tonwalletapp.until.Constants.IN_TRANSACTION
+import com.example.tonwalletapp.until.Constants.NANO_NUM
 import com.example.tonwalletapp.until.Constants.OUT_TRANSACTION
 import com.example.tonwalletapp.until.Constants.STATUS_TRANSACTION_DENIED
 import com.example.tonwalletapp.until.Constants.STATUS_TRANSACTION_PROCESSING
@@ -47,29 +48,29 @@ fun TransactionDetailTon.toTransactionDetail():TransactionDetail{
     var senderAddr = ""
     var recipientAddr = ""
     var amount:Float = 0f
-    var message:String = ""
+    var message:String? = null
 
     if(inMsg != null){
         senderAddr = inMsg.source!!
         recipientAddr = inMsg.destination!!
-        amount = inMsg.value.toFloat() / 1000000000
-        message = inMsg.comment!!
+        amount = inMsg.value.toFloat() / NANO_NUM
+        message = inMsg.comment
     }else{
         senderAddr = outMsg[0].source!!
         recipientAddr = outMsg[0].destination!!
-        amount = outMsg[0].value.toFloat() / 1000000000
-        message = outMsg[0].comment!!
+        amount = outMsg[0].value.toFloat() / NANO_NUM
+        message = outMsg[0].comment
     }
 
     return TransactionDetail(
          time = getDateTime(created)!!,
          amount = amount,
-         fee = gasFee.toFloat() / 1000000000,
+         fee = gasFee.toFloat() / NANO_NUM,
          message = message,
          recipientAddr = recipientAddr,
          senderAddr = senderAddr,
          comment = message,
-         storageFee = storageFee!!.toFloat() / 1000000000,
+         storageFee = storageFee!!.toFloat() / NANO_NUM,
          transactionType = if(inMsg == null) OUT_TRANSACTION else IN_TRANSACTION,
          status = if(actionSucceed == null) STATUS_TRANSACTION_PROCESSING else if(actionSucceed) STATUS_TRANSACTION_SUCCESS else STATUS_TRANSACTION_DENIED
     )

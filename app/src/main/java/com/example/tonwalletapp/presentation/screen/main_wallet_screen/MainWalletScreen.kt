@@ -29,12 +29,12 @@ fun MainWalletScreen(
     val walletUIState by viewModel.walletUIState.collectAsState()
 
     LaunchedEffect(walletUIState){
+        println(walletUIState.walletDetail)
         if(walletUIState.authStatus == IS_NOT_AUTHORIZED){
             navController.navigate(Screen.StartScreen.route)
         }
     }
 
-    Log.d("wallet_detail_data", walletUIState.walletDetail.toString())
 
     val scaffoldState = rememberBottomSheetScaffoldState()
 

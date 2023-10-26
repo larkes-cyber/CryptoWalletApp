@@ -20,6 +20,6 @@ import org.ton.lite.client.internal.FullAccountState
 interface TonStateModule {
 
     fun createStateInit(privateKeyEd25519: PrivateKeyEd25519): StateInit
-    suspend fun getAccountState(address:String): FullAccountState
+    suspend fun getAccountState(address:String): FullAccountState?
 
 }

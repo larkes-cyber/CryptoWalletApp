@@ -24,7 +24,7 @@ class TonClientImpl(
         )
     }
 
-    override suspend fun getWalletTransaction(address: String):List<TransactionDetailTon> {
+    override suspend fun getWalletTransaction(address: String):List<TransactionDetailTon>? {
         return tonWalletModule.getTransactionList(address)
     }
 

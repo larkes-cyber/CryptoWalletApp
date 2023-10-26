@@ -6,9 +6,11 @@ import com.example.tonwalletapp.data.remote.state.TonStateModule
 import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
 import com.example.tonwalletapp.domain.mapper.mapTx
 import com.example.tonwalletapp.until.Constants
+import com.example.tonwalletapp.until.Constants.NANO_NUM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.ton.api.liteclient.config.LiteClientConfigGlobal
@@ -25,6 +27,7 @@ import org.ton.lite.api.liteserver.functions.LiteServerGetMasterchainInfo
 import org.ton.lite.api.liteserver.functions.LiteServerRunSmcMethod
 import org.ton.lite.client.LiteClient
 import java.net.URL
+import kotlin.coroutines.suspendCoroutine
 
 class TonWalletModuleImpl(
     private val tonStateModule: TonStateModule,
@@ -44,51 +47,39 @@ class TonWalletModuleImpl(
     }
 
 
-    override suspend fun getTransactionList(address: String): List<TransactionDetailTon> {
+    override suspend fun getTransactionList(address: String): List<TransactionDetailTon>? {
         val account = tonStateModule.getAccountState(address)
         var txt:List<TransactionDetailTon>? = null
-        val job = CoroutineScope(Dispatchers.IO).launch {
-            val liteClient = LiteClient(this.coroutineContext, liteClientConfig)
-            txt = liteClient.getTransactions(
-                accountAddress =AddrStd(address),
-                fromTransactionId = account.lastTransactionId!!,
-                count = 10
-            ).map {
-                mapTx(it.transaction.value, it.blockId.seqno, it.blockId.workchain)
+        if(account != null) {
+            val job = CoroutineScope(Dispatchers.IO).launch {
+                val liteClient = LiteClient(this.coroutineContext, liteClientConfig)
+                txt = liteClient.getTransactions(
+                    accountAddress = AddrStd(address),
+                    fromTransactionId = account.lastTransactionId!!,
+                    count = 10
+                ).map {
+                    mapTx(it.transaction.value, it.blockId.seqno, it.blockId.workchain)
+                }
             }
+            job.join()
         }
-        job.join()
-        return txt!!
+        return txt
     }
 
     override suspend fun getWalletBalance(address: String): Float? {
+        val accountState = tonStateModule.getAccountState(address) ?: return null
 
-        var balance:Float? = null
+        val info = accountState.account.value as AccountInfo
+        val balance = info.storage.balance.coins.amount.value.toFloat()
 
-        return try {
-            val jon = CoroutineScope(Dispatchers.IO).launch {
-                val liteClient = LiteClient(this.coroutineContext, liteClientConfigGlobal = liteClientConfig)
-                val account = liteClient.getAccountState(AddrStd(address)).account.value
-                val info = account as AccountInfo
-                balance = info.storage.balance.coins.amount.value.toFloat()
-            }
-            jon.join()
-            balance
+        return balance / NANO_NUM
 
-        }catch (e:Exception){
-            null
-        }
     }
 
     override suspend fun checkWalletInitialization(address: String): Boolean {
-        return try {
-//            val state = tonStateModule.getAccountState(address).account.value as AccountInfo
-//            val init = state.isUninit
-//            !init
-            true
-        }catch (e:java.lang.Exception){
-            false
-        }
+        val state = tonStateModule.getAccountState(address) ?: return false
+        val accountInfo = state.account.value as AccountInfo
+        return !accountInfo.isUninit
     }
 
 

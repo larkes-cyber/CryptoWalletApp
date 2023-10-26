@@ -15,20 +15,27 @@ class UseGetWalletInfo(
         emit(Resource.Loading())
         try {
             val wallet = walletRepository.getWalletByAddress(address)
+            println(wallet)
             val balance = walletRepository.getWalletBalance(address)
+            println(balance)
             val txt = walletRepository.getWalletTransactions(address)
+            println(txt)
 
             val walletDetail = WalletDetail(
                 address = wallet.address,
                 name = wallet.name,
                 balance = balance ?: 0f,
-                transactions = txt.map { it.toTransactionDetail() },
+                transactions = txt?.map {
+                println(it)
+                    it.toTransactionDetail()
+                                        },
                 initialized = wallet.initialized
             )
 
             emit(Resource.Success(walletDetail))
 
         }catch (e:Exception){
+            println(e)
             emit(Resource.Error(e.message!!))
 
         }

@@ -30,14 +30,17 @@ class TonStateModuleImpl(
         )
     }
 
-    override suspend fun getAccountState(address: String): FullAccountState {
+    override suspend fun getAccountState(address: String): FullAccountState? {
         var accountState:FullAccountState? = null
         val job = CoroutineScope(Dispatchers.IO).launch {
-            val liteClient = LiteClient(this.coroutineContext, liteClientConfig)
-            accountState = liteClient.getAccountState(AddrStd(address))
+            try {
+                val liteClient = LiteClient(this.coroutineContext, liteClientConfig)
+                accountState = liteClient.getAccountState(AddrStd(address))
+            }catch (_:Exception){
+            }
         }
         job.join()
-        return accountState!!
+        return accountState
     }
 
     private fun createDataInit(

@@ -5,6 +5,6 @@ data class WalletDetail(
     val address:String,
     val name:String,
     val balance:Float,
-    val transactions:List<TransactionDetail> = listOf(),
+    val transactions:List<TransactionDetail>? = null,
     val initialized:Boolean
 )

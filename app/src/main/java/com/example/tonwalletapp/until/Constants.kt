@@ -71,6 +71,8 @@ object Constants {
     const val STATUS_TRANSACTION_PROCESSING = "processing"
     const val STATUS_TRANSACTION_DENIED = "denied"
 
+    const val NANO_NUM = 1000000000
+
 }
 
 object OpCodes {
