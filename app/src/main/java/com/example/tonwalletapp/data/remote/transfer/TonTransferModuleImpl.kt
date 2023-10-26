@@ -4,6 +4,9 @@ import com.example.tonwalletapp.data.remote.model.WalletTon
 import com.example.tonwalletapp.data.remote.state.TonStateModule
 import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
 import com.example.tonwalletapp.data.remote.wallet.TonWalletModule
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.bitstring.BitString
 import org.ton.block.AddrNone
@@ -24,6 +27,7 @@ import org.ton.cell.buildCell
 import org.ton.contract.wallet.WalletContract
 import org.ton.contract.wallet.WalletTransfer
 import org.ton.lite.api.liteserver.functions.LiteServerSendMessage
+import org.ton.lite.client.LiteClient
 import org.ton.tlb.CellRef
 import org.ton.tlb.constructor.AnyTlbConstructor
 import org.ton.tlb.storeRef
@@ -35,30 +39,19 @@ class TonTransferModuleImpl(
     private val liteClientFactory: TonLiteClientFactory
 ):TonTransferModule {
 
+    private val liteClientConfig = liteClientFactory.getLiteClientConfig()
 
     override suspend fun makeTransfer(walletTon: WalletTon, amount: Double, address: String) {
+
+        val checkWalletInit = tonWalletModule.checkWalletInitialization(address)
         createTransfer(
-            stateInit = null,
+            stateInit = if(checkWalletInit) null else tonStateModule.createStateInit(walletTon.privateKey),
             privateKey = walletTon.privateKey,
             seqno = tonWalletModule.getSeqno(walletTon.address)!!,
             address = AddrStd(walletTon.address),
             transfers = listOf(Pair(address, amount.toNano())).toWalletTransfer().toTypedArray()
         )
     }
-
-    override suspend fun makeWalletInitTransfer(walletTon: WalletTon, address: String) {
-        val state = tonStateModule.createStateInit(walletTon.privateKey)
-
-        createTransfer(
-            stateInit = state,
-            privateKey = walletTon.privateKey,
-            seqno = 0,
-            address = AddrStd(walletTon.address),
-            transfers = listOf(Pair(address, 0.01.toNano())).toWalletTransfer().toTypedArray()
-        )
-
-    }
-
 
     private suspend fun createTransfer(
         stateInit: StateInit?,
@@ -82,7 +75,18 @@ class TonTransferModuleImpl(
     }
 
 
-    private suspend fun sendExternalMessage(message: Cell): Int = liteClientFactory.getLiteClient().liteApi(LiteServerSendMessage(BagOfCells(message).toByteArray())).status
+    private suspend fun sendExternalMessage(message: Cell): Int {
+
+        var res:Int? = null
+
+        val job = CoroutineScope(Dispatchers.IO).launch{
+            val liteClient = LiteClient(this.coroutineContext, liteClientConfig)
+            res = liteClient.liteApi(LiteServerSendMessage(BagOfCells(message).toByteArray())).status
+        }
+        job.join()
+        return res!!
+
+    }
 
 
     private fun createTransferMessage(

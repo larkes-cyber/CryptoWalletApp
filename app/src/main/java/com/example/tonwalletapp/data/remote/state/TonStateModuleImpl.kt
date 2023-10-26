@@ -2,6 +2,9 @@ package com.example.tonwalletapp.data.remote.state
 
 import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
 import com.example.tonwalletapp.until.Constants.SOURCE_CODE
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.block.AddrStd
 import org.ton.block.StateInit
@@ -9,13 +12,14 @@ import org.ton.boc.BagOfCells
 import org.ton.cell.CellBuilder
 import org.ton.contract.wallet.WalletContract.Companion.DEFAULT_WALLET_ID
 import org.ton.crypto.base64
+import org.ton.lite.client.LiteClient
 import org.ton.lite.client.internal.FullAccountState
 
 class TonStateModuleImpl(
     private val liteClientFactory: TonLiteClientFactory
 ):TonStateModule {
 
-    private val liteClient = liteClientFactory.getLiteClient()
+    private val liteClientConfig = liteClientFactory.getLiteClientConfig()
 
     private val sourceCode = BagOfCells(base64(SOURCE_CODE)).first()
 
@@ -27,7 +31,13 @@ class TonStateModuleImpl(
     }
 
     override suspend fun getAccountState(address: String): FullAccountState {
-        return liteClient.getAccountState(AddrStd(address))
+        var accountState:FullAccountState? = null
+        val job = CoroutineScope(Dispatchers.IO).launch {
+            val liteClient = LiteClient(this.coroutineContext, liteClientConfig)
+            accountState = liteClient.getAccountState(AddrStd(address))
+        }
+        job.join()
+        return accountState!!
     }
 
     private fun createDataInit(

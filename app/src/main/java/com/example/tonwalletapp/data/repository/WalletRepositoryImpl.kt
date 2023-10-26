@@ -20,8 +20,6 @@ class WalletRepositoryImpl(
 ):WalletRepository {
     override suspend fun importWallet(words: List<String>):WalletEntity {
         val wallet = walletTonDataSource.getWalletInfoByWords(words)
-        val initialized = walletTonDataSource.getWalletBalance(wallet.address) != null
-        wallet.initialized = initialized
         walletDiskDataSource.insertWallet(wallet = wallet.toWalletEntity())
         return wallet.toWalletEntity()
     }
@@ -47,11 +45,6 @@ class WalletRepositoryImpl(
 
     override suspend fun makeTransfer(wallet: WalletEntity, address: String, amount:Double) {
         walletTonDataSource.makeTransfer(walletEntity = wallet.toWallet().toWalletTon(), address = address, amount = amount)
-        if(!wallet.initialized) {
-            wallet.initialized = true
-            walletDiskDataSource.insertWallet(wallet)
-        }
-
     }
 
     override suspend fun getWalletByAddress(address: String): WalletEntity {

@@ -16,19 +16,18 @@ class TonLiteClientFactoryImpl(
     private val httpClient: HttpClient
 ):TonLiteClientFactory {
 
-    private var liteClient:LiteClient? = null
+    private var liteClientConfig:LiteClientConfigGlobal? = null
 
-    override suspend fun initLiteClient(){
+    override suspend fun initLiteClientConfig(){
         val job = CoroutineScope(Dispatchers.IO).launch {
             val response = httpClient.get(TON_GLOBAL_CONFIG_URL).bodyAsText()
-            val liteClientConfig = Json{ ignoreUnknownKeys = true }.decodeFromString<LiteClientConfigGlobal>(response)
-            liteClient = LiteClient(this.coroutineContext, liteClientConfigGlobal = liteClientConfig)
+            liteClientConfig = Json{ ignoreUnknownKeys = true }.decodeFromString<LiteClientConfigGlobal>(response)
         }
         job.join()
     }
 
-    override fun getLiteClient():LiteClient{
-        return liteClient!!
+    override fun getLiteClientConfig():LiteClientConfigGlobal{
+        return liteClientConfig!!
     }
 
 }

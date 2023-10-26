@@ -28,11 +28,7 @@ class WalletTonDataSourceImpl(
         val privateKey = PrivateKeyEd25519.of(seedPhrase)
         val publicKey = PublicKeyEd25519(privateKey)
         val address = tonClient.getWalletAddress(privateKey)
-        Log.d("sdfsfsdfsdfsdf", address)
-        Log.d("sdfsfsdfsdfsdf", words.toString())
-
-        val init = tonClient.getWalletBalance(address) != null
-
+        val init = tonClient.checkWalletInitialization(address)
 
         return WalletTon(
             privateKey = privateKey,

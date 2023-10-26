@@ -11,5 +11,6 @@ interface TonWalletModule {
     suspend fun getWalletAddress(publicKeyEd25519: PublicKeyEd25519):String
     suspend fun getTransactionList(address: String):List<TransactionDetailTon>
     suspend fun getWalletBalance(address: String):Float?
+    suspend fun checkWalletInitialization(address: String):Boolean
 
 }

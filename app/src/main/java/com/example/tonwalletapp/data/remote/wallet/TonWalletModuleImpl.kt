@@ -2,21 +2,16 @@ package com.example.tonwalletapp.data.remote.wallet
 
 import android.util.Log
 import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
-import com.example.tonwalletapp.data.remote.model.WalletTon
 import com.example.tonwalletapp.data.remote.state.TonStateModule
 import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
 import com.example.tonwalletapp.domain.mapper.mapTx
 import com.example.tonwalletapp.until.Constants
-import io.ktor.client.request.get
-import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.ton.api.liteclient.config.LiteClientConfigGlobal
-import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.api.pub.PublicKeyEd25519
 import org.ton.block.AccountInfo
 import org.ton.block.AddrStd
@@ -29,7 +24,6 @@ import org.ton.lite.api.liteserver.LiteServerAccountId
 import org.ton.lite.api.liteserver.functions.LiteServerGetMasterchainInfo
 import org.ton.lite.api.liteserver.functions.LiteServerRunSmcMethod
 import org.ton.lite.client.LiteClient
-import org.ton.mnemonic.Mnemonic
 import java.net.URL
 
 class TonWalletModuleImpl(
@@ -37,7 +31,7 @@ class TonWalletModuleImpl(
     private val tonLiteClientFactory: TonLiteClientFactory
 ):TonWalletModule {
 
-    private val liteClient = tonLiteClientFactory.getLiteClient()
+    private val liteClientConfig = tonLiteClientFactory.getLiteClientConfig()
 
     override suspend fun getSeqno(address: String):Int? {
         val stack = runGetMethod("seqno", address = AddrStd(address)).stack
@@ -51,59 +45,82 @@ class TonWalletModuleImpl(
 
 
     override suspend fun getTransactionList(address: String): List<TransactionDetailTon> {
-
         val account = tonStateModule.getAccountState(address)
-        return liteClient.getTransactions(
-            accountAddress =AddrStd(address),
-            fromTransactionId = account.lastTransactionId!!,
-            count = 10
-        ).map {
-            mapTx(it.transaction.value, it.blockId.seqno, it.blockId.workchain)
+        var txt:List<TransactionDetailTon>? = null
+        val job = CoroutineScope(Dispatchers.IO).launch {
+            val liteClient = LiteClient(this.coroutineContext, liteClientConfig)
+            txt = liteClient.getTransactions(
+                accountAddress =AddrStd(address),
+                fromTransactionId = account.lastTransactionId!!,
+                count = 10
+            ).map {
+                mapTx(it.transaction.value, it.blockId.seqno, it.blockId.workchain)
+            }
         }
+        job.join()
+        return txt!!
     }
 
     override suspend fun getWalletBalance(address: String): Float? {
-        Log.d("dsfsdfsdfsdffsd", address)
+
+        var balance:Float? = null
+
         return try {
             val jon = CoroutineScope(Dispatchers.IO).launch {
-                val response = URL(Constants.TON_GLOBAL_CONFIG_URL).readText()
-                val liteClientConfig = Json{ ignoreUnknownKeys = true }.decodeFromString<LiteClientConfigGlobal>(response)
-                val liteClienttt = LiteClient(this.coroutineContext, liteClientConfigGlobal = liteClientConfig)
-
-                val account = liteClienttt.getAccountState(AddrStd(address)).account.value
+                val liteClient = LiteClient(this.coroutineContext, liteClientConfigGlobal = liteClientConfig)
+                val account = liteClient.getAccountState(AddrStd(address)).account.value
                 val info = account as AccountInfo
-
-                Log.d("sfsdfsdfsdfsdfsdf",info.storage.balance.coins.amount.value.toFloat().toString())
+                balance = info.storage.balance.coins.amount.value.toFloat()
             }
             jon.join()
-            0f
+            balance
 
         }catch (e:Exception){
-            Log.d("dsfsdfsdfsdffsd",e.message.toString())
             null
+        }
+    }
+
+    override suspend fun checkWalletInitialization(address: String): Boolean {
+        return try {
+//            val state = tonStateModule.getAccountState(address).account.value as AccountInfo
+//            val init = state.isUninit
+//            !init
+            true
+        }catch (e:java.lang.Exception){
+            false
         }
     }
 
 
     private suspend fun runGetMethod(method: String, address: AddrStd): SmartContractAnswer {
-        val lastBlockId = tonLiteClientFactory.getLiteClient().liteApi(LiteServerGetMasterchainInfo).last
-        val result = tonLiteClientFactory.getLiteClient().liteApi(
-            LiteServerRunSmcMethod(
-                mode = 4,
-                id = lastBlockId,
-                account = LiteServerAccountId(address.workchainId, address.address),
-                methodId = LiteServerRunSmcMethod.methodId(method),
-                params = LiteServerRunSmcMethod.params()
+
+        var smartContractAnswer:SmartContractAnswer? = null
+        val job = CoroutineScope(Dispatchers.IO).launch {
+            val liteClient = LiteClient(this.coroutineContext, liteClientConfig)
+            val lastBlockId = liteClient.liteApi(LiteServerGetMasterchainInfo).last
+            val result = liteClient.liteApi(
+                LiteServerRunSmcMethod(
+                    mode = 4,
+                    id = lastBlockId,
+                    account = LiteServerAccountId(address.workchainId, address.address),
+                    methodId = LiteServerRunSmcMethod.methodId(method),
+                    params = LiteServerRunSmcMethod.params()
+                )
             )
-        )
-        var vmStack: VmStack? = null
-        vmStack = VmStack.loadTlb(BagOfCells(result.result!!).first())
+            var vmStack: VmStack? = null
+            vmStack = VmStack.loadTlb(BagOfCells(result.result!!).first())
 
 
-        return SmartContractAnswer(
-            stack = vmStack,
-            exitCode = result.exitCode
-        )
+            smartContractAnswer = SmartContractAnswer(
+                stack = vmStack,
+                exitCode = result.exitCode
+            )
+        }
+
+        job.join()
+
+        return smartContractAnswer!!
+
     }
 
 }

@@ -17,9 +17,6 @@ class TonClientImpl(
     private val tonWalletModule: TonWalletModule
 ):TonClient {
     override suspend fun makeTransfer(walletTon: WalletTon, address: String, amount:Double) {
-        if(!walletTon.initialized){
-            tonTransferModule.makeWalletInitTransfer(walletTon, address)
-        }
         tonTransferModule.makeTransfer(
             walletTon = walletTon,
             address = address,
@@ -37,6 +34,10 @@ class TonClientImpl(
 
     override suspend fun getWalletAddress(privateKeyEd25519: PrivateKeyEd25519): String {
         return AddrStd(0, buildCell { storeTlb(StateInit, tonStateModule.createStateInit(privateKeyEd25519)) }.hash()).toString(userFriendly = true)
+    }
+
+    override suspend fun checkWalletInitialization(address: String): Boolean {
+        return tonWalletModule.checkWalletInitialization(address)
     }
 
 

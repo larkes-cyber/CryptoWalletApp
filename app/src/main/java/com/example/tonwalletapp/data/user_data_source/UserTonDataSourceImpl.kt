@@ -7,7 +7,7 @@ class UserTonDataSourceImpl(
    private val tonLiteClientFactory: TonLiteClientFactory
 ):UserTonDataSource {
     override suspend fun initializeTonLiteClient() {
-        tonLiteClientFactory.initLiteClient()
+        tonLiteClientFactory.initLiteClientConfig()
     }
 
 }
