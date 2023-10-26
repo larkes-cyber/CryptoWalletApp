@@ -73,6 +73,9 @@ object Constants {
 
     const val NANO_NUM = 1000000000
 
+    const val RECEIVE_BTN_TITLE = "Receive"
+    const val SEND_BTN_TITLE = "Send"
+
 }
 
 object OpCodes {
