@@ -9,6 +9,7 @@ class WalletDiskDataSourceImpl(
     private val walletDao: WalletDao
 ):WalletDiskDataSource {
     override suspend fun insertWallet(wallet: WalletEntity) {
+        Log.d("fsdfsdfsdfsdfsdf","##############################")
         wallet.id = wallet.address
         walletDao.insertWallet(wallet)
     }

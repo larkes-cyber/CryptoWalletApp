@@ -2,7 +2,9 @@ package com.example.tonwalletapp.presentation.screen.test_time_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -64,31 +66,47 @@ fun TestTimeScreen(
         TopBarApp {
             navController.popBackStack()
         }
-        Box(modifier = Modifier.padding(horizontal = 40.dp)) {
-            InfoScreenSkeleton(
-                image = R.drawable.test_time_frame,
-                imageSize = 80,
-                title = TestTimeTitle,
-                subtitle = TestTimeText + "${testTimeUIState.words[0].first}, ${testTimeUIState.words[1].first} and ${testTimeUIState.words[2].first}.",
-                btnTitle = ContinueBtnText,
-                visibleBtn = true,
-                onBtnClick = {
-                    viewModel.onDone()
+        if(testTimeUIState.words.isNotEmpty()) {
+            Box(modifier = Modifier.padding(horizontal = 40.dp)) {
+                InfoScreenSkeleton(
+                    image = R.drawable.test_time_frame,
+                    imageSize = 80,
+                    title = TestTimeTitle,
+                    subtitle = TestTimeText + "${testTimeUIState.words[0].first}, ${testTimeUIState.words[1].first} and ${testTimeUIState.words[2].first}.",
+                    btnTitle = ContinueBtnText,
+                    visibleBtn = true,
+                    onBtnClick = {
+                        viewModel.onDone()
+                    }
+                ) {
+                    Spacer(modifier = Modifier.height(28.dp))
+                    Column(verticalArrangement = Arrangement.spacedBy(15.dp)) {
+                        PhraseWordTextField(
+                            rangePlace = testTimeUIState.words[0].first,
+                            word = testTimeUIState.firstWordTextFiled
+                        ) {
+                            viewModel.onFirstWordChange(it)
+                        }
+                        PhraseWordTextField(
+                            rangePlace = testTimeUIState.words[1].first,
+                            word = testTimeUIState.secondWordTextFiled
+                        ) {
+                            viewModel.onSecondWordChange(it)
+                        }
+                        PhraseWordTextField(
+                            rangePlace = testTimeUIState.words[2].first,
+                            word = testTimeUIState.thirdWordTextFiled
+                        ) {
+                            viewModel.onThirdWordChange(it)
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(28.dp))
                 }
-            ) {
-                Spacer(modifier = Modifier.height(28.dp))
-                Column(verticalArrangement = Arrangement.spacedBy(15.dp)) {
-                    PhraseWordTextField(rangePlace = testTimeUIState.words[0].first, word = testTimeUIState.firstWordTextFiled){
-                        viewModel.onFirstWordChange(it)
-                    }
-                    PhraseWordTextField(rangePlace = testTimeUIState.words[1].first, word = testTimeUIState.secondWordTextFiled){
-                        viewModel.onSecondWordChange(it)
-                    }
-                    PhraseWordTextField(rangePlace = testTimeUIState.words[2].first, word = testTimeUIState.thirdWordTextFiled){
-                        viewModel.onThirdWordChange(it)
-                    }
-                }
-                Spacer(modifier = Modifier.height(28.dp))
+            }
+        }
+        if(testTimeUIState.isLoading){
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
             }
         }
 

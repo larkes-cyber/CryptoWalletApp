@@ -5,5 +5,6 @@ data class TestTimeUIState(
     val firstWordTextFiled:String = "",
     val secondWordTextFiled:String = "",
     val thirdWordTextFiled:String = "",
-    val activeIncorrectWordDialog:Boolean = false
+    val activeIncorrectWordDialog:Boolean = false,
+    val isLoading:Boolean = false
 )

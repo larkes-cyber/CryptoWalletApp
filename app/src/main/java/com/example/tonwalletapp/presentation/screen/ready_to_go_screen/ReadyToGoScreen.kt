@@ -32,7 +32,7 @@ fun ReadyToGoScreen(
                 btnTitle = Constants.VisitWalletBtnText,
                 visibleBtn = true,
                 onBtnClick = {
-                    navController.navigate(Screen.StartScreen.route)
+                    navController.navigate(Screen.MainWalletScreen.route)
                 }
             ){
                 Spacer(modifier = Modifier.height(60.dp))

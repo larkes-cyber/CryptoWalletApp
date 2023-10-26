@@ -33,8 +33,12 @@ class TestTimeViewModel @Inject constructor(
                         words = listOf(shuffledWords[0], shuffledWords[1], shuffledWords[2]).sortedBy { it.first }
                     )
                 }
+                is Resource.Loading -> {
+                    _testTimeUIState.value = TestTimeUIState(
+                        isLoading = true
+                    )
+                }
                 is Resource.Error -> {}
-                else -> {}
             }
         }.launchIn(viewModelScope)
     }

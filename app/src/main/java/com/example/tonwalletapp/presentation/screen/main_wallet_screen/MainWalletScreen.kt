@@ -44,7 +44,9 @@ fun MainWalletScreen(
             Box(modifier = Modifier
                 .fillMaxSize()
                 .background(AppTheme.colors.background)) {
+                    Column(modifier = Modifier.fillMaxSize()) {
 
+                    }
             }
         },
         drawerGesturesEnabled = true,

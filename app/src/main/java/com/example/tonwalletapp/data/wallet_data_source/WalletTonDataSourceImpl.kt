@@ -25,8 +25,7 @@ class WalletTonDataSourceImpl(
         return getWalletInfoByWords(words)
     }
     override suspend fun getWalletInfoByWords(words: List<String>):WalletTon {
-        val myWords = listOf("history", "drill", "void", "female", "toe", "stable", "input", "neutral","throw", "settle", "endless", "come", "lazy", "cherry", "account", "logic", "firm", "stumble", "hero", "secret", "panic", "scare", "mechanic", "army")
-        val seedPhrase = Mnemonic.toSeed(myWords)
+        val seedPhrase = Mnemonic.toSeed(words)
         val privateKey = PrivateKeyEd25519.of(seedPhrase)
         val publicKey = PublicKeyEd25519(privateKey)
         val address = tonClient.getWalletAddress(privateKey)

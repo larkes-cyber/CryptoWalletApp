@@ -31,7 +31,7 @@ fun ImportSuccessScreen(
                 btnTitle = Constants.ProceedBtnText,
                 visibleBtn = true,
                 onBtnClick = {
-                    navController.navigate(Screen.StartScreen.route)
+                    navController.navigate(Screen.MainWalletScreen.route)
                 }
             ){
                 Spacer(modifier = Modifier.height(75.dp))

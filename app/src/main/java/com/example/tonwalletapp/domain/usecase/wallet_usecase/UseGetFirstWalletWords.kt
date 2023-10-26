@@ -13,7 +13,9 @@ class UseGetFirstWalletWords(
     operator fun invoke(): Flow<Resource<List<String>>> = flow {
         emit(Resource.Loading())
         try {
+            println("##################################")
             val wallet = walletRepository.getWallets()[0].toWallet()
+            println(wallet)
             emit(Resource.Success(wallet.words))
         }catch (e:Exception){
             emit(Resource.Error(""))
