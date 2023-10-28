@@ -40,7 +40,7 @@ import java.util.Date
 fun TransactionDetailTon.toTransactionDetail():TransactionDetail{
 
     fun getDateTime(s: Long): String? {
-        val sdf = SimpleDateFormat("MM/dd/yyyy hh:mm:ss")
+        val sdf = SimpleDateFormat("MM/dd/yyyy")
         val netDate = Date(s * 1000)
         return sdf.format(netDate)
     }

@@ -47,6 +47,11 @@ class MainWalletViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun formatAddress(address:String):String{
+        println(address)
+        return "${address.take(4)}...${address.takeLast(4)}"
+    }
+
     private fun getWalletDetailInfo(id:String){
         useGetWalletInfo.invoke(id).onEach {res ->
             when(res){
@@ -54,6 +59,8 @@ class MainWalletViewModel @Inject constructor(
                     _walletUIState.value = WalletUIState(isLoading = true)
                 }
                 is Resource.Success -> {
+                    val walletDetail = res.data!!
+                     walletDetail.address = formatAddress(walletDetail.address)
                     _walletUIState.value = WalletUIState(walletDetail = res.data)
                 }
                 is Resource.Error -> {
