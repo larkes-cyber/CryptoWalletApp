@@ -25,7 +25,10 @@ import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.navigation.Screen
 import com.example.tonwalletapp.presentation.view.PrimaryButtonApp
+import com.example.tonwalletapp.presentation.view.TonCrystalLoadingSpinner
 import com.example.tonwalletapp.presentation.view.TransactionItemList
+import com.example.tonwalletapp.presentation.view.TransactionsLoadingSpinner
+import com.example.tonwalletapp.presentation.view.WalletJustCreatedSplash
 import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants.IS_NOT_AUTHORIZED
 import com.example.tonwalletapp.until.Constants.RECEIVE_BTN_TITLE
@@ -39,6 +42,10 @@ fun MainWalletScreen(
 ) {
 
     val walletUIState by viewModel.walletUIState.collectAsState()
+    val transactionUIState by viewModel.transactionsUIState.collectAsState()
+
+    val scaffoldState = rememberBottomSheetScaffoldState()
+
 
     LaunchedEffect(walletUIState){
         println(walletUIState.walletDetail)
@@ -46,90 +53,53 @@ fun MainWalletScreen(
             navController.navigate(Screen.StartScreen.route)
         }
     }
+    LaunchedEffect(Unit){
+        //viewModel.setupMainWallet()
+    }
 
     val scrollableState = rememberScrollState()
-    
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(AppTheme.colors.secondBackground)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollableState)
-                .padding(top = 76.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(57.dp)
-        ) {
-            if(walletUIState.walletDetail != null) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(5.dp),
-                        verticalAlignment = Alignment.Bottom
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ton_crystal_frame),
-                            contentDescription = "",
-                            modifier = Modifier.size(60.dp),
-                            contentScale = ContentScale.Crop
-                        )
-                        Column(verticalArrangement = Arrangement.spacedBy(11.dp)) {
-                            Text(
-                                text = walletUIState.walletDetail!!.address,
-                                fontSize = 15.sp,
-                                color = AppTheme.colors.background
-                            )
-                            Text(
-                                text = String.format("%.4f", walletUIState.walletDetail!!.balance),
-                                fontSize = 44.sp,
-                                color = AppTheme.colors.background,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
-                    }
-                }
-            }
-            if(walletUIState.isLoading){
-                Image(
-                    painter = painterResource(id = R.drawable.ton_crystal_frame),
-                    contentDescription = "",
-                    modifier = Modifier.size(32.dp),
-                    contentScale = ContentScale.Crop
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.padding(horizontal = 20.dp)
+
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetContent = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 500.dp)
+
             ) {
-                PrimaryButtonApp(
-                    text = RECEIVE_BTN_TITLE,
-                    icon = R.drawable.receive,
-                    modifier = Modifier.weight(1f)
-                ) {
-
-                }
-                PrimaryButtonApp(
-                    text = SEND_BTN_TITLE,
-                    icon = R.drawable.send,
-                    modifier = Modifier.weight(1f)
-                ) {
-
-                }
-            }
-            if(walletUIState.walletDetail != null){
-                Box(
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(AppTheme.colors.background)
-                        .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+
                 ) {
-                    Column(modifier = Modifier
-                        .padding(top = 5.dp)) {
-                        val transactions = walletUIState.walletDetail!!.transactions
-                        transactions?.forEach {txt ->
+                    if(transactionUIState.isLoading){
+                        Column(
+                            modifier = Modifier
+                                .padding(50.dp)
+                                .fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            TransactionsLoadingSpinner(
+                                tonIconModifier = Modifier
+                                    .width(46.dp)
+                                    .height(45.dp),
+                                dollarIconModifier = Modifier
+                                    .width(39.dp)
+                                    .height(51.dp),
+                                arrowIconModifier = Modifier
+                                    .width(40.dp)
+                                    .height(38.dp)
+                            )
+                        }
+                    }
+                    Column(
+                        modifier = Modifier
+                            .padding(top = 5.dp)
+                    ) {
+                        val transactions = transactionUIState.txt
+                        transactions?.forEach { txt ->
                             Spacer(modifier = Modifier.height(14.dp))
                             Box(modifier = Modifier.padding(horizontal = 16.dp)) {
                                 TransactionItemList(transactionDetail = txt)
@@ -144,45 +114,120 @@ fun MainWalletScreen(
                         }
                     }
                 }
+                if(transactionUIState.txt.isEmpty() && walletUIState.walletDetail != null){
+                    WalletJustCreatedSplash(address = walletUIState.walletDetail!!.address)
+                }
             }
-        }
-
-        Row(
+        },
+        drawerGesturesEnabled = true,
+        sheetPeekHeight = 400.dp,
+        sheetShape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp)
+    ) {
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-                .align(Alignment.TopCenter),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .fillMaxSize()
+                .background(AppTheme.colors.secondBackground)
         ) {
-            Column() {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollableState)
+                    .padding(top = 76.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(57.dp)
+            ) {
+                if(walletUIState.isLoading){
+                    TonCrystalLoadingSpinner(
+                        modifier = Modifier.size(60.dp)
+                    )
+                }
+                if(walletUIState.walletDetail != null) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(5.dp),
+                            verticalAlignment = Alignment.Bottom
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ton_crystal_frame),
+                                contentDescription = "",
+                                modifier = Modifier.size(60.dp),
+                                contentScale = ContentScale.Crop
+                            )
+                            Column(verticalArrangement = Arrangement.spacedBy(11.dp)) {
+                                Text(
+                                    text = viewModel.formatAddress(walletUIState.walletDetail!!.address),
+                                    fontSize = 15.sp,
+                                    color = AppTheme.colors.background
+                                )
+                                Text(
+                                    text = String.format("%.4f", walletUIState.walletDetail!!.balance),
+                                    fontSize = 44.sp,
+                                    color = AppTheme.colors.background,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
+                        }
+                    }
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.padding(horizontal = 20.dp)
+                ) {
+                    PrimaryButtonApp(
+                        text = RECEIVE_BTN_TITLE,
+                        icon = R.drawable.receive,
+                        modifier = Modifier.weight(1f)
+                    ) {
+
+                    }
+                    PrimaryButtonApp(
+                        text = SEND_BTN_TITLE,
+                        icon = R.drawable.send,
+                        modifier = Modifier.weight(1f)
+                    ) {
+
+                    }
+                }
             }
             Row(
-                modifier = Modifier.padding(horizontal = 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+                    .align(Alignment.TopCenter),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.scan),
-                    contentDescription = "",
-                    tint = AppTheme.colors.background,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable {
-                        }
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.setting),
-                    contentDescription = "",
-                    tint = AppTheme.colors.background,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable {
+                Column() {
+                }
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.scan),
+                        contentDescription = "",
+                        tint = AppTheme.colors.background,
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable {
+                            }
+                    )
+                    Icon(
+                        painter = painterResource(id = R.drawable.setting),
+                        contentDescription = "",
+                        tint = AppTheme.colors.background,
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable {
 
-                        }
-                )
+                            }
+                    )
 
+                }
             }
-        }
 
+        }
     }
 
 }

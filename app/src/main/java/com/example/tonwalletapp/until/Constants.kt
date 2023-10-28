@@ -1,5 +1,7 @@
 package com.example.tonwalletapp.until
 
+import android.graphics.YuvImage
+
 object Constants {
 
     const val TonWalletTitle = "TON Wallet"
@@ -75,7 +77,10 @@ object Constants {
 
     const val RECEIVE_BTN_TITLE = "Receive"
     const val SEND_BTN_TITLE = "Send"
+    const val WAIT_WHILE_TON_CONFIG_IS_LOADING = "Wait while ton config is loading"
 
+    const val WALLET_CREATED = "Wallet Created"
+    const val YOUR_ADDRESS = "Your wallet address"
 }
 
 object OpCodes {

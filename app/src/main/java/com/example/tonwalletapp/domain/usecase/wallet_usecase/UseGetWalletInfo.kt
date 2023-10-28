@@ -25,10 +25,6 @@ class UseGetWalletInfo(
                 address = wallet.address,
                 name = wallet.name,
                 balance = balance ?: 0f,
-                transactions = txt?.map {
-                println(it)
-                    it.toTransactionDetail()
-                                        },
                 initialized = wallet.initialized
             )
 
