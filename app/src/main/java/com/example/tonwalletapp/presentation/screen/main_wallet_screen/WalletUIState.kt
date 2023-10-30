@@ -6,6 +6,5 @@ import com.example.tonwalletapp.until.Constants.NOT_STATED_AUTH_STATUS
 data class WalletUIState(
     val walletDetail:WalletDetail? = null,
     val isLoading:Boolean = false,
-    val authStatus:Int = NOT_STATED_AUTH_STATUS,
     val error:String = ""
 )

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +34,7 @@ import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants.IS_NOT_AUTHORIZED
 import com.example.tonwalletapp.until.Constants.RECEIVE_BTN_TITLE
 import com.example.tonwalletapp.until.Constants.SEND_BTN_TITLE
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -41,22 +43,14 @@ fun MainWalletScreen(
     viewModel: MainWalletViewModel
 ) {
 
+    val coroutineScope = rememberCoroutineScope()
+
     val walletUIState by viewModel.walletUIState.collectAsState()
     val transactionUIState by viewModel.transactionsUIState.collectAsState()
     val walletAddressUIState by viewModel.walletAddressUIState.collectAsState()
 
     val scaffoldState = rememberBottomSheetScaffoldState()
 
-
-    LaunchedEffect(walletUIState){
-        println(walletUIState.walletDetail)
-        if(walletUIState.authStatus == IS_NOT_AUTHORIZED){
-            navController.navigate(Screen.StartScreen.route)
-        }
-    }
-    LaunchedEffect(Unit){
-        //viewModel.setupMainWallet()
-    }
 
     val scrollableState = rememberScrollState()
 
@@ -189,7 +183,9 @@ fun MainWalletScreen(
                         icon = R.drawable.send,
                         modifier = Modifier.weight(1f)
                     ) {
-
+                        coroutineScope.launch {
+                            scaffoldState.drawerState.open()
+                        }
                     }
                 }
             }

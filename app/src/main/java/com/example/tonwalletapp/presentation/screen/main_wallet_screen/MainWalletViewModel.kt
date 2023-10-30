@@ -46,13 +46,9 @@ class MainWalletViewModel @Inject constructor(
                 }
                 is Resource.Success -> {
                     val wallets = res.data
-                    if(res.data!!.isEmpty()){
-                        _walletUIState.value = WalletUIState(authStatus = IS_NOT_AUTHORIZED)
-                    }else{
-                        _walletAddressUIState.value = wallets!![0].address
-                        getWalletDetailInfo()
-                        getTransactions()
-                    }
+                    _walletAddressUIState.value = wallets!![0].address
+                    getWalletDetailInfo()
+                    getTransactions()
                 }
                 is Resource.Error -> {
                     _walletUIState.value = WalletUIState(error = res.message!!)
