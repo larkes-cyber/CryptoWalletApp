@@ -86,6 +86,10 @@ object Constants {
     const val SEND_BOTTOM_SHEET_CONTENT = 1
     const val RECEIVE_BOTTOM_SHEET_CONTENT = 2
     const val TRANSACTION_BOTTOM_SHEET_CONTENT = 3
+
+    const val SEND_TON_TITLE = "Send TON"
+    const val WALLET_ADDRESS_TITLE = "Wallet Address"
+
 }
 
 object OpCodes {
