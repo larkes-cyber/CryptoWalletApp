@@ -2,6 +2,8 @@ package com.example.tonwalletapp.presentation.screen.main_wallet_screen.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,15 +43,14 @@ fun TransactionsListView(
                 )
             }
         }
-        Column(
+    LazyColumn(
             modifier = Modifier
                 .padding(top = 5.dp)
         ) {
-            val transactions = txt
-            transactions?.forEach { txt ->
+            itemsIndexed(txt ?: listOf()){ index, item ->
                 Spacer(modifier = Modifier.height(14.dp))
                 Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    TransactionItemList(transactionDetail = txt)
+                    TransactionItemList(transactionDetail = item)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Divider(

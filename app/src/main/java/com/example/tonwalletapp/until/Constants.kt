@@ -89,6 +89,10 @@ object Constants {
 
     const val SEND_TON_TITLE = "Send TON"
     const val WALLET_ADDRESS_TITLE = "Wallet Address"
+    const val ADDRESS_TEXT_FIELD_PLACEHOLDER = "Enter Wallet Address..."
+    const val PASTE_ADDRESS_TITLE = "Paste the 24-letter wallet address of the recipient here."
+    const val PASTE_BUTTON_TITLE = "Paste"
+    const val SCAN_BUTTON_TITLE = "Scan"
 
 }
 

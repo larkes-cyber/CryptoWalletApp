@@ -14,11 +14,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType.Companion.Text
@@ -43,7 +45,7 @@ import com.example.tonwalletapp.until.Constants.SEND_BTN_TITLE
 import com.example.tonwalletapp.until.Constants.TRANSACTIONS_BOTTOM_SHEET_CONTENT
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MainWalletScreen(
     navController: NavController,
@@ -59,6 +61,7 @@ fun MainWalletScreen(
     
     val scaffoldState = rememberBottomSheetScaffoldState()
     val scrollableState = rememberScrollState()
+
 
     LaunchedEffect(scaffoldState.bottomSheetState.isCollapsed){
         if(currentBottomSheetContentUIState != TRANSACTIONS_BOTTOM_SHEET_CONTENT && scaffoldState.bottomSheetState.isCollapsed){

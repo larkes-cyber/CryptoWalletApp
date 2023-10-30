@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.presentation.screen.main_wallet_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetTransactionsByAddress
@@ -68,6 +69,7 @@ class MainWalletViewModel @Inject constructor(
                     _transactionsUIState.value = TransactionsUIState(isLoading = true)
                 }
                 is Resource.Success -> {
+                    Log.d("wefdwerfgfwef",res.data!!.size.toString())
                     _transactionsUIState.value = TransactionsUIState(txt = res.data ?: listOf())
                 }
                 is Resource.Error -> {

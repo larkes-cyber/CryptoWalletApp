@@ -21,6 +21,7 @@ class MainActivityViewModel @Inject constructor(
     val liteClientUIState:StateFlow<LiteClientUIState> = _liteClientUIState
 
 
+
     fun initClient(){
         CoroutineScope(Dispatchers.IO).launch {
             _liteClientUIState.value = LiteClientUIState(isLoading = true)

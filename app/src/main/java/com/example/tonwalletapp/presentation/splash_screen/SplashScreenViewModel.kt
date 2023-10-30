@@ -31,7 +31,6 @@ class SplashScreenViewModel @Inject constructor(
         useGetWallets.invoke().onEach {res ->
             when(res){
                 is Resource.Success -> {
-
                     _isAuthorizedUIState.value =if(res.data!!.isEmpty()) IS_NOT_AUTHORIZED  else IS_AUTHORIZED
                 }
                 else -> {}

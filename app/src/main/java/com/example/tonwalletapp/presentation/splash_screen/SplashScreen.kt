@@ -18,12 +18,13 @@ fun SplashScreen(
 
     val authUIState by viewModel.isAuthorizedUIState.collectAsState()
 
+
     LaunchedEffect(authUIState){
         if(authUIState == IS_AUTHORIZED){
             navController.navigate(Screen.MainWalletScreen.route)
         }
         if(authUIState == IS_NOT_AUTHORIZED){
-            navController.navigate(Screen.SplashScreen.route)
+            navController.navigate(Screen.StartScreen.route)
         }
     }
 
