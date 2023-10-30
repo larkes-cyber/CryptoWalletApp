@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.presentation.splash_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWallets
@@ -23,14 +24,17 @@ class SplashScreenViewModel @Inject constructor(
     val isAuthorizedUIState: StateFlow<Int> = _isAuthorizedUIState
 
     init {
+        checkAuth()
+    }
+
+    private fun checkAuth(){
         useGetWallets.invoke().onEach {res ->
             when(res){
                 is Resource.Success -> {
+
                     _isAuthorizedUIState.value =if(res.data!!.isEmpty()) IS_NOT_AUTHORIZED  else IS_AUTHORIZED
                 }
-                else -> {
-                    _isAuthorizedUIState.value = IS_NOT_AUTHORIZED
-                }
+                else -> {}
             }
         }.launchIn(viewModelScope)
     }

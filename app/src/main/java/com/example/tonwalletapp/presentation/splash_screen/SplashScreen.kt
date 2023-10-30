@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import com.example.tonwalletapp.presentation.main_activity.LoadingComponent
 import com.example.tonwalletapp.presentation.navigation.Screen
 import com.example.tonwalletapp.until.Constants.IS_AUTHORIZED
+import com.example.tonwalletapp.until.Constants.IS_NOT_AUTHORIZED
 
 @Composable
 fun SplashScreen(
@@ -18,7 +19,12 @@ fun SplashScreen(
     val authUIState by viewModel.isAuthorizedUIState.collectAsState()
 
     LaunchedEffect(authUIState){
-        navController.navigate(if(authUIState == IS_AUTHORIZED) Screen.MainWalletScreen.route else Screen.StartScreen.route)
+        if(authUIState == IS_AUTHORIZED){
+            navController.navigate(Screen.MainWalletScreen.route)
+        }
+        if(authUIState == IS_NOT_AUTHORIZED){
+            navController.navigate(Screen.SplashScreen.route)
+        }
     }
 
     LoadingComponent()

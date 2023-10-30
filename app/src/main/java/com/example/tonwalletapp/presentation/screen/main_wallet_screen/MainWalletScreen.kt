@@ -1,6 +1,7 @@
 package com.example.tonwalletapp.presentation.screen.main_wallet_screen
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType.Companion.Text
@@ -25,15 +27,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.navigation.Screen
+import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.SendTonView
+import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.TransactionsListView
 import com.example.tonwalletapp.presentation.view.PrimaryButtonApp
 import com.example.tonwalletapp.presentation.view.TonCrystalLoadingSpinner
 import com.example.tonwalletapp.presentation.view.TransactionItemList
 import com.example.tonwalletapp.presentation.view.TransactionsLoadingSpinner
 import com.example.tonwalletapp.presentation.view.WalletJustCreatedSplash
 import com.example.tonwalletapp.ui.theme.AppTheme
+import com.example.tonwalletapp.until.Constants
 import com.example.tonwalletapp.until.Constants.IS_NOT_AUTHORIZED
 import com.example.tonwalletapp.until.Constants.RECEIVE_BTN_TITLE
+import com.example.tonwalletapp.until.Constants.SEND_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Constants.SEND_BTN_TITLE
+import com.example.tonwalletapp.until.Constants.TRANSACTIONS_BOTTOM_SHEET_CONTENT
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -48,11 +55,16 @@ fun MainWalletScreen(
     val walletUIState by viewModel.walletUIState.collectAsState()
     val transactionUIState by viewModel.transactionsUIState.collectAsState()
     val walletAddressUIState by viewModel.walletAddressUIState.collectAsState()
-
+    val currentBottomSheetContentUIState by viewModel.currentBottomSheetContentUIState.collectAsState()
+    
     val scaffoldState = rememberBottomSheetScaffoldState()
-
-
     val scrollableState = rememberScrollState()
+
+    LaunchedEffect(scaffoldState.bottomSheetState.isCollapsed){
+        if(currentBottomSheetContentUIState != TRANSACTIONS_BOTTOM_SHEET_CONTENT && scaffoldState.bottomSheetState.isCollapsed){
+            viewModel.changeBottomSheetContext(TRANSACTIONS_BOTTOM_SHEET_CONTENT)
+        }
+    }
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
@@ -60,7 +72,7 @@ fun MainWalletScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 500.dp)
+                    .heightIn(min = 1500.dp)
 
             ) {
                 Card(
@@ -70,48 +82,20 @@ fun MainWalletScreen(
                     elevation = 0.dp
 
                 ) {
-                    if(transactionUIState.isLoading){
-                        Column(
-                            modifier = Modifier
-                                .padding(50.dp)
-                                .fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            TransactionsLoadingSpinner(
-                                tonIconModifier = Modifier
-                                    .width(46.dp)
-                                    .height(45.dp),
-                                dollarIconModifier = Modifier
-                                    .width(39.dp)
-                                    .height(51.dp),
-                                arrowIconModifier = Modifier
-                                    .width(40.dp)
-                                    .height(38.dp)
+
+                    when(currentBottomSheetContentUIState){
+                        TRANSACTIONS_BOTTOM_SHEET_CONTENT ->{
+                            TransactionsListView(
+                                isLoading = transactionUIState.isLoading,
+                                txt = transactionUIState.txt,
+                                justCreatedWallet = transactionUIState.txt != null && transactionUIState.txt!!.isEmpty() && walletAddressUIState != null,
+                                walletAddress = walletAddressUIState
                             )
                         }
-                    }
-                    Column(
-                        modifier = Modifier
-                            .padding(top = 5.dp)
-                    ) {
-                        val transactions = transactionUIState.txt
-                        transactions?.forEach { txt ->
-                            Spacer(modifier = Modifier.height(14.dp))
-                            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-                                TransactionItemList(transactionDetail = txt)
-                            }
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Divider(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(1.dp)
-                                    .background(AppTheme.colors.secondFormColor)
-                            )
+                        SEND_BOTTOM_SHEET_CONTENT -> {
+                            SendTonView()
                         }
                     }
-                }
-                if(transactionUIState.txt != null && transactionUIState.txt!!.isEmpty() && walletAddressUIState != null){
-                    WalletJustCreatedSplash(address = walletAddressUIState!!)
                 }
             }
         },
@@ -183,8 +167,9 @@ fun MainWalletScreen(
                         icon = R.drawable.send,
                         modifier = Modifier.weight(1f)
                     ) {
+                        viewModel.changeBottomSheetContext(SEND_BOTTOM_SHEET_CONTENT)
                         coroutineScope.launch {
-                            scaffoldState.drawerState.open()
+                            scaffoldState.bottomSheetState.expand()
                         }
                     }
                 }

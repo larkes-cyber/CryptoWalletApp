@@ -81,6 +81,11 @@ object Constants {
 
     const val WALLET_CREATED = "Wallet Created"
     const val YOUR_ADDRESS = "Your wallet address"
+
+    const val TRANSACTIONS_BOTTOM_SHEET_CONTENT = 0
+    const val SEND_BOTTOM_SHEET_CONTENT = 1
+    const val RECEIVE_BOTTOM_SHEET_CONTENT = 2
+    const val TRANSACTION_BOTTOM_SHEET_CONTENT = 3
 }
 
 object OpCodes {

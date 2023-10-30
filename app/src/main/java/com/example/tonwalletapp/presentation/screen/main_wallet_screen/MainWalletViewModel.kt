@@ -6,6 +6,7 @@ import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetTransactions
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWalletInfo
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWallets
 import com.example.tonwalletapp.until.Constants.IS_NOT_AUTHORIZED
+import com.example.tonwalletapp.until.Constants.TRANSACTIONS_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +32,10 @@ class MainWalletViewModel @Inject constructor(
 
     private val _walletAddressUIState = MutableStateFlow<String?>(null)
     val walletAddressUIState:StateFlow<String?> = _walletAddressUIState
-//
+
+    private val _currentBottomSheetContentUIState = MutableStateFlow(TRANSACTIONS_BOTTOM_SHEET_CONTENT)
+    val currentBottomSheetContentUIState:StateFlow<Int> = _currentBottomSheetContentUIState
+
     init {
          setupMainWallet()
     }
@@ -72,6 +76,10 @@ class MainWalletViewModel @Inject constructor(
             }
         }.launchIn(CoroutineScope(Dispatchers.IO))
 
+    }
+
+    fun changeBottomSheetContext(content:Int){
+        _currentBottomSheetContentUIState.value = content
     }
 
     fun formatAddress(address:String):String{
