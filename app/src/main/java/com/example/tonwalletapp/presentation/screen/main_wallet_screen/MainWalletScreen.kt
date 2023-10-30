@@ -43,6 +43,7 @@ fun MainWalletScreen(
 
     val walletUIState by viewModel.walletUIState.collectAsState()
     val transactionUIState by viewModel.transactionsUIState.collectAsState()
+    val walletAddressUIState by viewModel.walletAddressUIState.collectAsState()
 
     val scaffoldState = rememberBottomSheetScaffoldState()
 
@@ -71,7 +72,8 @@ fun MainWalletScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(AppTheme.colors.background)
+                        .background(AppTheme.colors.background),
+                    elevation = 0.dp
 
                 ) {
                     if(transactionUIState.isLoading){
@@ -114,8 +116,8 @@ fun MainWalletScreen(
                         }
                     }
                 }
-                if(transactionUIState.txt.isEmpty() && walletUIState.walletDetail != null){
-                    WalletJustCreatedSplash(address = walletUIState.walletDetail!!.address)
+                if(transactionUIState.txt != null && transactionUIState.txt!!.isEmpty() && walletAddressUIState != null){
+                    WalletJustCreatedSplash(address = walletAddressUIState!!)
                 }
             }
         },

@@ -12,6 +12,7 @@ sealed class Screen(val route:String) {
     object ImportSuccessScreen:Screen("import_success_screen")
     object WrongPhraseScreen:Screen("wrong_phrase_screen")
     object MainWalletScreen:Screen("main_wallet_screen")
+    object SplashScreen:Screen("splash_screen")
     fun withArgs(vararg args: String):String{
         return buildString {
             append(route)

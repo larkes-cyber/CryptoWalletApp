@@ -28,6 +28,9 @@ class MainWalletViewModel @Inject constructor(
 
     private val _transactionsUIState = MutableStateFlow(TransactionsUIState())
     val transactionsUIState:StateFlow<TransactionsUIState> = _transactionsUIState
+
+    private val _walletAddressUIState = MutableStateFlow<String?>(null)
+    val walletAddressUIState:StateFlow<String?> = _walletAddressUIState
 //
     init {
          setupMainWallet()
@@ -46,9 +49,9 @@ class MainWalletViewModel @Inject constructor(
                     if(res.data!!.isEmpty()){
                         _walletUIState.value = WalletUIState(authStatus = IS_NOT_AUTHORIZED)
                     }else{
-                        val address = wallets!![0].address
-                        getWalletDetailInfo(address)
-                        getTransactions(address)
+                        _walletAddressUIState.value = wallets!![0].address
+                        getWalletDetailInfo()
+                        getTransactions()
                     }
                 }
                 is Resource.Error -> {
@@ -57,9 +60,9 @@ class MainWalletViewModel @Inject constructor(
             }
         }.launchIn(CoroutineScope(Dispatchers.IO))
     }
-    private fun getTransactions(address: String){
+    private fun getTransactions(){
 
-        useGetTransactionsByAddress.invoke(address).onEach {res ->
+        useGetTransactionsByAddress.invoke(walletAddressUIState.value!!).onEach {res ->
             when(res){
                 is Resource.Loading -> {
                     _transactionsUIState.value = TransactionsUIState(isLoading = true)
@@ -80,8 +83,8 @@ class MainWalletViewModel @Inject constructor(
         return "${address.take(4)}...${address.takeLast(4)}"
     }
 
-    private fun getWalletDetailInfo(id:String){
-        useGetWalletInfo.invoke(id).onEach {res ->
+    private fun getWalletDetailInfo(){
+        useGetWalletInfo.invoke(walletAddressUIState.value!!).onEach {res ->
             when(res){
                 is Resource.Loading -> {
                     _walletUIState.value = WalletUIState(isLoading = true)

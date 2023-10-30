@@ -4,6 +4,6 @@ import com.example.tonwalletapp.domain.model.TransactionDetail
 
 class TransactionsUIState(
     val isLoading:Boolean = false,
-    val txt:List<TransactionDetail> = listOf(),
+    val txt:List<TransactionDetail>? = null,
     val error:String = ""
 )

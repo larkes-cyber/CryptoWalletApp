@@ -30,6 +30,8 @@ import com.example.tonwalletapp.presentation.view.TonCrystalLoadingSpinner
 import com.example.tonwalletapp.presentation.view.TransactionsLoadingSpinner
 import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.ui.theme.TonWalletAppTheme
+import com.example.tonwalletapp.until.Constants.IS_AUTHORIZED
+import com.example.tonwalletapp.until.Constants.NOT_STATED_AUTH_STATUS
 import com.example.tonwalletapp.until.Constants.WAIT_WHILE_TON_CONFIG_IS_LOADING
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,7 +53,9 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
             TonWalletAppTheme {
-                if(liteClientUIState.isSuccessful) Navigation(navController = navController)
+                if(liteClientUIState.isSuccessful) {
+                    Navigation(navController = navController)
+                }
                 else LoadingComponent()
             }
         }

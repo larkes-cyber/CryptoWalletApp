@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwalletapp.R
@@ -57,11 +58,14 @@ fun WalletJustCreatedSplash(
         Box(modifier = Modifier.padding()) {
             
         }
-        Text(
-            text = address,
-            fontSize = 15.sp,
-            color = AppTheme.colors.secondBackground
-        )
+        Box(modifier = Modifier.padding(horizontal = 50.dp)) {
+            Text(
+                text = address,
+                fontSize = 15.sp,
+                color = AppTheme.colors.secondBackground,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 
 }

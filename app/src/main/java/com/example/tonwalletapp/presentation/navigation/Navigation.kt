@@ -25,11 +25,18 @@ import com.example.tonwalletapp.presentation.screen.success_screen.SuccessScreen
 import com.example.tonwalletapp.presentation.screen.test_time_screen.TestTimeScreen
 import com.example.tonwalletapp.presentation.screen.test_time_screen.TestTimeViewModel
 import com.example.tonwalletapp.presentation.screen.wrong_phrase_screen.WrongPhraseScreen
+import com.example.tonwalletapp.presentation.splash_screen.SplashScreen
+import com.example.tonwalletapp.presentation.splash_screen.SplashScreenViewModel
 
 @Composable
 fun Navigation(navController: NavHostController) {
 
-    NavHost(navController = navController, startDestination = Screen.MainWalletScreen.route ){
+    NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
+
+        composable(Screen.SplashScreen.route){
+            val viewModel:SplashScreenViewModel = hiltViewModel()
+            SplashScreen(viewModel = viewModel, navController = navController)
+        }
 
         composable(Screen.StartScreen.route){
             StartScreen(navController = navController)
