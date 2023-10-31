@@ -1,4 +1,4 @@
-package com.example.tonwalletapp.presentation.view
+package com.example.tonwalletapp.presentation.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,10 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.tonwalletapp.ui.theme.AppTheme
-import com.example.tonwalletapp.until.Constants.DidntHaveEnoughTimeAgreeOption
-import com.example.tonwalletapp.until.Constants.DidntHaveEnoughTimeSkipOption
-import com.example.tonwalletapp.until.Constants.DidntHaveEnoughTimeText
-import com.example.tonwalletapp.until.Constants.DidntHaveEnoughTimeTitle
 
 @Composable
 fun AlertDialogApp(

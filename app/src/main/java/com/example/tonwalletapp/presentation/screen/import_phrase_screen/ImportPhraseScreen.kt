@@ -2,7 +2,6 @@ package com.example.tonwalletapp.presentation.screen.import_phrase_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -13,22 +12,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.navigation.Screen
-import com.example.tonwalletapp.presentation.view.AlertDialogApp
-import com.example.tonwalletapp.presentation.view.InfoScreenSkeleton
-import com.example.tonwalletapp.presentation.view.PhraseWordTextField
-import com.example.tonwalletapp.presentation.view.TopBarApp
+import com.example.tonwalletapp.presentation.component.AlertDialogApp
+import com.example.tonwalletapp.presentation.component.InfoScreenSkeleton
+import com.example.tonwalletapp.presentation.component.PhraseWordTextField
+import com.example.tonwalletapp.presentation.component.TopBarApp
 import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants
 import com.example.tonwalletapp.until.Constants.ContinueBtnTitle
 import com.example.tonwalletapp.until.Constants.DontHavePhraseBtnTitle
 import com.example.tonwalletapp.until.Constants.ImportPhraseText
 import com.example.tonwalletapp.until.Constants.ImportPhraseTitle
-import com.example.tonwalletapp.until.Constants.WalletActionImport
 
 @Composable
 fun ImportPhraseScreen(

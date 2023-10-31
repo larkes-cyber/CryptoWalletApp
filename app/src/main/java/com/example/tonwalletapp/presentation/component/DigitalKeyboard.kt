@@ -1,4 +1,4 @@
-package com.example.tonwalletapp.presentation.view
+package com.example.tonwalletapp.presentation.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,8 +18,9 @@ import com.example.tonwalletapp.R
 @Composable
 fun DigitalKeyboard(
     modifier: Modifier = Modifier,
+    onDotClick:() -> Unit = {},
     onBtnClick:(Int) -> Unit = {},
-    onDeleteBtnClick:() -> Unit = {}
+    onDeleteBtnClick:() -> Unit = {},
 ) {
 
     Column(
@@ -33,7 +34,7 @@ fun DigitalKeyboard(
             (1..3).forEach {
                 DigitalKeyboardBtn(
                     modifier = Modifier.weight(1f),
-                    digit = it,
+                    digit = it.toString(),
                 ){
                     onBtnClick(it)
                 }
@@ -46,7 +47,7 @@ fun DigitalKeyboard(
             (4..6).forEach {
                 DigitalKeyboardBtn(
                     modifier = Modifier.weight(1f),
-                    digit = it,
+                    digit = it.toString(),
                 ){
                     onBtnClick(it)
                 }
@@ -59,7 +60,7 @@ fun DigitalKeyboard(
             (7..9).forEach {
                 DigitalKeyboardBtn(
                     modifier = Modifier.weight(1f),
-                    digit = it,
+                    digit = it.toString(),
                 ){
                     onBtnClick(it)
                 }
@@ -69,10 +70,15 @@ fun DigitalKeyboard(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            Box(modifier = Modifier.weight(1f)){}
             DigitalKeyboardBtn(
                 modifier = Modifier.weight(1f),
-                digit = 0,
+                digit = ".",
+            ){
+                onDotClick()
+            }
+            DigitalKeyboardBtn(
+                modifier = Modifier.weight(1f),
+                digit = "0",
             ){
                 onBtnClick(0)
             }
@@ -107,7 +113,7 @@ fun DigitalKeyboard(
 @Composable
 fun DigitalKeyboardBtn(
     modifier: Modifier = Modifier,
-    digit:Int,
+    digit:String,
     onClick:() -> Unit
 ) {
 
@@ -127,7 +133,7 @@ fun DigitalKeyboardBtn(
                 .padding(start = 20.dp)
         ){
             Text(
-                text = digit.toString(),
+                text = digit,
                 fontSize = 24.sp,
                 color = AppTheme.colors.primaryTitle
             )

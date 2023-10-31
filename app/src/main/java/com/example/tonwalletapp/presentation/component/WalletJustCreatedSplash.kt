@@ -1,4 +1,4 @@
-package com.example.tonwalletapp.presentation.view
+package com.example.tonwalletapp.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

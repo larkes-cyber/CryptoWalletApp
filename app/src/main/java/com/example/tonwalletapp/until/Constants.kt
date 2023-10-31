@@ -94,6 +94,17 @@ object Constants {
     const val PASTE_BUTTON_TITLE = "Paste"
     const val SCAN_BUTTON_TITLE = "Scan"
 
+    const val INVALID_ADDRESS_TITLE = "Invalid Address"
+    const val ADDRESS_DOESNT_BELONG_TON_TITLE = "Address entered does not belong to TON"
+
+    const val ENTER_ADDRESS_TRANSFER_PROGRESS = 1
+    const val ENTER_AMOUNT_TRANSFER_PROGRESS = 2
+    const val CONFIRM_TRANSFER_PROGRESS = 3
+    const val PENDING_TRANSFER_PROGRESS = 4
+
+    const val INSUFFICIENT_FUNDS_ERROR = "Insufficient funds"
+    const val MIN_AMOUNT_ERROR = "Min amount 0.08"
+    const val INCORRECT_AMOUNT = "Incorrect amount"
 }
 
 object OpCodes {

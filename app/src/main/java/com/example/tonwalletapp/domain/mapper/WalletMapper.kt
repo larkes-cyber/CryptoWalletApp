@@ -66,3 +66,7 @@ fun List<String>.toWordsString():String{
 fun String.toWordsList():List<String>{
     return this.split(",")
 }
+
+fun String.toFormattedAddress():String{
+    return "${this.take(4)}...${this.takeLast(4)}"
+}

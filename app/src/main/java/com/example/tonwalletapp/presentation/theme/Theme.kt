@@ -24,7 +24,8 @@ private val DarkColorPalette = Colors(
     thirdBackground = Color(0xFF000000),
     secondFormColor = Color(0xFFF1F1F4),
     thirdPrimaryTitle = Color(0xFF37A818),
-    fourthPrimaryTitle = Color(0xFFFE3C30)
+    fourthPrimaryTitle = Color(0xFFFE3C30),
+    alertBackground = Color(0xFF2F373F)
 )
 
 
@@ -42,7 +43,8 @@ private val LightColorPalette = Colors(
     thirdBackground = Color(0xFF000000),
     secondFormColor = Color(0xFFF1F1F4),
     thirdPrimaryTitle = Color(0xFF37A818),
-    fourthPrimaryTitle = Color(0xFFFE3C30)
+    fourthPrimaryTitle = Color(0xFFFE3C30),
+    alertBackground = Color(0xE62F373F)
 )
 
 
@@ -69,7 +71,8 @@ data class Colors(
     val thirdBackground:Color,
     val secondFormColor:Color,
     val thirdPrimaryTitle:Color,
-    val fourthPrimaryTitle:Color
+    val fourthPrimaryTitle:Color,
+    val alertBackground:Color
 )
 
 object AppTheme {

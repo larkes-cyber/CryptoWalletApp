@@ -3,6 +3,7 @@ package com.example.tonwalletapp.presentation.screen.main_wallet_screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tonwalletapp.domain.mapper.toFormattedAddress
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetTransactionsByAddress
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWalletInfo
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWallets
@@ -69,7 +70,6 @@ class MainWalletViewModel @Inject constructor(
                     _transactionsUIState.value = TransactionsUIState(isLoading = true)
                 }
                 is Resource.Success -> {
-                    Log.d("wefdwerfgfwef",res.data!!.size.toString())
                     _transactionsUIState.value = TransactionsUIState(txt = res.data ?: listOf())
                 }
                 is Resource.Error -> {
@@ -85,8 +85,7 @@ class MainWalletViewModel @Inject constructor(
     }
 
     fun formatAddress(address:String):String{
-        println(address)
-        return "${address.take(4)}...${address.takeLast(4)}"
+        return address.toFormattedAddress()
     }
 
     private fun getWalletDetailInfo(){

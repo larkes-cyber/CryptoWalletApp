@@ -13,3 +13,4 @@ data class Wallet(
     val address:String,
     val initialized:Boolean
 )
+

@@ -50,6 +50,7 @@ class TonWalletModuleImpl(
     override suspend fun getTransactionList(address: String): List<TransactionDetailTon>? {
         val account = tonStateModule.getAccountState(address)
         var txt:List<TransactionDetailTon>? = null
+        Log.d("accfgdfgdfgdfg",account.toString())
         if(account != null) {
             val job = CoroutineScope(Dispatchers.IO).launch {
                 val liteClient = LiteClient(this.coroutineContext, liteClientConfig)

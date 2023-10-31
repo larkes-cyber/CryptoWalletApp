@@ -10,9 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.tonwalletapp.domain.model.TransactionDetail
-import com.example.tonwalletapp.presentation.view.TransactionItemList
-import com.example.tonwalletapp.presentation.view.TransactionsLoadingSpinner
-import com.example.tonwalletapp.presentation.view.WalletJustCreatedSplash
+import com.example.tonwalletapp.presentation.component.TransactionItemList
+import com.example.tonwalletapp.presentation.component.TransactionsLoadingSpinner
+import com.example.tonwalletapp.presentation.component.WalletJustCreatedSplash
 import com.example.tonwalletapp.ui.theme.AppTheme
 
 @Composable

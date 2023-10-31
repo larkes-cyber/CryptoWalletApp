@@ -1,4 +1,4 @@
-package com.example.tonwalletapp.presentation.view
+package com.example.tonwalletapp.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -21,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.theme.roboto
 import com.example.tonwalletapp.ui.theme.AppTheme
-import com.example.tonwalletapp.until.Constants
 import com.example.tonwalletapp.until.Constants.TonWalletText
 import com.example.tonwalletapp.until.Constants.TonWalletTitle
 

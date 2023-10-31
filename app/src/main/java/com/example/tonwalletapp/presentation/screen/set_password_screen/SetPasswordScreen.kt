@@ -12,10 +12,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.navigation.Screen
-import com.example.tonwalletapp.presentation.view.DigitalKeyboard
-import com.example.tonwalletapp.presentation.view.InfoScreenSkeleton
-import com.example.tonwalletapp.presentation.view.PasswordProgressBar
-import com.example.tonwalletapp.presentation.view.TopBarApp
+import com.example.tonwalletapp.presentation.component.DigitalKeyboard
+import com.example.tonwalletapp.presentation.component.InfoScreenSkeleton
+import com.example.tonwalletapp.presentation.component.PasswordProgressBar
+import com.example.tonwalletapp.presentation.component.TopBarApp
 import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants
 import com.example.tonwalletapp.until.Constants.ConfirmPasswordTitle
