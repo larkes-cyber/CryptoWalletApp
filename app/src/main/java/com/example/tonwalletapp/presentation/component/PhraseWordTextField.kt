@@ -81,7 +81,7 @@ fun PhraseWordTextField(
                     onNext = {
                         onNextClick()
                     }
-                ),                textStyle = TextStyle(
+                ),               textStyle = TextStyle(
                     fontSize = 15.sp,
                     color = AppTheme.colors.primaryTitle
                 ),

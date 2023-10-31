@@ -25,8 +25,10 @@ import com.example.tonwalletapp.presentation.component.InvalidAddressAlert
 import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants.SEND_TON_TITLE
 import com.example.tonwalletapp.presentation.component.PrimaryButtonApp
+import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.sub_view.ConfirmSubView
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.sub_view.EnterAddressSubView
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.sub_view.EnterAmountSubView
+import com.example.tonwalletapp.until.Constants.CONFIRM_TRANSFER_PROGRESS
 import com.example.tonwalletapp.until.Constants.ContinueBtnText
 import com.example.tonwalletapp.until.Constants.ENTER_ADDRESS_TRANSFER_PROGRESS
 import com.example.tonwalletapp.until.Constants.ENTER_AMOUNT_TRANSFER_PROGRESS
@@ -97,9 +99,15 @@ fun SendTonView(
                    EnterAmountSubView(
                        maxAmount = sendTonUIState.totalTonAmount,
                        receiverAddress = sendTonUIState.receiverAddress!!
-                   ){
-
+                   ){amount ->
+                       viewController.setSendAmount(amount)
                    }
+               }
+               CONFIRM_TRANSFER_PROGRESS -> {
+                   ConfirmSubView(
+                       amount = sendTonUIState.sendAmount!!,
+                       receiverAddr = sendTonUIState.receiverAddress!!
+                   )
                }
            }
        }

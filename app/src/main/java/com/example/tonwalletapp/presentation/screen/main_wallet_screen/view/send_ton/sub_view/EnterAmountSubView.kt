@@ -37,7 +37,7 @@ import com.example.tonwalletapp.until.Constants.MIN_AMOUNT_ERROR
 fun EnterAmountSubView(
     receiverAddress:String,
     maxAmount:Float,
-    onDone:() -> Unit
+    onDone:(Float) -> Unit
 ) {
 
     val maxAmountSelectedUIState = remember {
@@ -57,6 +57,10 @@ fun EnterAmountSubView(
         if(syb.isNotEmpty()){
             val newValue = enteredAmount.value + syb
             if(newValue.length > 6) return
+            if(newValue[0] == '0' && newValue.length == 2 && newValue[1] != '.'){
+                enteredAmount.value = "${newValue[0]}.${newValue[1]}"
+                return
+            }
             if(newValue.filter { it == '.' }.length <= 1 && (newValue != ".")){
                 enteredAmount.value = newValue
             }
@@ -153,10 +157,10 @@ fun EnterAmountSubView(
                     amountException.value = INCORRECT_AMOUNT
                     return@PrimaryButtonApp
                 }
-                if(getFloatAmount(enteredAmount.value.ifEmpty { "0" })!! < 0.08){
+                if(getFloatAmount(enteredAmount.value.ifEmpty { "0" })!! < 0.001){
                     amountException.value = MIN_AMOUNT_ERROR
                 }
-                if(amountException.value.isEmpty()) onDone()
+                if(amountException.value.isEmpty()) onDone(enteredAmount.value.toFloat())
             }
             Spacer(modifier = Modifier.height(16.dp))
             DigitalKeyboard(

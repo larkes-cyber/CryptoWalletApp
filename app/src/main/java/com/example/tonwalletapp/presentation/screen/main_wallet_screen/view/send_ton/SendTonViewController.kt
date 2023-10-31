@@ -3,6 +3,7 @@ package com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.sen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.tonwalletapp.domain.model.WalletDetail
+import com.example.tonwalletapp.until.Constants.CONFIRM_TRANSFER_PROGRESS
 import com.example.tonwalletapp.until.Constants.ENTER_ADDRESS_TRANSFER_PROGRESS
 import com.example.tonwalletapp.until.Constants.ENTER_AMOUNT_TRANSFER_PROGRESS
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,6 +49,10 @@ class SendTonViewController @Inject constructor():ViewModel() {
 
     fun resetTonSendViewData(){
         _sendTonUIState.value = SendTonUIState()
+    }
+
+    fun setSendAmount(amount:Float){
+        _sendTonUIState.value = sendTonUIState.value.copy(sendAmount = amount, transferProgress = CONFIRM_TRANSFER_PROGRESS)
     }
 
     fun initWalletInfo(walletDetail: WalletDetail){

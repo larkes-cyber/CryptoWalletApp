@@ -103,8 +103,13 @@ object Constants {
     const val PENDING_TRANSFER_PROGRESS = 4
 
     const val INSUFFICIENT_FUNDS_ERROR = "Insufficient funds"
-    const val MIN_AMOUNT_ERROR = "Min amount 0.08"
+    const val MIN_AMOUNT_ERROR = "Min amount 0.001"
     const val INCORRECT_AMOUNT = "Incorrect amount"
+    const val COMMENT_TITLE = "Comment (Optional)"
+    const val PAYMENT_DESCR = "Description of the payment"
+    const val COMMENT_DESCR = "The comment is visible to everyone. You must include the note when sending to an exchange."
+    const val DETAILS_TITLE = "Details"
+    const val CONFIRM_AND_SEND_BTN_TITLE = "Confirm and send"
 }
 
 object OpCodes {
