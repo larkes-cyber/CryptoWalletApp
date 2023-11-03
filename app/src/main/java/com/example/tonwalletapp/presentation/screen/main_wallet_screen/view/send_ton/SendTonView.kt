@@ -28,15 +28,21 @@ import com.example.tonwalletapp.presentation.component.PrimaryButtonApp
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.sub_view.ConfirmSubView
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.sub_view.EnterAddressSubView
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.sub_view.EnterAmountSubView
+import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.sub_view.PendingSubView
 import com.example.tonwalletapp.until.Constants.CONFIRM_TRANSFER_PROGRESS
 import com.example.tonwalletapp.until.Constants.ContinueBtnText
 import com.example.tonwalletapp.until.Constants.ENTER_ADDRESS_TRANSFER_PROGRESS
 import com.example.tonwalletapp.until.Constants.ENTER_AMOUNT_TRANSFER_PROGRESS
+import com.example.tonwalletapp.until.Constants.PENDING_TRANSFER_PROGRESS
+import com.example.tonwalletapp.until.Constants.VIEW_WALLET_BTN_TITLE
+import com.example.tonwalletapp.until.Resource
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun SendTonView(
     viewController: SendTonViewController = hiltViewModel(),
     walletDetail: WalletDetail,
+    startSending:(Float, Float) -> Flow<Resource<String>>,
     getTxtFee:(Float) -> Float,
     onBack:() -> Unit
 ) {
@@ -110,6 +116,13 @@ fun SendTonView(
                        receiverAddr = sendTonUIState.receiverAddress!!,
                        fee = getTxtFee(sendTonUIState.sendAmount!!)
                    )
+               }
+               PENDING_TRANSFER_PROGRESS -> {
+                   PendingSubView(
+                       startSending = startSending(sendTonUIState.sendAmount!!, sendTonUIState.sendAmount!! - getTxtFee(sendTonUIState.sendAmount!!))
+                   ){
+                       viewController.backToWallet()
+                   }
                }
            }
        }

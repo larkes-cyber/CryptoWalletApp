@@ -110,7 +110,16 @@ object Constants {
     const val COMMENT_DESCR = "The comment is visible to everyone. You must include the note when sending to an exchange."
     const val DETAILS_TITLE = "Details"
     const val CONFIRM_AND_SEND_BTN_TITLE = "Confirm and send"
+
+    const val PENDING_TON_TITLE = "Sending TON"
+    const val PENDING_TON_SUBTITLE = "Please wait a few seconds for your transaction to be processed…"
+    const val VIEW_WALLET_BTN_TITLE = "View My Wallet"
+
+    const val PROCESS_PENDING_TITLE = 1
+    const val SUCCESS_PENDING_TITLE = 2
+    const val ERROR_PENDING_TITLE = 3
 }
+
 
 object OpCodes {
     const val OP_WITHDRAW = 2222
