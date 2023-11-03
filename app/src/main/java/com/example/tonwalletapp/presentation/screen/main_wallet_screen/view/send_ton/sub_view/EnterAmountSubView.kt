@@ -157,7 +157,7 @@ fun EnterAmountSubView(
                     amountException.value = INCORRECT_AMOUNT
                     return@PrimaryButtonApp
                 }
-                if(getFloatAmount(enteredAmount.value.ifEmpty { "0" })!! < 0.001){
+                if(getFloatAmount(enteredAmount.value.ifEmpty { "0" })!! < 0.009){
                     amountException.value = MIN_AMOUNT_ERROR
                 }
                 if(amountException.value.isEmpty()) onDone(enteredAmount.value.toFloat())

@@ -28,6 +28,8 @@ import com.example.tonwalletapp.until.Constants.RECEIVE_BTN_TITLE
 import com.example.tonwalletapp.until.Constants.SEND_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Constants.SEND_BTN_TITLE
 import com.example.tonwalletapp.until.Constants.TRANSACTIONS_BOTTOM_SHEET_CONTENT
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
@@ -89,6 +91,8 @@ fun MainWalletScreen(
                                 coroutineScope.launch{
                                     scaffoldState.bottomSheetState.collapse()
                                     viewModel.changeBottomSheetContext(TRANSACTIONS_BOTTOM_SHEET_CONTENT)
+                                    viewModel.loadMainWallet()
+
                                 }
                             }
                         }
@@ -100,114 +104,118 @@ fun MainWalletScreen(
         sheetPeekHeight = 400.dp,
         sheetShape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(AppTheme.colors.secondBackground)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(scrollableState)
-                    .padding(top = 76.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(57.dp)
-            ) {
-                if(walletUIState.isLoading){
-                    TonCrystalLoadingSpinner(
-                        modifier = Modifier.size(60.dp)
-                    )
-                }
-                if(walletUIState.walletDetail != null) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(5.dp),
-                            verticalAlignment = Alignment.Bottom
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.ton_crystal_frame),
-                                contentDescription = "",
-                                modifier = Modifier.size(60.dp),
-                                contentScale = ContentScale.Crop
-                            )
-                            Column(verticalArrangement = Arrangement.spacedBy(11.dp)) {
-                                Text(
-                                    text = viewModel.formatAddress(walletUIState.walletDetail!!.address),
-                                    fontSize = 15.sp,
-                                    color = AppTheme.colors.background
-                                )
-                                Text(
-                                    text = String.format("%.4f", walletUIState.walletDetail!!.balance),
-                                    fontSize = 44.sp,
-                                    color = AppTheme.colors.background,
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
-                        }
-                    }
-                }
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.padding(horizontal = 20.dp)
-                ) {
-                    PrimaryButtonApp(
-                        text = RECEIVE_BTN_TITLE,
-                        icon = R.drawable.receive,
-                        modifier = Modifier.weight(1f)
-                    ) {
+       SwipeRefresh(state = rememberSwipeRefreshState(isRefreshing = walletUIState.isLoading || transactionUIState.isLoading), onRefresh = {
+           viewModel.loadMainWallet()
+       }) {
+           Box(
+               modifier = Modifier
+                   .fillMaxSize()
+                   .background(AppTheme.colors.secondBackground)
+           ) {
+               Column(
+                   modifier = Modifier
+                       .fillMaxSize()
+                       .verticalScroll(scrollableState)
+                       .padding(top = 76.dp),
+                   horizontalAlignment = Alignment.CenterHorizontally,
+                   verticalArrangement = Arrangement.spacedBy(57.dp)
+               ) {
+                   if(walletUIState.isLoading){
+                       TonCrystalLoadingSpinner(
+                           modifier = Modifier.size(60.dp)
+                       )
+                   }
+                   if(walletUIState.walletDetail != null) {
+                       Column(
+                           horizontalAlignment = Alignment.CenterHorizontally
+                       ) {
+                           Row(
+                               horizontalArrangement = Arrangement.spacedBy(5.dp),
+                               verticalAlignment = Alignment.Bottom
+                           ) {
+                               Image(
+                                   painter = painterResource(id = R.drawable.ton_crystal_frame),
+                                   contentDescription = "",
+                                   modifier = Modifier.size(60.dp),
+                                   contentScale = ContentScale.Crop
+                               )
+                               Column(verticalArrangement = Arrangement.spacedBy(11.dp)) {
+                                   Text(
+                                       text = viewModel.formatAddress(walletUIState.walletDetail!!.address),
+                                       fontSize = 15.sp,
+                                       color = AppTheme.colors.background
+                                   )
+                                   Text(
+                                       text = String.format("%.4f", walletUIState.walletDetail!!.balance),
+                                       fontSize = 44.sp,
+                                       color = AppTheme.colors.background,
+                                       fontWeight = FontWeight.Medium
+                                   )
+                               }
+                           }
+                       }
+                   }
+                   Row(
+                       horizontalArrangement = Arrangement.spacedBy(12.dp),
+                       modifier = Modifier.padding(horizontal = 20.dp)
+                   ) {
+                       PrimaryButtonApp(
+                           text = RECEIVE_BTN_TITLE,
+                           icon = R.drawable.receive,
+                           modifier = Modifier.weight(1f)
+                       ) {
 
-                    }
-                    PrimaryButtonApp(
-                        text = SEND_BTN_TITLE,
-                        icon = R.drawable.send,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        viewModel.changeBottomSheetContext(SEND_BOTTOM_SHEET_CONTENT)
-                        coroutineScope.launch {
-                            scaffoldState.bottomSheetState.expand()
-                        }
-                    }
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-                    .align(Alignment.TopCenter),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column() {
-                }
-                Row(
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.scan),
-                        contentDescription = "",
-                        tint = AppTheme.colors.background,
-                        modifier = Modifier
-                            .size(24.dp)
-                            .clickable {
-                            }
-                    )
-                    Icon(
-                        painter = painterResource(id = R.drawable.setting),
-                        contentDescription = "",
-                        tint = AppTheme.colors.background,
-                        modifier = Modifier
-                            .size(24.dp)
-                            .clickable {
+                       }
+                       PrimaryButtonApp(
+                           text = SEND_BTN_TITLE,
+                           icon = R.drawable.send,
+                           modifier = Modifier.weight(1f)
+                       ) {
+                           viewModel.changeBottomSheetContext(SEND_BOTTOM_SHEET_CONTENT)
+                           coroutineScope.launch {
+                               scaffoldState.bottomSheetState.expand()
+                           }
+                       }
+                   }
+               }
+               Row(
+                   modifier = Modifier
+                       .fillMaxWidth()
+                       .padding(top = 16.dp)
+                       .align(Alignment.TopCenter),
+                   horizontalArrangement = Arrangement.SpaceBetween
+               ) {
+                   Column() {
+                   }
+                   Row(
+                       modifier = Modifier.padding(horizontal = 10.dp),
+                       horizontalArrangement = Arrangement.spacedBy(16.dp)
+                   ) {
+                       Icon(
+                           painter = painterResource(id = R.drawable.scan),
+                           contentDescription = "",
+                           tint = AppTheme.colors.background,
+                           modifier = Modifier
+                               .size(24.dp)
+                               .clickable {
+                               }
+                       )
+                       Icon(
+                           painter = painterResource(id = R.drawable.setting),
+                           contentDescription = "",
+                           tint = AppTheme.colors.background,
+                           modifier = Modifier
+                               .size(24.dp)
+                               .clickable {
 
-                            }
-                    )
+                               }
+                       )
 
-                }
-            }
+                   }
+               }
 
-        }
+           }
+       }
     }
 
 }

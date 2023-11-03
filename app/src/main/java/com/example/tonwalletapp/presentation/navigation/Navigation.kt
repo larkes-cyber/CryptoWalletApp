@@ -35,7 +35,7 @@ import kotlinx.coroutines.flow.flow
 @Composable
 fun Navigation(navController: NavHostController) {
 
-    NavHost(navController = navController, startDestination = "pending"){
+    NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
 
         composable(Screen.SplashScreen.route){
             val viewModel:SplashScreenViewModel = hiltViewModel()
@@ -67,19 +67,7 @@ fun Navigation(navController: NavHostController) {
                 viewModel = viewModel
             )
         }
-        composable("pending"){
-            PendingSubView(
-                amount = 1.2f,
-                address = "UQBb5ZB5tSNHlrqdhDbFZamsbl7yndfw98MHaRFfUItK4LRW",
-                startSending = flow {
-                  //  emit(Resource.Loading())
-//                    delay(2000)
-                    emit(Resource.Success(""))
-                }
-            ) {
-                
-            }
-        }
+
 
         composable(Screen.SuccessScreen.route){
             SuccessScreen(navController = navController)

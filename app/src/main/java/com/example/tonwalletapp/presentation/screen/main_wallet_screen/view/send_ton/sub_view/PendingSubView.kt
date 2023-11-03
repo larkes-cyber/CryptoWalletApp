@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.component.PrimaryButtonApp
 import com.example.tonwalletapp.until.Constants.ERROR_PENDING_PROGRESS
-import com.example.tonwalletapp.until.Constants.INVALID_ADDRESS_TITLE
+import com.example.tonwalletapp.until.Constants.FEE
 import com.example.tonwalletapp.until.Constants.PENDING_TON_SUBTITLE
 import com.example.tonwalletapp.until.Constants.PENDING_TON_TITLE
 import com.example.tonwalletapp.until.Constants.PROCESS_PENDING_PROGRESS
@@ -98,7 +98,7 @@ fun PendingSubView(
             Text(
                 text = when(pendingState.value){
                     PROCESS_PENDING_PROGRESS -> PENDING_TON_SUBTITLE
-                    SUCCESS_PENDING_PROGRESS -> "$amount Toncoin have been sent to"
+                    SUCCESS_PENDING_PROGRESS -> "${amount - FEE} Toncoin have been sent to"
                     else -> TXT_ERROR_TITLE
                 },
                 fontSize = 15.sp,

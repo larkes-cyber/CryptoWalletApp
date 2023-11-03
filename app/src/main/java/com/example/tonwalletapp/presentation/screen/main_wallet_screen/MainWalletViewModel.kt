@@ -1,15 +1,12 @@
 package com.example.tonwalletapp.presentation.screen.main_wallet_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.tonwalletapp.domain.mapper.toFormattedAddress
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetTransactionFee
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetTransactionsByAddress
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWalletInfo
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWallets
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseMakeTransaction
-import com.example.tonwalletapp.until.Constants.IS_NOT_AUTHORIZED
 import com.example.tonwalletapp.until.Constants.TRANSACTIONS_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +17,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,10 +41,10 @@ class MainWalletViewModel @Inject constructor(
     val currentBottomSheetContentUIState:StateFlow<Int> = _currentBottomSheetContentUIState
 
     init {
-         setupMainWallet()
+         loadMainWallet()
     }
 
-    private fun setupMainWallet(){
+    fun loadMainWallet(){
         _walletUIState.value = WalletUIState(isLoading = true)
         useGetWallets.invoke().onEach {res ->
             when(res){

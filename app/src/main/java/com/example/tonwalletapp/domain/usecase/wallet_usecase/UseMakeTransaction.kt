@@ -2,6 +2,7 @@ package com.example.tonwalletapp.domain.usecase.wallet_usecase
 
 import com.example.tonwalletapp.domain.mapper.toRoundAmount
 import com.example.tonwalletapp.domain.repository.WalletRepository
+import com.example.tonwalletapp.until.Constants.FEE
 import com.example.tonwalletapp.until.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,14 +15,12 @@ class UseMakeTransaction(
 
         emit(Resource.Loading())
         try {
-            val gas = 0.009
-            val total = amount - gas
             val wallet = walletRepository.getWalletByAddress(senderAddr)
 
             walletRepository.makeTransfer(
                 wallet = wallet,
                 address = receiverAddr,
-                amount = total.toFloat().toRoundAmount()
+                amount = amount.toRoundAmount() - FEE
             )
             emit(Resource.Success("success"))
 

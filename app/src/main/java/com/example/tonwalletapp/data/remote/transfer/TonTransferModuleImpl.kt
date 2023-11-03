@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.data.remote.transfer
 
+import android.util.Log
 import com.example.tonwalletapp.data.remote.model.WalletTon
 import com.example.tonwalletapp.data.remote.state.TonStateModule
 import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
@@ -43,11 +44,11 @@ class TonTransferModuleImpl(
 
     override suspend fun makeTransfer(walletTon: WalletTon, amount: Double, address: String) {
 
-        val checkWalletInit = tonWalletModule.checkWalletInitialization(address)
+        val checkWalletInit = tonWalletModule.checkWalletInitialization(walletTon.address)
         createTransfer(
             stateInit = if(checkWalletInit) null else tonStateModule.createStateInit(walletTon.privateKey),
             privateKey = walletTon.privateKey,
-            seqno = tonWalletModule.getSeqno(walletTon.address)!!,
+            seqno = if(!checkWalletInit) 0 else tonWalletModule.getSeqno(walletTon.address)!!,
             address = AddrStd(walletTon.address),
             transfers = listOf(Pair(address, amount.toNano())).toWalletTransfer().toTypedArray()
         )

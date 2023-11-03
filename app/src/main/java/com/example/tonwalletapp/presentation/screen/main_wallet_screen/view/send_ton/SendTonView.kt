@@ -114,7 +114,8 @@ fun SendTonView(
                    ConfirmSubView(
                        amount = sendTonUIState.sendAmount!!,
                        receiverAddr = sendTonUIState.receiverAddress!!,
-                       fee = getTxtFee(sendTonUIState.sendAmount!!)
+                       fee = getTxtFee(sendTonUIState.sendAmount!!),
+                       walletBalance = sendTonUIState.totalTonAmount
                    ){
                        viewController.nextTransferStep()
                    }

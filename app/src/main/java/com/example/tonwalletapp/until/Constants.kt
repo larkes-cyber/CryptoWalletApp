@@ -101,7 +101,7 @@ object Constants {
     const val PENDING_TRANSFER_PROGRESS = 4
 
     const val INSUFFICIENT_FUNDS_ERROR = "Insufficient funds"
-    const val MIN_AMOUNT_ERROR = "Min amount 0.001"
+    const val MIN_AMOUNT_ERROR = "Min amount from 0.009"
     const val INCORRECT_AMOUNT = "Incorrect amount"
     const val COMMENT_TITLE = "Comment (Optional)"
     const val PAYMENT_DESCR = "Description of the payment"
@@ -117,6 +117,8 @@ object Constants {
     const val SUCCESS_PENDING_PROGRESS = 2
     const val ERROR_PENDING_PROGRESS = 3
     const val TXT_ERROR_TITLE = "Transfer error"
+    const val DONT_HAVE_TON = "You don't have enough ton for paying gas!!"
+    const val FEE = 0.02
 }
 
 

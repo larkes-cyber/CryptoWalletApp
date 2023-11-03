@@ -37,7 +37,8 @@ class TonWalletModuleImpl(
     private val liteClientConfig = tonLiteClientFactory.getLiteClientConfig()
 
     override suspend fun getSeqno(address: String):Int? {
-        val stack = runGetMethod("seqno", address = AddrStd(address)).stack
+        val stack = runGetMethod("seqno", address = AddrStd(address))?.stack
+        Log.d("sdfdsfsdfsdfsdf",stack?.toMutableVmStack()?.popInt()?.toInt().toString())
         return stack?.toMutableVmStack()?.popInt()?.toInt()
     }
 
@@ -78,40 +79,42 @@ class TonWalletModuleImpl(
     }
 
     override suspend fun checkWalletInitialization(address: String): Boolean {
-        val state = tonStateModule.getAccountState(address) ?: return false
-        val accountInfo = state.account.value as AccountInfo
-        return !accountInfo.isUninit
+        Log.d("fsdfsdfsdffsd", address)
+        return getSeqno(address) != null
     }
 
 
-    private suspend fun runGetMethod(method: String, address: AddrStd): SmartContractAnswer {
+    private suspend fun runGetMethod(method: String, address: AddrStd): SmartContractAnswer? {
 
         var smartContractAnswer:SmartContractAnswer? = null
         val job = CoroutineScope(Dispatchers.IO).launch {
-            val liteClient = LiteClient(this.coroutineContext, liteClientConfig)
-            val lastBlockId = liteClient.liteApi(LiteServerGetMasterchainInfo).last
-            val result = liteClient.liteApi(
-                LiteServerRunSmcMethod(
-                    mode = 4,
-                    id = lastBlockId,
-                    account = LiteServerAccountId(address.workchainId, address.address),
-                    methodId = LiteServerRunSmcMethod.methodId(method),
-                    params = LiteServerRunSmcMethod.params()
+            try {
+                val liteClient = LiteClient(this.coroutineContext, liteClientConfig)
+                val lastBlockId = liteClient.liteApi(LiteServerGetMasterchainInfo).last
+                val result = liteClient.liteApi(
+                    LiteServerRunSmcMethod(
+                        mode = 4,
+                        id = lastBlockId,
+                        account = LiteServerAccountId(address.workchainId, address.address),
+                        methodId = LiteServerRunSmcMethod.methodId(method),
+                        params = LiteServerRunSmcMethod.params()
+                    )
                 )
-            )
-            var vmStack: VmStack? = null
-            vmStack = VmStack.loadTlb(BagOfCells(result.result!!).first())
+                var vmStack: VmStack? = null
+                vmStack = VmStack.loadTlb(BagOfCells(result.result!!).first())
 
 
-            smartContractAnswer = SmartContractAnswer(
-                stack = vmStack,
-                exitCode = result.exitCode
-            )
+                smartContractAnswer = SmartContractAnswer(
+                    stack = vmStack,
+                    exitCode = result.exitCode
+                )
+            }catch (e:Exception){
+                smartContractAnswer = null
+            }
         }
 
         job.join()
-
-        return smartContractAnswer!!
+        return smartContractAnswer
 
     }
 

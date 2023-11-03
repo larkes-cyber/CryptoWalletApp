@@ -35,6 +35,7 @@ import com.example.tonwalletapp.until.Constants
 import com.example.tonwalletapp.until.Constants.COMMENT_DESCR
 import com.example.tonwalletapp.until.Constants.COMMENT_TITLE
 import com.example.tonwalletapp.until.Constants.DETAILS_TITLE
+import com.example.tonwalletapp.until.Constants.DONT_HAVE_TON
 import com.example.tonwalletapp.until.Constants.PAYMENT_DESCR
 import kotlin.math.roundToInt
 
@@ -43,6 +44,7 @@ fun ConfirmSubView(
     receiverAddr:String,
     amount:Float,
     fee:Float,
+    walletBalance:Float,
     onDone:() -> Unit
 ) {
 
@@ -90,6 +92,15 @@ fun ConfirmSubView(
                 fontWeight = FontWeight.Medium
             )
             TxtDetail(amount = amount, addr = receiverAddr, fee = fee)
+            if(amount + fee < walletBalance){
+                Spacer(modifier = Modifier.height(15.dp))
+                Text(
+                    text = DONT_HAVE_TON,
+                    fontSize = 14.sp,
+                    color = AppTheme.colors.fourthPrimaryTitle,
+                    fontWeight = FontWeight.Medium
+                )
+            }
 
         }
         PrimaryButtonApp(text = Constants.CONFIRM_AND_SEND_BTN_TITLE, modifier = Modifier.fillMaxWidth()) {
@@ -137,7 +148,7 @@ fun TxtDetail(
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                 Image(painter = painterResource(id = R.drawable.ton_crystal_frame), contentDescription = "", modifier = Modifier.size(15.dp))
                 Text(
-                    text = (amount - fee).toRoundAmount().toString(),
+                    text = amount.toRoundAmount().toString(),
                     fontSize = 15.sp,
                     color = AppTheme.colors.primaryTitle
                 )
@@ -161,6 +172,29 @@ fun TxtDetail(
                 Image(painter = painterResource(id = R.drawable.ton_crystal_frame), contentDescription = "", modifier = Modifier.size(15.dp))
                 Text(
                     text = "≈ ${String.format("%.3f", fee)}",
+                    fontSize = 15.sp,
+                    color = AppTheme.colors.primaryTitle
+                )
+            }
+        }
+    )
+    Divider(modifier = Modifier
+        .fillMaxWidth()
+        .background(AppTheme.colors.btnSubtitle.copy(alpha = 0.7f))
+        .height(1.dp))
+    TxtDetailItem(
+        firstComponent = {
+            Text(
+                text = "Total",
+                fontSize = 15.sp,
+                color = AppTheme.colors.primaryTitle
+            )
+        },
+        secondComponent = {
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                Image(painter = painterResource(id = R.drawable.ton_crystal_frame), contentDescription = "", modifier = Modifier.size(15.dp))
+                Text(
+                    text = "≈ " + (amount - fee).toRoundAmount().toString(),
                     fontSize = 15.sp,
                     color = AppTheme.colors.primaryTitle
                 )

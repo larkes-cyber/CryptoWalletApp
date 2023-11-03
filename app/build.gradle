@@ -114,6 +114,9 @@ dependencies {
         }
     }
 
+    //swipe refresh
+    implementation 'com.google.accompanist:accompanist-swiperefresh:0.24.13-rc'
+
 }
 
 
