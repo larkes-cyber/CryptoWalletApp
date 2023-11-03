@@ -39,4 +39,9 @@ object WalletUseCaseModule {
     fun provideUseGetTransactionsByAddress(walletRepository: WalletRepository):UseGetTransactionsByAddress{
         return UseGetTransactionsByAddress(walletRepository)
     }
+
+    @Provides
+    fun provideUseGetTransactionFee(walletRepository: WalletRepository):UseGetTransactionFee{
+        return UseGetTransactionFee(walletRepository)
+    }
 }

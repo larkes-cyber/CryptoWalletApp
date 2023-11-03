@@ -38,7 +38,8 @@ import com.example.tonwalletapp.until.Constants.PAYMENT_DESCR
 @Composable
 fun ConfirmSubView(
     receiverAddr:String,
-    amount:Float
+    amount:Float,
+    fee:Float
 ) {
 
     val commentUIState = remember {
@@ -84,7 +85,7 @@ fun ConfirmSubView(
                 color = AppTheme.colors.primaryBackground,
                 fontWeight = FontWeight.Medium
             )
-            TxtDetail(amount = amount, addr = receiverAddr)
+            TxtDetail(amount = amount, addr = receiverAddr, fee = fee)
 
         }
         PrimaryButtonApp(text = Constants.CONFIRM_AND_SEND_BTN_TITLE, modifier = Modifier.fillMaxWidth()) {
@@ -97,7 +98,8 @@ fun ConfirmSubView(
 @Composable
 fun TxtDetail(
     addr:String,
-    amount: Float
+    amount: Float,
+    fee:Float
 ){
     TxtDetailItem(
         firstComponent = {
@@ -131,7 +133,7 @@ fun TxtDetail(
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                 Image(painter = painterResource(id = R.drawable.ton_crystal_frame), contentDescription = "", modifier = Modifier.size(15.dp))
                 Text(
-                    text = amount.toString(),
+                    text = (amount - fee).toString(),
                     fontSize = 15.sp,
                     color = AppTheme.colors.primaryTitle
                 )
@@ -154,7 +156,7 @@ fun TxtDetail(
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                 Image(painter = painterResource(id = R.drawable.ton_crystal_frame), contentDescription = "", modifier = Modifier.size(15.dp))
                 Text(
-                    text = "≈ ${String.format("%.3f", amount)}",
+                    text = "≈ ${String.format("%.3f", fee)}",
                     fontSize = 15.sp,
                     color = AppTheme.colors.primaryTitle
                 )

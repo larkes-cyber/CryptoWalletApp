@@ -6,5 +6,8 @@ class UseGetTransactionFee(
     private val walletRepository: WalletRepository
 ) {
 
+    fun execute(amount:Float):Float{
+        return 0.009f
+    }
 
 }

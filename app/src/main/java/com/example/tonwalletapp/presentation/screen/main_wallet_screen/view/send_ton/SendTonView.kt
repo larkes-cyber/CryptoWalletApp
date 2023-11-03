@@ -37,6 +37,7 @@ import com.example.tonwalletapp.until.Constants.ENTER_AMOUNT_TRANSFER_PROGRESS
 fun SendTonView(
     viewController: SendTonViewController = hiltViewModel(),
     walletDetail: WalletDetail,
+    getTxtFee:(Float) -> Float,
     onBack:() -> Unit
 ) {
 
@@ -106,7 +107,8 @@ fun SendTonView(
                CONFIRM_TRANSFER_PROGRESS -> {
                    ConfirmSubView(
                        amount = sendTonUIState.sendAmount!!,
-                       receiverAddr = sendTonUIState.receiverAddress!!
+                       receiverAddr = sendTonUIState.receiverAddress!!,
+                       fee = getTxtFee(sendTonUIState.sendAmount!!)
                    )
                }
            }
