@@ -1,7 +1,5 @@
 package com.example.tonwalletapp.until
 
-import android.graphics.YuvImage
-
 object Constants {
 
     const val TonWalletTitle = "TON Wallet"
@@ -115,9 +113,10 @@ object Constants {
     const val PENDING_TON_SUBTITLE = "Please wait a few seconds for your transaction to be processed…"
     const val VIEW_WALLET_BTN_TITLE = "View My Wallet"
 
-    const val PROCESS_PENDING_TITLE = 1
-    const val SUCCESS_PENDING_TITLE = 2
-    const val ERROR_PENDING_TITLE = 3
+    const val PROCESS_PENDING_PROGRESS = 1
+    const val SUCCESS_PENDING_PROGRESS = 2
+    const val ERROR_PENDING_PROGRESS = 3
+    const val TXT_ERROR_TITLE = "Transfer error"
 }
 
 

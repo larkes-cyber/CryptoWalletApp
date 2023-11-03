@@ -83,7 +83,8 @@ fun MainWalletScreen(
                         SEND_BOTTOM_SHEET_CONTENT -> {
                             SendTonView(
                                 walletDetail = walletUIState.walletDetail!!,
-                                getTxtFee = { amount -> viewModel.getTxtFee(amount) }
+                                getTxtFee = { amount -> viewModel.getTxtFee(amount) },
+                                startSending = { amount, addr -> viewModel.getTxtTransferFlow(amount, addr)}
                             ){
                                 coroutineScope.launch{
                                     scaffoldState.bottomSheetState.collapse()

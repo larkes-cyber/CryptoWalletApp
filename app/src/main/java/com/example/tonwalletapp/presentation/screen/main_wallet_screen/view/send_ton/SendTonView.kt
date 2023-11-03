@@ -42,7 +42,7 @@ import kotlinx.coroutines.flow.Flow
 fun SendTonView(
     viewController: SendTonViewController = hiltViewModel(),
     walletDetail: WalletDetail,
-    startSending:(Float, Float) -> Flow<Resource<String>>,
+    startSending:(Float, String) -> Flow<Resource<String>>,
     getTxtFee:(Float) -> Float,
     onBack:() -> Unit
 ) {
@@ -115,11 +115,15 @@ fun SendTonView(
                        amount = sendTonUIState.sendAmount!!,
                        receiverAddr = sendTonUIState.receiverAddress!!,
                        fee = getTxtFee(sendTonUIState.sendAmount!!)
-                   )
+                   ){
+                       viewController.nextTransferStep()
+                   }
                }
                PENDING_TRANSFER_PROGRESS -> {
                    PendingSubView(
-                       startSending = startSending(sendTonUIState.sendAmount!!, sendTonUIState.sendAmount!! - getTxtFee(sendTonUIState.sendAmount!!))
+                       startSending = startSending(sendTonUIState.sendAmount!!, sendTonUIState.receiverAddress!!),
+                       amount = sendTonUIState.sendAmount!!,
+                       address = sendTonUIState.receiverAddress!!
                    ){
                        viewController.backToWallet()
                    }

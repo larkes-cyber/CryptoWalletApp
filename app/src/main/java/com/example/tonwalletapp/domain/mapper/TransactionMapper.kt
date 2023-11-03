@@ -36,6 +36,7 @@ import org.ton.tlb.loadTlb
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Date
+import kotlin.math.roundToInt
 
 fun TransactionDetailTon.toTransactionDetail():TransactionDetail{
 
@@ -199,4 +200,8 @@ fun <X> Either<X, CellRef<X>>?.trimCellRef(): Either<X, X>? {
     if (this == null) return null
 //        if (this.x == null || this.y?.value == null) return null
     return Either.of(this.x, this.y?.value)
+}
+
+fun Float.toRoundAmount():Double{
+    return (this * 10000.0).roundToInt() / 10000.0
 }

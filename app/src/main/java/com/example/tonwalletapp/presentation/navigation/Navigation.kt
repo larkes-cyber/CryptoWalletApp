@@ -15,6 +15,7 @@ import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportP
 import com.example.tonwalletapp.presentation.screen.import_success_screen.ImportSuccessScreen
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.MainWalletScreen
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.MainWalletViewModel
+import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.sub_view.PendingSubView
 import com.example.tonwalletapp.presentation.screen.ready_to_go_screen.ReadyToGoScreen
 import com.example.tonwalletapp.presentation.screen.recovery_phrase_screen.RecoveryPhraseScreen
 import com.example.tonwalletapp.presentation.screen.recovery_phrase_screen.RecoveryPhraseViewModel
@@ -27,11 +28,14 @@ import com.example.tonwalletapp.presentation.screen.test_time_screen.TestTimeVie
 import com.example.tonwalletapp.presentation.screen.wrong_phrase_screen.WrongPhraseScreen
 import com.example.tonwalletapp.presentation.splash_screen.SplashScreen
 import com.example.tonwalletapp.presentation.splash_screen.SplashScreenViewModel
+import com.example.tonwalletapp.until.Resource
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 
 @Composable
 fun Navigation(navController: NavHostController) {
 
-    NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
+    NavHost(navController = navController, startDestination = "pending"){
 
         composable(Screen.SplashScreen.route){
             val viewModel:SplashScreenViewModel = hiltViewModel()
@@ -63,6 +67,20 @@ fun Navigation(navController: NavHostController) {
                 viewModel = viewModel
             )
         }
+        composable("pending"){
+            PendingSubView(
+                amount = 1.2f,
+                address = "UQBb5ZB5tSNHlrqdhDbFZamsbl7yndfw98MHaRFfUItK4LRW",
+                startSending = flow {
+                  //  emit(Resource.Loading())
+//                    delay(2000)
+                    emit(Resource.Success(""))
+                }
+            ) {
+                
+            }
+        }
+
         composable(Screen.SuccessScreen.route){
             SuccessScreen(navController = navController)
         }

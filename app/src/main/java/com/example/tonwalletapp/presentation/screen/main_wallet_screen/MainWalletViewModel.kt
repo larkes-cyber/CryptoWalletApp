@@ -8,12 +8,14 @@ import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetTransactionF
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetTransactionsByAddress
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWalletInfo
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWallets
+import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseMakeTransaction
 import com.example.tonwalletapp.until.Constants.IS_NOT_AUTHORIZED
 import com.example.tonwalletapp.until.Constants.TRANSACTIONS_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -26,7 +28,8 @@ class MainWalletViewModel @Inject constructor(
     private val useGetWallets: UseGetWallets,
     private val useGetWalletInfo: UseGetWalletInfo,
     private val useGetTransactionsByAddress: UseGetTransactionsByAddress,
-    private val useGetTransactionFee: UseGetTransactionFee
+    private val useGetTransactionFee: UseGetTransactionFee,
+    private val useMakeTransaction: UseMakeTransaction
 ):ViewModel() {
 
     private val _walletUIState = MutableStateFlow(WalletUIState())
@@ -105,6 +108,10 @@ class MainWalletViewModel @Inject constructor(
                 }
             }
         }.launchIn(CoroutineScope(Dispatchers.IO))
+    }
+
+    fun getTxtTransferFlow(amount: Float, receiverAddr:String):Flow<Resource<String>>{
+        return useMakeTransaction.invoke(amount = amount, receiverAddr = receiverAddr, senderAddr = walletUIState.value.walletDetail!!.address)
     }
 
     fun getTxtFee(amount:Float):Float{

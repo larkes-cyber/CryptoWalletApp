@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.sub_view
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.domain.mapper.toFormattedAddress
+import com.example.tonwalletapp.domain.mapper.toRoundAmount
 import com.example.tonwalletapp.presentation.component.PrimaryButtonApp
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.component.TonPrimaryTextField
 import com.example.tonwalletapp.ui.theme.AppTheme
@@ -34,12 +36,14 @@ import com.example.tonwalletapp.until.Constants.COMMENT_DESCR
 import com.example.tonwalletapp.until.Constants.COMMENT_TITLE
 import com.example.tonwalletapp.until.Constants.DETAILS_TITLE
 import com.example.tonwalletapp.until.Constants.PAYMENT_DESCR
+import kotlin.math.roundToInt
 
 @Composable
 fun ConfirmSubView(
     receiverAddr:String,
     amount:Float,
-    fee:Float
+    fee:Float,
+    onDone:() -> Unit
 ) {
 
     val commentUIState = remember {
@@ -89,7 +93,7 @@ fun ConfirmSubView(
 
         }
         PrimaryButtonApp(text = Constants.CONFIRM_AND_SEND_BTN_TITLE, modifier = Modifier.fillMaxWidth()) {
-
+            onDone()
         }
     }
 
@@ -133,7 +137,7 @@ fun TxtDetail(
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                 Image(painter = painterResource(id = R.drawable.ton_crystal_frame), contentDescription = "", modifier = Modifier.size(15.dp))
                 Text(
-                    text = (amount - fee).toString(),
+                    text = (amount - fee).toRoundAmount().toString(),
                     fontSize = 15.sp,
                     color = AppTheme.colors.primaryTitle
                 )

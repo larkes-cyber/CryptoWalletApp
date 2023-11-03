@@ -43,6 +43,10 @@ class SendTonViewController @Inject constructor():ViewModel() {
         }
     }
 
+    fun nextTransferStep(){
+        _sendTonUIState.value = sendTonUIState.value.copy(transferProgress = sendTonUIState.value.transferProgress + 1)
+    }
+
     fun progressBack(){
         _sendTonUIState.value = sendTonUIState.value.copy(transferProgress = sendTonUIState.value.transferProgress - 1)
     }
@@ -54,6 +58,7 @@ class SendTonViewController @Inject constructor():ViewModel() {
     fun resetTonSendViewData(){
         _sendTonUIState.value = SendTonUIState()
     }
+
 
     fun setSendAmount(amount:Float){
         _sendTonUIState.value = sendTonUIState.value.copy(sendAmount = amount, transferProgress = CONFIRM_TRANSFER_PROGRESS)
