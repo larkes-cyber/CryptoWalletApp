@@ -117,8 +117,8 @@ object Constants {
     const val SUCCESS_PENDING_PROGRESS = 2
     const val ERROR_PENDING_PROGRESS = 3
     const val TXT_ERROR_TITLE = "Transfer error"
-    const val DONT_HAVE_TON = "You don't have enough ton for paying gas!!"
-    const val FEE = 0.02
+    const val DONT_HAVE_TON = "You don't have enough ton for paying gas!"
+    const val FEE = 0.01
 }
 
 

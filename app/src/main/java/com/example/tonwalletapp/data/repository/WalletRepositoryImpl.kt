@@ -43,8 +43,8 @@ class WalletRepositoryImpl(
         return walletTonDataSource.getWalletTransactions(address)
     }
 
-    override suspend fun makeTransfer(wallet: WalletEntity, address: String, amount:Double) {
-        walletTonDataSource.makeTransfer(walletEntity = wallet.toWallet().toWalletTon(), address = address, amount = amount)
+    override suspend fun makeTransfer(wallet: WalletEntity, address: String, amount:Double, message:String?) {
+        walletTonDataSource.makeTransfer(walletEntity = wallet.toWallet().toWalletTon(), address = address, amount = amount, message = message)
     }
 
     override suspend fun getWalletByAddress(address: String): WalletEntity {

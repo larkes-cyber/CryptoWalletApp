@@ -2,11 +2,13 @@ package com.example.tonwalletapp.presentation.screen.main_wallet_screen
 
 import androidx.lifecycle.ViewModel
 import com.example.tonwalletapp.domain.mapper.toFormattedAddress
+import com.example.tonwalletapp.domain.mapper.toRoundAmount
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetTransactionFee
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetTransactionsByAddress
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWalletInfo
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWallets
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseMakeTransaction
+import com.example.tonwalletapp.until.Constants.FEE
 import com.example.tonwalletapp.until.Constants.TRANSACTIONS_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -106,8 +108,11 @@ class MainWalletViewModel @Inject constructor(
         }.launchIn(CoroutineScope(Dispatchers.IO))
     }
 
-    fun getTxtTransferFlow(amount: Float, receiverAddr:String):Flow<Resource<String>>{
-        return useMakeTransaction.invoke(amount = amount, receiverAddr = receiverAddr, senderAddr = walletUIState.value.walletDetail!!.address)
+    fun getTxtTransferFlow(amount: Float, receiverAddr:String, message:String?):Flow<Resource<String>>{
+
+        val totalAmount = if(amount + FEE > walletUIState.value.walletDetail!!.balance) amount - FEE else amount
+
+        return useMakeTransaction.invoke(amount = totalAmount.toFloat().toRoundAmount().toFloat(), receiverAddr = receiverAddr, senderAddr = walletUIState.value.walletDetail!!.address, message = message)
     }
 
     fun getTxtFee(amount:Float):Float{

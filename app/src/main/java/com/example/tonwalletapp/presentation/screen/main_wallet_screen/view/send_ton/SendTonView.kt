@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.tonwalletapp.domain.mapper.toRoundAmount
 import com.example.tonwalletapp.domain.model.WalletDetail
 import com.example.tonwalletapp.presentation.component.InvalidAddressAlert
 import com.example.tonwalletapp.ui.theme.AppTheme
@@ -33,6 +34,7 @@ import com.example.tonwalletapp.until.Constants.CONFIRM_TRANSFER_PROGRESS
 import com.example.tonwalletapp.until.Constants.ContinueBtnText
 import com.example.tonwalletapp.until.Constants.ENTER_ADDRESS_TRANSFER_PROGRESS
 import com.example.tonwalletapp.until.Constants.ENTER_AMOUNT_TRANSFER_PROGRESS
+import com.example.tonwalletapp.until.Constants.FEE
 import com.example.tonwalletapp.until.Constants.PENDING_TRANSFER_PROGRESS
 import com.example.tonwalletapp.until.Constants.VIEW_WALLET_BTN_TITLE
 import com.example.tonwalletapp.until.Resource
@@ -42,7 +44,7 @@ import kotlinx.coroutines.flow.Flow
 fun SendTonView(
     viewController: SendTonViewController = hiltViewModel(),
     walletDetail: WalletDetail,
-    startSending:(Float, String) -> Flow<Resource<String>>,
+    startSending:(Float, String, String?) -> Flow<Resource<String>>,
     getTxtFee:(Float) -> Float,
     onBack:() -> Unit
 ) {
@@ -117,13 +119,15 @@ fun SendTonView(
                        fee = getTxtFee(sendTonUIState.sendAmount!!),
                        walletBalance = sendTonUIState.totalTonAmount
                    ){
+                       viewController.saveMessage(it)
                        viewController.nextTransferStep()
                    }
                }
                PENDING_TRANSFER_PROGRESS -> {
+                   val totalAmount = if(sendTonUIState.sendAmount!! + FEE > walletDetail.balance) (sendTonUIState.sendAmount!! - FEE).toFloat().toRoundAmount().toFloat() else sendTonUIState.sendAmount!!.toFloat()
                    PendingSubView(
-                       startSending = startSending(sendTonUIState.sendAmount!!, sendTonUIState.receiverAddress!!),
-                       amount = sendTonUIState.sendAmount!!,
+                       startSending = startSending(sendTonUIState.sendAmount!!, sendTonUIState.receiverAddress!!, sendTonUIState.message),
+                       amount = totalAmount,
                        address = sendTonUIState.receiverAddress!!
                    ){
                        viewController.backToWallet()

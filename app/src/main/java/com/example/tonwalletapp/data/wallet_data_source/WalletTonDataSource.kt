@@ -8,7 +8,7 @@ import com.example.tonwalletapp.data.remote.model.WalletTon
 interface WalletTonDataSource {
     suspend fun createWallet():WalletTon
     suspend fun getWalletInfoByWords(words:List<String>):WalletTon
-    suspend fun makeTransfer(walletEntity: WalletTon, address:String, amount:Double)
+    suspend fun makeTransfer(walletEntity: WalletTon, address:String, amount:Double, message:String?)
     suspend fun getWalletTransactions(address: String):List<TransactionDetailTon>?
     suspend fun getWalletBalance(address: String):Float?
 }

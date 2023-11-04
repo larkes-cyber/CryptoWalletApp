@@ -5,7 +5,7 @@ import com.example.tonwalletapp.data.remote.model.WalletTon
 import org.ton.api.pk.PrivateKeyEd25519
 
 interface TonClient {
-    suspend fun makeTransfer(walletTon: WalletTon, address:String, amount:Double)
+    suspend fun makeTransfer(walletTon: WalletTon, address:String, amount:Double, message:String?)
     suspend fun getWalletTransaction(address: String):List<TransactionDetailTon>?
     suspend fun getWalletBalance(address: String):Float?
     suspend fun getWalletAddress(privateKeyEd25519: PrivateKeyEd25519):String

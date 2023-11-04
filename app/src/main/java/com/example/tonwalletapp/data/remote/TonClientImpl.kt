@@ -16,11 +16,12 @@ class TonClientImpl(
     private val tonTransferModule: TonTransferModule,
     private val tonWalletModule: TonWalletModule
 ):TonClient {
-    override suspend fun makeTransfer(walletTon: WalletTon, address: String, amount:Double) {
+    override suspend fun makeTransfer(walletTon: WalletTon, address: String, amount:Double, message:String?) {
         tonTransferModule.makeTransfer(
             walletTon = walletTon,
             address = address,
-            amount = amount
+            amount = amount,
+            message = message
         )
     }
 

@@ -54,7 +54,9 @@ class SendTonViewController @Inject constructor():ViewModel() {
     fun backToWallet(){
         _sendTonUIState.value = sendTonUIState.value.copy(transferProgress = 0)
     }
-
+    fun saveMessage(msg:String){
+        _sendTonUIState.value = sendTonUIState.value.copy(message = msg.ifEmpty { null })
+    }
     fun resetTonSendViewData(){
         _sendTonUIState.value = SendTonUIState()
     }

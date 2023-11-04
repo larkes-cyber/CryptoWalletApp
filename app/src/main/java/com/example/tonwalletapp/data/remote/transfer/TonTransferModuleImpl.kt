@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.ton.api.pk.PrivateKeyEd25519
+import org.ton.api.rldp.RldpMessageData
 import org.ton.bitstring.BitString
 import org.ton.block.AddrNone
 import org.ton.block.AddrStd
@@ -30,6 +31,7 @@ import org.ton.contract.wallet.WalletTransfer
 import org.ton.lite.api.liteserver.functions.LiteServerSendMessage
 import org.ton.lite.client.LiteClient
 import org.ton.tlb.CellRef
+import org.ton.tlb.asRef
 import org.ton.tlb.constructor.AnyTlbConstructor
 import org.ton.tlb.storeRef
 import org.ton.tlb.storeTlb
@@ -42,17 +44,33 @@ class TonTransferModuleImpl(
 
     private val liteClientConfig = liteClientFactory.getLiteClientConfig()
 
-    override suspend fun makeTransfer(walletTon: WalletTon, amount: Double, address: String) {
+    override suspend fun makeTransfer(walletTon: WalletTon, amount: Double, address: String, message:String?) {
+
 
         val checkWalletInit = tonWalletModule.checkWalletInitialization(walletTon.address)
+
         createTransfer(
             stateInit = if(checkWalletInit) null else tonStateModule.createStateInit(walletTon.privateKey),
             privateKey = walletTon.privateKey,
             seqno = if(!checkWalletInit) 0 else tonWalletModule.getSeqno(walletTon.address)!!,
             address = AddrStd(walletTon.address),
-            transfers = listOf(Pair(address, amount.toNano())).toWalletTransfer().toTypedArray()
+            transfers = arrayOf(
+                WalletTransfer {
+                    destination = AddrStd(address)
+                    coins = Coins.ofNano(amount.toNano())
+                    bounceable = true
+                    sendMode = 1
+                    body = if(message == null) null else
+                        buildCell {
+                        storeUInt(0, 32)
+                        storeBytes(message.toByteArray())
+                    }
+                }
+            )
         )
     }
+
+
 
     private suspend fun createTransfer(
         stateInit: StateInit?,
@@ -172,12 +190,16 @@ class TonTransferModuleImpl(
         val init = Maybe.of(gift.stateInit?.let {
             Either.of<StateInit, CellRef<StateInit>>(tonStateModule.createStateInit(privateKey), null)
         })
-
+        val body = if (gift.body == null) {
+            Either.of<Cell, CellRef<Cell>>(Cell.empty(), null)
+        } else {
+            Either.of<Cell, CellRef<Cell>>(null, CellRef(gift.body!!))
+        }
 
         return MessageRelaxed(
             info = info,
             init = init,
-            body = Either.of<Cell, CellRef<Cell>>(Cell.empty(), null),
+            body = body,
         )
     }
 }

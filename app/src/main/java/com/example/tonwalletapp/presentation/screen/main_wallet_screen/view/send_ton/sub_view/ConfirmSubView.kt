@@ -45,7 +45,7 @@ fun ConfirmSubView(
     amount:Float,
     fee:Float,
     walletBalance:Float,
-    onDone:() -> Unit
+    onDone:(String) -> Unit
 ) {
 
     val commentUIState = remember {
@@ -91,8 +91,8 @@ fun ConfirmSubView(
                 color = AppTheme.colors.primaryBackground,
                 fontWeight = FontWeight.Medium
             )
-            TxtDetail(amount = amount, addr = receiverAddr, fee = fee)
-            if(amount + fee < walletBalance){
+            TxtDetail(amount = amount, addr = receiverAddr, fee = fee, maBalance = walletBalance)
+            if(amount - fee > walletBalance){
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
                     text = DONT_HAVE_TON,
@@ -104,7 +104,7 @@ fun ConfirmSubView(
 
         }
         PrimaryButtonApp(text = Constants.CONFIRM_AND_SEND_BTN_TITLE, modifier = Modifier.fillMaxWidth()) {
-            onDone()
+            onDone(commentUIState.value)
         }
     }
 
@@ -114,7 +114,8 @@ fun ConfirmSubView(
 fun TxtDetail(
     addr:String,
     amount: Float,
-    fee:Float
+    fee:Float,
+    maBalance:Float
 ){
     TxtDetailItem(
         firstComponent = {
@@ -148,7 +149,7 @@ fun TxtDetail(
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                 Image(painter = painterResource(id = R.drawable.ton_crystal_frame), contentDescription = "", modifier = Modifier.size(15.dp))
                 Text(
-                    text = amount.toRoundAmount().toString(),
+                    text = (if(amount + fee > maBalance) amount - fee else amount + fee).toRoundAmount().toString(),
                     fontSize = 15.sp,
                     color = AppTheme.colors.primaryTitle
                 )
@@ -171,7 +172,7 @@ fun TxtDetail(
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                 Image(painter = painterResource(id = R.drawable.ton_crystal_frame), contentDescription = "", modifier = Modifier.size(15.dp))
                 Text(
-                    text = "≈ ${String.format("%.3f", fee)}",
+                    text = "≈ ${String.format("%.2f", fee)}",
                     fontSize = 15.sp,
                     color = AppTheme.colors.primaryTitle
                 )
@@ -182,6 +183,7 @@ fun TxtDetail(
         .fillMaxWidth()
         .background(AppTheme.colors.btnSubtitle.copy(alpha = 0.7f))
         .height(1.dp))
+
     TxtDetailItem(
         firstComponent = {
             Text(
@@ -194,7 +196,7 @@ fun TxtDetail(
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
                 Image(painter = painterResource(id = R.drawable.ton_crystal_frame), contentDescription = "", modifier = Modifier.size(15.dp))
                 Text(
-                    text = "≈ " + (amount - fee).toRoundAmount().toString(),
+                    text = "≈ " + ((if(amount + fee > maBalance) amount - fee else amount + fee) + fee).toRoundAmount().toString(),
                     fontSize = 15.sp,
                     color = AppTheme.colors.primaryTitle
                 )

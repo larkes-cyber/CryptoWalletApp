@@ -98,7 +98,7 @@ fun PendingSubView(
             Text(
                 text = when(pendingState.value){
                     PROCESS_PENDING_PROGRESS -> PENDING_TON_SUBTITLE
-                    SUCCESS_PENDING_PROGRESS -> "${amount - FEE} Toncoin have been sent to"
+                    SUCCESS_PENDING_PROGRESS -> "$amount Toncoin have been sent to"
                     else -> TXT_ERROR_TITLE
                 },
                 fontSize = 15.sp,

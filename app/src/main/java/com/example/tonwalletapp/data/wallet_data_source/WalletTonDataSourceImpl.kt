@@ -41,8 +41,8 @@ class WalletTonDataSourceImpl(
         )
     }
 
-    override suspend fun makeTransfer(walletEntity: WalletTon, address: String, amount:Double) {
-        tonClient.makeTransfer(walletTon = walletEntity, address = address, amount = amount)
+    override suspend fun makeTransfer(walletEntity: WalletTon, address: String, amount:Double, message:String?) {
+        tonClient.makeTransfer(walletTon = walletEntity, address = address, amount = amount, message = message)
     }
 
     override suspend fun getWalletTransactions(address: String): List<TransactionDetailTon>? {

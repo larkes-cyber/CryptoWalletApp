@@ -8,5 +8,6 @@ data class SendTonUIState(
     val receiverAddress:String? = null,
     val totalTonAmount:Float = 0f,
     val sendAmount:Float? = null,
-    val fee:Float? = null
+    val fee:Float? = null,
+    val message:String? = null
 )

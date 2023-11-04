@@ -12,7 +12,7 @@ interface WalletRepository {
     suspend fun getWalletWords(address:String):List<String>
     suspend fun getWallets():List<WalletEntity>
     suspend fun getWalletTransactions(address: String):List<TransactionDetailTon>?
-    suspend fun makeTransfer(wallet: WalletEntity, address: String, amount:Double)
+    suspend fun makeTransfer(wallet: WalletEntity, address: String, amount:Double, message:String?)
     suspend fun getWalletByAddress(address: String):WalletEntity
     suspend fun getWalletBalance(address: String):Float?
 
