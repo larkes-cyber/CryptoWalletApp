@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +26,7 @@ import com.example.tonwalletapp.until.Constants.PASTE_ADDRESS_TITLE
 import com.example.tonwalletapp.until.Constants.PASTE_BUTTON_TITLE
 import com.example.tonwalletapp.until.Constants.SCAN_BUTTON_TITLE
 import com.example.tonwalletapp.until.Constants.WALLET_ADDRESS_TITLE
+import com.example.tonwalletapp.until.getFromClipBoard
 
 @Composable
 fun EnterAddressSubView(
@@ -34,6 +36,8 @@ fun EnterAddressSubView(
     onDone:() -> Unit,
     onCloseClick:() -> Unit
 ) {
+    val context = LocalContext.current
+
     Column() {
         Text(
             text = WALLET_ADDRESS_TITLE,
@@ -59,7 +63,8 @@ fun EnterAddressSubView(
                 title = PASTE_BUTTON_TITLE,
                 icon = R.drawable.paste_icon
             ){
-
+                val copiedText = context.getFromClipBoard()
+                if(copiedText != null) onAddressChange(copiedText)
             }
             OptionButtonWrapper(
                 title = SCAN_BUTTON_TITLE,

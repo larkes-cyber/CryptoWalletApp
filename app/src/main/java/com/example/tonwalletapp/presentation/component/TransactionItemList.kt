@@ -63,25 +63,7 @@ fun TransactionItemList(
                         fontSize = 14.sp
                     )
                 }
-                Card(
-                    shape = RoundedCornerShape(
-                        topStart = 4.dp,
-                        topEnd = 10.dp,
-                        bottomStart = 10.dp,
-                        bottomEnd = 10.dp
-                    ),
-                    elevation = 0.dp,
-                    backgroundColor = AppTheme.colors.secondFormColor
-                ) {
-                    Box(modifier = Modifier.padding(vertical = 10.dp, horizontal = 12.dp)) {
-                        Text(
-                            text = transactionDetail.message ?: "None message",
-                            color = AppTheme.colors.secondBackground,
-                            fontSize = 15.sp
-                        )
-                    }
-                }
-
+                TxtMessage(transactionDetail.message)
             }
             Text(
                 text = transactionDetail.time,

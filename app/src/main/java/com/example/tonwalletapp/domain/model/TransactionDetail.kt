@@ -11,5 +11,6 @@ data class TransactionDetail(
     val comment:String?,
     val storageFee:Float,
     val transactionType:String,
-    val status:String
+    val status:String,
+    val txtAddress:String
 )

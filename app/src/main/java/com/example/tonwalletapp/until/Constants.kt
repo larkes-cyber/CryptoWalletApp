@@ -119,6 +119,13 @@ object Constants {
     const val TXT_ERROR_TITLE = "Transfer error"
     const val DONT_HAVE_TON = "You don't have enough ton for paying gas!"
     const val FEE = 0.01
+
+    const val TRANSACTION_DETAIL_TITLE = "Transaction"
+    const val VIEW_IN_EXPLORER_BTN_TITLE = "View in explorer"
+    const val SEND_TON_BTN_TITLE = "Send TON to this address"
+    const val RECEIVE_TON_TITLE = "Receive TON"
+    const val RECEIVE_TON_SUBTITLE = "Share this address with other TON wallet owners to receive TON from them."
+    const val RECEIVE_TON_BTN_TITLE = "Share Wallet Address"
 }
 
 

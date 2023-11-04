@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.domain.mapper
 
+import android.util.Log
 import com.example.tonwalletapp.data.remote.model.TonMsgAction
 import com.example.tonwalletapp.data.remote.model.TonMsgType
 import com.example.tonwalletapp.data.remote.model.TonTxMsg
@@ -63,6 +64,8 @@ fun TransactionDetailTon.toTransactionDetail():TransactionDetail{
         message = outMsg[0].comment
     }
 
+    Log.d("fgbvdfgbvcddfgb",this.toString())
+
     return TransactionDetail(
          time = getDateTime(created)!!,
          amount = amount,
@@ -73,7 +76,8 @@ fun TransactionDetailTon.toTransactionDetail():TransactionDetail{
          comment = message,
          storageFee = storageFee!!.toFloat() / NANO_NUM,
          transactionType = if(inMsg == null) OUT_TRANSACTION else IN_TRANSACTION,
-         status = if(actionSucceed == null) STATUS_TRANSACTION_PROCESSING else if(actionSucceed) STATUS_TRANSACTION_SUCCESS else STATUS_TRANSACTION_DENIED
+         status = if(actionSucceed == null) STATUS_TRANSACTION_PROCESSING else if(actionSucceed) STATUS_TRANSACTION_SUCCESS else STATUS_TRANSACTION_DENIED,
+         txtAddress = this.hash
     )
 }
 

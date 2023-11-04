@@ -10,15 +10,12 @@ import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWallets
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseMakeTransaction
 import com.example.tonwalletapp.until.Constants.FEE
 import com.example.tonwalletapp.until.Constants.TRANSACTIONS_BOTTOM_SHEET_CONTENT
+import com.example.tonwalletapp.until.Constants.TRANSACTION_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -119,5 +116,9 @@ class MainWalletViewModel @Inject constructor(
         return useGetTransactionFee.execute(amount = amount)
     }
 
+    fun selectTxt(index:Int){
+        _transactionsUIState.value = transactionsUIState.value.copy(selectedTxt = index)
+        _currentBottomSheetContentUIState.value = TRANSACTION_BOTTOM_SHEET_CONTENT
+    }
 
 }

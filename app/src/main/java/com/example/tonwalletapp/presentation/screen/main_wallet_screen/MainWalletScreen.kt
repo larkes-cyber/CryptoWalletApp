@@ -12,27 +12,38 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tonwalletapp.R
+import com.example.tonwalletapp.domain.mapper.toRoundAmount
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.SendTonView
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.TransactionsListView
 import com.example.tonwalletapp.presentation.component.PrimaryButtonApp
 import com.example.tonwalletapp.presentation.component.TonCrystalLoadingSpinner
+import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.receive_ton.ReceiveTonView
+import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.txt_detail.TransactionDetailView
 import com.example.tonwalletapp.ui.theme.AppTheme
+import com.example.tonwalletapp.until.Constants.RECEIVE_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Constants.RECEIVE_BTN_TITLE
 import com.example.tonwalletapp.until.Constants.SEND_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Constants.SEND_BTN_TITLE
 import com.example.tonwalletapp.until.Constants.TRANSACTIONS_BOTTOM_SHEET_CONTENT
+import com.example.tonwalletapp.until.Constants.TRANSACTION_BOTTOM_SHEET_CONTENT
+import com.example.tonwalletapp.until.copyToClipboard
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 fun MainWalletScreen(
     navController: NavController,
@@ -40,6 +51,7 @@ fun MainWalletScreen(
 ) {
 
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     val walletUIState by viewModel.walletUIState.collectAsState()
     val transactionUIState by viewModel.transactionsUIState.collectAsState()
@@ -62,8 +74,10 @@ fun MainWalletScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 1500.dp)
-
+                    .heightIn(
+                        min = if (currentBottomSheetContentUIState == TRANSACTION_BOTTOM_SHEET_CONTENT || currentBottomSheetContentUIState == RECEIVE_BOTTOM_SHEET_CONTENT) 550.dp else 1500.dp,
+                        max = if(currentBottomSheetContentUIState == RECEIVE_BOTTOM_SHEET_CONTENT) 470.dp else 1800.dp
+                    )
             ) {
                 Card(
                     modifier = Modifier
@@ -80,7 +94,17 @@ fun MainWalletScreen(
                                 txt = transactionUIState.txt,
                                 justCreatedWallet = transactionUIState.txt != null && transactionUIState.txt!!.isEmpty() && walletAddressUIState != null,
                                 walletAddress = walletAddressUIState
-                            )
+                            ){index ->
+                                coroutineScope.launch {
+                                    viewModel.selectTxt(index)
+                                    delay(100)
+                                    if(scaffoldState.bottomSheetState.isExpanded){
+                                        scaffoldState.bottomSheetState.collapse()
+                                        delay(200)
+                                    }
+                                    scaffoldState.bottomSheetState.expand()
+                                }
+                            }
                         }
                         SEND_BOTTOM_SHEET_CONTENT -> {
                             SendTonView(
@@ -91,11 +115,17 @@ fun MainWalletScreen(
                                 coroutineScope.launch{
                                     scaffoldState.bottomSheetState.collapse()
                                     viewModel.changeBottomSheetContext(TRANSACTIONS_BOTTOM_SHEET_CONTENT)
-                                    viewModel.loadMainWallet()
-
                                 }
                             }
                         }
+                        TRANSACTION_BOTTOM_SHEET_CONTENT -> {
+                            TransactionDetailView(transactionDetail = transactionUIState.txt!![transactionUIState.selectedTxt!!])
+                        }
+
+                        RECEIVE_BOTTOM_SHEET_CONTENT -> {
+                            ReceiveTonView(address = walletUIState.walletDetail!!.address)
+                        }
+
                     }
                 }
             }
@@ -105,6 +135,10 @@ fun MainWalletScreen(
         sheetShape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp)
     ) {
        SwipeRefresh(state = rememberSwipeRefreshState(isRefreshing = walletUIState.isLoading || transactionUIState.isLoading), onRefresh = {
+           coroutineScope.launch {
+               scaffoldState.bottomSheetState.collapse()
+           }
+           viewModel.changeBottomSheetContext(TRANSACTIONS_BOTTOM_SHEET_CONTENT)
            viewModel.loadMainWallet()
        }) {
            Box(
@@ -143,10 +177,16 @@ fun MainWalletScreen(
                                    Text(
                                        text = viewModel.formatAddress(walletUIState.walletDetail!!.address),
                                        fontSize = 15.sp,
-                                       color = AppTheme.colors.background
+                                       color = AppTheme.colors.background,
+                                       modifier = Modifier.combinedClickable(
+                                           onClick = { },
+                                           onLongClick = {
+                                               context.copyToClipboard(walletUIState.walletDetail!!.address)
+                                           }
+                                       )
                                    )
                                    Text(
-                                       text = String.format("%.4f", walletUIState.walletDetail!!.balance),
+                                       text = walletUIState.walletDetail!!.balance.toRoundAmount().toString(),
                                        fontSize = 44.sp,
                                        color = AppTheme.colors.background,
                                        fontWeight = FontWeight.Medium
@@ -164,16 +204,25 @@ fun MainWalletScreen(
                            icon = R.drawable.receive,
                            modifier = Modifier.weight(1f)
                        ) {
-
+                           if(walletUIState.walletDetail != null) {
+                               viewModel.changeBottomSheetContext(RECEIVE_BOTTOM_SHEET_CONTENT)
+                               coroutineScope.launch {
+                                   delay(200)
+                                   scaffoldState.bottomSheetState.expand()
+                               }
+                           }
                        }
                        PrimaryButtonApp(
                            text = SEND_BTN_TITLE,
                            icon = R.drawable.send,
                            modifier = Modifier.weight(1f)
                        ) {
-                           viewModel.changeBottomSheetContext(SEND_BOTTOM_SHEET_CONTENT)
-                           coroutineScope.launch {
-                               scaffoldState.bottomSheetState.expand()
+                           if(walletUIState.walletDetail != null) {
+                               viewModel.changeBottomSheetContext(SEND_BOTTOM_SHEET_CONTENT)
+                               coroutineScope.launch {
+                                   delay(200)
+                                   scaffoldState.bottomSheetState.expand()
+                               }
                            }
                        }
                    }
@@ -213,7 +262,11 @@ fun MainWalletScreen(
 
                    }
                }
-
+               if(currentBottomSheetContentUIState == TRANSACTION_BOTTOM_SHEET_CONTENT || currentBottomSheetContentUIState == RECEIVE_BOTTOM_SHEET_CONTENT) {
+                   Box(modifier = Modifier
+                       .fillMaxSize()
+                       .background(Color.Black.copy(alpha = 0.6f)))
+               }
            }
        }
     }
