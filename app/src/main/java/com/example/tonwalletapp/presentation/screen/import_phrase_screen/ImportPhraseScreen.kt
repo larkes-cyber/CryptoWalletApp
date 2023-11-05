@@ -26,6 +26,7 @@ import com.example.tonwalletapp.until.Constants.ContinueBtnTitle
 import com.example.tonwalletapp.until.Constants.DontHavePhraseBtnTitle
 import com.example.tonwalletapp.until.Constants.ImportPhraseText
 import com.example.tonwalletapp.until.Constants.ImportPhraseTitle
+import com.example.tonwalletapp.until.Constants.WalletActionImport
 
 @Composable
 fun ImportPhraseScreen(

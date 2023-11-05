@@ -128,6 +128,7 @@ object Constants {
     const val RECEIVE_TON_BTN_TITLE = "Share Wallet Address"
     const val SCAN_QR_CODE_TITLE = "Scan QR Code"
     const val WALLET_SETTINGS_TITLE = "Wallet Settings"
+    const val WRONG_PASSCODE_ERROR_TITLE = "Wrong passcode"
 }
 
 

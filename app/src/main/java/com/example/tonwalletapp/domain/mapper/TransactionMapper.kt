@@ -64,7 +64,6 @@ fun TransactionDetailTon.toTransactionDetail():TransactionDetail{
         message = outMsg[0].comment
     }
 
-    Log.d("fgbvdfgbvcddfgb",this.toString())
 
     return TransactionDetail(
          time = getDateTime(created)!!,

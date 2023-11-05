@@ -38,7 +38,6 @@ class TonWalletModuleImpl(
 
     override suspend fun getSeqno(address: String):Int? {
         val stack = runGetMethod("seqno", address = AddrStd(address))?.stack
-        Log.d("sdfdsfsdfsdfsdf",stack?.toMutableVmStack()?.popInt()?.toInt().toString())
         return stack?.toMutableVmStack()?.popInt()?.toInt()
     }
 
@@ -51,7 +50,6 @@ class TonWalletModuleImpl(
     override suspend fun getTransactionList(address: String): List<TransactionDetailTon>? {
         val account = tonStateModule.getAccountState(address)
         var txt:List<TransactionDetailTon>? = null
-        Log.d("accfgdfgdfgdfg",account.toString())
         if(account != null) {
             val job = CoroutineScope(Dispatchers.IO).launch {
                 val liteClient = LiteClient(this.coroutineContext, liteClientConfig)
@@ -79,7 +77,6 @@ class TonWalletModuleImpl(
     }
 
     override suspend fun checkWalletInitialization(address: String): Boolean {
-        Log.d("fsdfsdfsdffsd", address)
         return getSeqno(address) != null
     }
 

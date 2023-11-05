@@ -27,7 +27,6 @@ class UseMakeTransaction(
             emit(Resource.Success("success"))
 
         }catch (e:Exception){
-            Log.d("ERFGFDERGdfgfdf",e.toString())
             emit(Resource.Error(e.message!!))
         }
 

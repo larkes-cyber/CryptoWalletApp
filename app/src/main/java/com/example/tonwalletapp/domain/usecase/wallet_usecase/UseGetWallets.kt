@@ -19,7 +19,6 @@ class UseGetWallets(
             val wallets = walletRepository.getWallets().map { it.toWallet() }
             emit(Resource.Success(wallets))
         }catch (e:Exception){
-            Log.d("sdfsdfsdfsf", e.message.toString())
             emit(Resource.Error(e.message!!))
         }
 

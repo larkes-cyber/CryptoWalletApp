@@ -17,11 +17,12 @@ fun SplashScreen(
 ) {
 
     val authUIState by viewModel.isAuthorizedUIState.collectAsState()
+    val passcodeUIState by viewModel.passCodeUIState.collectAsState()
 
 
     LaunchedEffect(authUIState){
-        if(authUIState == IS_AUTHORIZED){
-            navController.navigate(Screen.MainWalletScreen.route)
+        if(authUIState == IS_AUTHORIZED && passcodeUIState.isNotEmpty()){
+            navController.navigate(Screen.EnterPassCodeScreen.withArgs(passcodeUIState))
         }
         if(authUIState == IS_NOT_AUTHORIZED){
             navController.navigate(Screen.StartScreen.route)

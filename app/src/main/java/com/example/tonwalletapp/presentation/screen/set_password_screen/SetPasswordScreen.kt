@@ -34,7 +34,7 @@ fun SetPasswordScreen(
     LaunchedEffect(hasBeenDoneUIState){
         if(hasBeenDoneUIState){
             if(walletAction == WalletActionCreate) navController.navigate(Screen.ReadyToGoScreen.route)
-            else navController.navigate(Screen.ImportSuccessScreen.route)
+            else navController.navigate(Screen.MainWalletScreen.route)
         }
     }
 

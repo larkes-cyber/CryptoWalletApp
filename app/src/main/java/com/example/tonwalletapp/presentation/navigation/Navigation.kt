@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.example.tonwalletapp.presentation.screen.QrCodeScannerView
 import com.example.tonwalletapp.presentation.screen.congrats_screen.CongratsScreen
 import com.example.tonwalletapp.presentation.screen.congrats_screen.CongratsViewModel
+import com.example.tonwalletapp.presentation.screen.enter_passcode_screen.EnterPassCodeScreen
 import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportPhraseScreen
 import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportPhraseViewModel
 import com.example.tonwalletapp.presentation.screen.import_success_screen.ImportSuccessScreen
@@ -111,6 +112,18 @@ fun Navigation(navController: NavHostController) {
         composable(Screen.SettingsScreen.route){
             val viewModel:SettingsScreenViewModel = hiltViewModel()
             SettingsScreen(navController = navController, viewModel = viewModel)
+        }
+        composable(
+            Screen.EnterPassCodeScreen.route + "/{passcode}",
+            arguments = listOf(
+                navArgument("passcode"){
+                    type = NavType.StringType
+                    defaultValue = "none"
+                }
+            )
+        ){
+            val passcode = it.arguments!!.getString("passcode")
+            EnterPassCodeScreen(navController = navController, passCode = passcode!!)
         }
 
     }

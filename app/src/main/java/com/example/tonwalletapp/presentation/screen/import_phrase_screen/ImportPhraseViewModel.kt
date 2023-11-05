@@ -65,8 +65,6 @@ class ImportPhraseViewModel @Inject constructor(
             errorWords.remove(num)
         }
 
-        Log.d("sdfdsfsdfsdf",_walletUIState.value.errorWords.toString())
-
         _walletUIState.value = walletUIState.value.copy(errorWords = errorWords)
     }
 

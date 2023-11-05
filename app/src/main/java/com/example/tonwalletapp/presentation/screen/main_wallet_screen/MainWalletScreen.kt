@@ -115,17 +115,12 @@ fun MainWalletScreen(
                                     delay(200)
                                     scaffoldState.bottomSheetState.expand()
                                 }
-                                Log.d("wefgfdsefghgfefg", sendAddressUIState.address)
                                 SendTonView(
                                     sendAddr = sendAddressUIState.address,
                                     walletDetail = walletUIState.walletDetail!!,
                                     getTxtFee = { amount -> viewModel.getTxtFee(amount) },
                                     startSending = { amount, addr, msg ->
-                                        viewModel.getTxtTransferFlow(
-                                            amount,
-                                            addr,
-                                            msg
-                                        )
+                                        viewModel.getTxtTransferFlow(amount, addr, msg)
                                     }
                                 ) {isScanActive ->
                                     if(isScanActive){
@@ -144,7 +139,9 @@ fun MainWalletScreen(
                             }
                             TRANSACTION_BOTTOM_SHEET_CONTENT -> {
                                 TransactionDetailView(transactionDetail = transactionUIState.txt!![transactionUIState.selectedTxt!!]){addr ->
-                                    viewModel.onSendAddrChange(addr)
+                                    if(walletUIState.walletDetail != null) {
+                                        viewModel.onSendAddrChange(addr)
+                                    }
                                 }
                             }
 
@@ -272,7 +269,9 @@ fun MainWalletScreen(
                                 modifier = Modifier
                                     .size(24.dp)
                                     .clickable {
-                                        viewModel.switchScanActive(true)
+                                        if (walletUIState.walletDetail != null) {
+                                            viewModel.switchScanActive(true)
+                                        }
                                     }
                             )
                             Icon(
@@ -282,7 +281,9 @@ fun MainWalletScreen(
                                 modifier = Modifier
                                     .size(24.dp)
                                     .clickable {
-                                        navController.navigate(Screen.SettingsScreen.route)
+                                        if (walletUIState.walletDetail != null) {
+                                            navController.navigate(Screen.SettingsScreen.route)
+                                        }
                                     }
                             )
 

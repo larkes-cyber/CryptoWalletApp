@@ -69,7 +69,6 @@ fun QrCodeScannerView(
         launcher.launch(Manifest.permission.CAMERA)
     }
 
-    Log.d("dfgvwefgfdsdfgb", hasCamPermission.toString())
 
     val stroke = Stroke(width = 5f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(70f, 20f), 0f)

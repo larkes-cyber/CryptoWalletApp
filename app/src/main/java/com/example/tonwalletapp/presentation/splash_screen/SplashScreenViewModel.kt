@@ -3,6 +3,7 @@ package com.example.tonwalletapp.presentation.splash_screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tonwalletapp.domain.usecase.user_usecase.UseGetPassCode
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWallets
 import com.example.tonwalletapp.until.Constants.IS_AUTHORIZED
 import com.example.tonwalletapp.until.Constants.IS_NOT_AUTHORIZED
@@ -17,11 +18,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
-    private val useGetWallets: UseGetWallets
+    private val useGetWallets: UseGetWallets,
+    private val useGetPassCode: UseGetPassCode
 ):ViewModel() {
 
     private val _isAuthorizedUIState = MutableStateFlow(NOT_STATED_AUTH_STATUS)
     val isAuthorizedUIState: StateFlow<Int> = _isAuthorizedUIState
+
+    private val _passCodeUIState = MutableStateFlow("")
+    val passCodeUIState:StateFlow<String> = _passCodeUIState
 
     init {
         checkAuth()
@@ -32,6 +37,10 @@ class SplashScreenViewModel @Inject constructor(
             when(res){
                 is Resource.Success -> {
                     _isAuthorizedUIState.value =if(res.data!!.isEmpty()) IS_NOT_AUTHORIZED  else IS_AUTHORIZED
+                    if(_isAuthorizedUIState.value == IS_AUTHORIZED){
+                       val passcode = useGetPassCode.execute()
+                        _passCodeUIState.value = passcode
+                    }
                 }
                 else -> {}
             }
