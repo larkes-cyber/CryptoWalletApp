@@ -1,9 +1,7 @@
-package com.example.tonwalletapp.data.remote.wallet
+package com.example.tonwalletapp.data.ton_remote.module.wallet
 
-import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
-import com.example.tonwalletapp.data.remote.model.WalletTon
+import com.example.tonwalletapp.data.ton_remote.model.TransactionDetailTon
 import org.ton.api.pub.PublicKeyEd25519
-import org.ton.lite.api.LiteApi
 
 interface TonWalletModule {
 

@@ -1,10 +1,10 @@
-package com.example.tonwalletapp.data.remote
+package com.example.tonwalletapp.data.ton_remote.ton_client
 
-import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
-import com.example.tonwalletapp.data.remote.model.WalletTon
-import com.example.tonwalletapp.data.remote.state.TonStateModule
-import com.example.tonwalletapp.data.remote.transfer.TonTransferModule
-import com.example.tonwalletapp.data.remote.wallet.TonWalletModule
+import com.example.tonwalletapp.data.ton_remote.model.TransactionDetailTon
+import com.example.tonwalletapp.data.ton_remote.model.WalletTon
+import com.example.tonwalletapp.data.ton_remote.module.state.TonStateModule
+import com.example.tonwalletapp.data.ton_remote.module.transfer.TonTransferModule
+import com.example.tonwalletapp.data.ton_remote.module.wallet.TonWalletModule
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.block.AddrStd
 import org.ton.block.StateInit
@@ -15,7 +15,7 @@ class TonClientImpl(
     private val tonStateModule: TonStateModule,
     private val tonTransferModule: TonTransferModule,
     private val tonWalletModule: TonWalletModule
-):TonClient {
+): TonClient {
     override suspend fun makeTransfer(walletTon: WalletTon, address: String, amount:Double, message:String?) {
         tonTransferModule.makeTransfer(
             walletTon = walletTon,

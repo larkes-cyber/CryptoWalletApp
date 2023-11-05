@@ -1,6 +1,6 @@
-package com.example.tonwalletapp.data.remote.state
+package com.example.tonwalletapp.data.ton_remote.module.state
 
-import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
+import com.example.tonwalletapp.data.ton_remote.ton_config.TonLiteClientConfigFactory
 import com.example.tonwalletapp.until.Constants.SOURCE_CODE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,8 +16,8 @@ import org.ton.lite.client.LiteClient
 import org.ton.lite.client.internal.FullAccountState
 
 class TonStateModuleImpl(
-    private val liteClientFactory: TonLiteClientFactory
-):TonStateModule {
+    private val liteClientFactory: TonLiteClientConfigFactory
+): TonStateModule {
 
     private val liteClientConfig = liteClientFactory.getLiteClientConfig()
 

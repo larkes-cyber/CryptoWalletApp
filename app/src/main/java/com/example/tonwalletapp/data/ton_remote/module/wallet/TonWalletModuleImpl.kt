@@ -1,19 +1,13 @@
-package com.example.tonwalletapp.data.remote.wallet
+package com.example.tonwalletapp.data.ton_remote.module.wallet
 
-import android.util.Log
-import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
-import com.example.tonwalletapp.data.remote.state.TonStateModule
-import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
+import com.example.tonwalletapp.data.ton_remote.model.TransactionDetailTon
+import com.example.tonwalletapp.data.ton_remote.module.state.TonStateModule
+import com.example.tonwalletapp.data.ton_remote.ton_config.TonLiteClientConfigFactory
 import com.example.tonwalletapp.domain.mapper.mapTx
-import com.example.tonwalletapp.until.Constants
 import com.example.tonwalletapp.until.Constants.NANO_NUM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import org.ton.api.liteclient.config.LiteClientConfigGlobal
 import org.ton.api.pub.PublicKeyEd25519
 import org.ton.block.AccountInfo
 import org.ton.block.AddrStd
@@ -26,15 +20,13 @@ import org.ton.lite.api.liteserver.LiteServerAccountId
 import org.ton.lite.api.liteserver.functions.LiteServerGetMasterchainInfo
 import org.ton.lite.api.liteserver.functions.LiteServerRunSmcMethod
 import org.ton.lite.client.LiteClient
-import java.net.URL
-import kotlin.coroutines.suspendCoroutine
 
 class TonWalletModuleImpl(
     private val tonStateModule: TonStateModule,
-    private val tonLiteClientFactory: TonLiteClientFactory
-):TonWalletModule {
+    private val tonLiteClientConfigFactory: TonLiteClientConfigFactory
+): TonWalletModule {
 
-    private val liteClientConfig = tonLiteClientFactory.getLiteClientConfig()
+    private val liteClientConfig = tonLiteClientConfigFactory.getLiteClientConfig()
 
     override suspend fun getSeqno(address: String):Int? {
         val stack = runGetMethod("seqno", address = AddrStd(address))?.stack

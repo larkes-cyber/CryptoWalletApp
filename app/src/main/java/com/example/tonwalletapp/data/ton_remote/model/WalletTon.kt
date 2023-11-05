@@ -1,6 +1,5 @@
-package com.example.tonwalletapp.data.remote.model
+package com.example.tonwalletapp.data.ton_remote.model
 
-import com.example.tonwalletapp.domain.usecase.user_usecase.UseInitializeTonLiteClient
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.api.pub.PublicKeyEd25519
 

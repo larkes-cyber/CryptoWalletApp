@@ -1,8 +1,7 @@
 package com.example.tonwalletapp.domain.mapper
 
-import android.util.Log
 import com.example.tonwalletapp.data.database.entity.WalletEntity
-import com.example.tonwalletapp.data.remote.model.WalletTon
+import com.example.tonwalletapp.data.ton_remote.model.WalletTon
 import com.example.tonwalletapp.domain.model.Wallet
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.api.pub.PublicKeyEd25519

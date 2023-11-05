@@ -1,21 +1,11 @@
 package com.example.tonwalletapp.data.wallet_data_source
 
-import android.util.Log
-import com.example.tonwalletapp.data.remote.TonClient
-import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
-import com.example.tonwalletapp.data.remote.model.WalletTon
-import com.example.tonwalletapp.data.remote.state.TonStateModule
+import com.example.tonwalletapp.data.ton_remote.ton_client.TonClient
+import com.example.tonwalletapp.data.ton_remote.model.TransactionDetailTon
+import com.example.tonwalletapp.data.ton_remote.model.WalletTon
 import org.ton.api.pk.PrivateKeyEd25519
 import org.ton.api.pub.PublicKeyEd25519
-import org.ton.bitstring.BitString
-import org.ton.block.AddrStd
-import org.ton.block.MsgAddressInt
-import org.ton.block.StateInit
-import org.ton.block.toMaybe
-import org.ton.cell.buildCell
-import org.ton.contract.wallet.WalletV4R2Contract
 import org.ton.mnemonic.Mnemonic
-import org.ton.tlb.storeTlb
 
 class WalletTonDataSourceImpl(
     private val tonClient: TonClient

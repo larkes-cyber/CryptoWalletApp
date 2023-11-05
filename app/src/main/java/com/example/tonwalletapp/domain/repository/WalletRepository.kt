@@ -1,10 +1,7 @@
 package com.example.tonwalletapp.domain.repository
 
 import com.example.tonwalletapp.data.database.entity.WalletEntity
-import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
-import com.example.tonwalletapp.domain.model.TransactionDetail
-import com.example.tonwalletapp.domain.model.Wallet
-import com.example.tonwalletapp.domain.model.WalletDetail
+import com.example.tonwalletapp.data.ton_remote.model.TransactionDetailTon
 
 interface WalletRepository {
     suspend fun importWallet(words:List<String>):WalletEntity

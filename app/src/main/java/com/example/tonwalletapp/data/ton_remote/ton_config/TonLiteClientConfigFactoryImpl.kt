@@ -1,4 +1,4 @@
-package com.example.tonwalletapp.data.remote.ton_lite_client
+package com.example.tonwalletapp.data.ton_remote.ton_config
 
 import com.example.tonwalletapp.until.Constants.TON_GLOBAL_CONFIG_URL
 import io.ktor.client.HttpClient
@@ -10,11 +10,10 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.ton.api.liteclient.config.LiteClientConfigGlobal
-import org.ton.lite.client.LiteClient
 
-class TonLiteClientFactoryImpl(
+class TonLiteClientConfigFactoryImpl(
     private val httpClient: HttpClient
-):TonLiteClientFactory {
+): TonLiteClientConfigFactory {
 
     private var liteClientConfig:LiteClientConfigGlobal? = null
 

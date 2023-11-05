@@ -1,15 +1,13 @@
-package com.example.tonwalletapp.data.remote.transfer
+package com.example.tonwalletapp.data.ton_remote.module.transfer
 
-import android.util.Log
-import com.example.tonwalletapp.data.remote.model.WalletTon
-import com.example.tonwalletapp.data.remote.state.TonStateModule
-import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
-import com.example.tonwalletapp.data.remote.wallet.TonWalletModule
+import com.example.tonwalletapp.data.ton_remote.model.WalletTon
+import com.example.tonwalletapp.data.ton_remote.module.state.TonStateModule
+import com.example.tonwalletapp.data.ton_remote.ton_config.TonLiteClientConfigFactory
+import com.example.tonwalletapp.data.ton_remote.module.wallet.TonWalletModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.ton.api.pk.PrivateKeyEd25519
-import org.ton.api.rldp.RldpMessageData
 import org.ton.bitstring.BitString
 import org.ton.block.AddrNone
 import org.ton.block.AddrStd
@@ -31,7 +29,6 @@ import org.ton.contract.wallet.WalletTransfer
 import org.ton.lite.api.liteserver.functions.LiteServerSendMessage
 import org.ton.lite.client.LiteClient
 import org.ton.tlb.CellRef
-import org.ton.tlb.asRef
 import org.ton.tlb.constructor.AnyTlbConstructor
 import org.ton.tlb.storeRef
 import org.ton.tlb.storeTlb
@@ -39,8 +36,8 @@ import org.ton.tlb.storeTlb
 class TonTransferModuleImpl(
     private val tonWalletModule: TonWalletModule,
     private val tonStateModule: TonStateModule,
-    private val liteClientFactory: TonLiteClientFactory
-):TonTransferModule {
+    private val liteClientFactory: TonLiteClientConfigFactory
+): TonTransferModule {
 
     private val liteClientConfig = liteClientFactory.getLiteClientConfig()
 

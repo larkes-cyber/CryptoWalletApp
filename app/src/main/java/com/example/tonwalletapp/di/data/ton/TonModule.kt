@@ -1,15 +1,15 @@
 package com.example.tonwalletapp.di.data.ton
 
-import com.example.tonwalletapp.data.remote.TonClient
-import com.example.tonwalletapp.data.remote.TonClientImpl
-import com.example.tonwalletapp.data.remote.state.TonStateModule
-import com.example.tonwalletapp.data.remote.state.TonStateModuleImpl
-import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactory
-import com.example.tonwalletapp.data.remote.ton_lite_client.TonLiteClientFactoryImpl
-import com.example.tonwalletapp.data.remote.transfer.TonTransferModule
-import com.example.tonwalletapp.data.remote.transfer.TonTransferModuleImpl
-import com.example.tonwalletapp.data.remote.wallet.TonWalletModule
-import com.example.tonwalletapp.data.remote.wallet.TonWalletModuleImpl
+import com.example.tonwalletapp.data.ton_remote.ton_client.TonClient
+import com.example.tonwalletapp.data.ton_remote.ton_client.TonClientImpl
+import com.example.tonwalletapp.data.ton_remote.module.state.TonStateModule
+import com.example.tonwalletapp.data.ton_remote.module.state.TonStateModuleImpl
+import com.example.tonwalletapp.data.ton_remote.ton_config.TonLiteClientConfigFactory
+import com.example.tonwalletapp.data.ton_remote.ton_config.TonLiteClientConfigFactoryImpl
+import com.example.tonwalletapp.data.ton_remote.module.transfer.TonTransferModule
+import com.example.tonwalletapp.data.ton_remote.module.transfer.TonTransferModuleImpl
+import com.example.tonwalletapp.data.ton_remote.module.wallet.TonWalletModule
+import com.example.tonwalletapp.data.ton_remote.module.wallet.TonWalletModuleImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,18 +23,18 @@ object TonModule {
 
     @Singleton
     @Provides
-    fun provideTonLiteClientFactory(httpClient: HttpClient):TonLiteClientFactory{
-        return TonLiteClientFactoryImpl(httpClient)
+    fun provideTonLiteClientFactory(httpClient: HttpClient): TonLiteClientConfigFactory {
+        return TonLiteClientConfigFactoryImpl(httpClient)
     }
 
     @Singleton
     @Provides
     fun provideTonWalletModule(
-        tonLiteClientFactory: TonLiteClientFactory,
+        tonLiteClientConfigFactory: TonLiteClientConfigFactory,
         tonStateModule: TonStateModule
-    ):TonWalletModule{
+    ): TonWalletModule {
         return TonWalletModuleImpl(
-            tonLiteClientFactory = tonLiteClientFactory,
+            tonLiteClientConfigFactory = tonLiteClientConfigFactory,
             tonStateModule = tonStateModule
         )
     }
@@ -42,8 +42,8 @@ object TonModule {
     @Singleton
     @Provides
     fun provideTonStateModule(
-        liteClientFactory: TonLiteClientFactory
-    ):TonStateModule{
+        liteClientFactory: TonLiteClientConfigFactory
+    ): TonStateModule {
         return TonStateModuleImpl(
             liteClientFactory = liteClientFactory
         )
@@ -54,8 +54,8 @@ object TonModule {
     fun provideTonTransferModule(
         tonWalletModule: TonWalletModule,
         tonStateModule: TonStateModule,
-        liteClientFactory: TonLiteClientFactory
-    ):TonTransferModule{
+        liteClientFactory: TonLiteClientConfigFactory
+    ): TonTransferModule {
         return TonTransferModuleImpl(
             tonStateModule = tonStateModule,
             tonWalletModule = tonWalletModule,
@@ -65,11 +65,11 @@ object TonModule {
 
     @Singleton
     @Provides
-    fun provideTonСlient(
+    fun provideTonClient(
         tonWalletModule: TonWalletModule,
         tonStateModule: TonStateModule,
         tonTransferModule: TonTransferModule
-    ):TonClient{
+    ): TonClient {
         return TonClientImpl(
             tonWalletModule = tonWalletModule,
             tonStateModule = tonStateModule,

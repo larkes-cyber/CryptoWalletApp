@@ -1,10 +1,9 @@
 package com.example.tonwalletapp.domain.mapper
 
-import android.util.Log
-import com.example.tonwalletapp.data.remote.model.TonMsgAction
-import com.example.tonwalletapp.data.remote.model.TonMsgType
-import com.example.tonwalletapp.data.remote.model.TonTxMsg
-import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
+import com.example.tonwalletapp.data.ton_remote.model.TonMsgAction
+import com.example.tonwalletapp.data.ton_remote.model.TonMsgType
+import com.example.tonwalletapp.data.ton_remote.model.TonTxMsg
+import com.example.tonwalletapp.data.ton_remote.model.TransactionDetailTon
 import com.example.tonwalletapp.domain.model.TransactionDetail
 import com.example.tonwalletapp.until.Constants.IN_TRANSACTION
 import com.example.tonwalletapp.until.Constants.NANO_NUM
@@ -35,7 +34,6 @@ import org.ton.crypto.hex
 import org.ton.tlb.CellRef
 import org.ton.tlb.loadTlb
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Date
 import kotlin.math.roundToInt
 

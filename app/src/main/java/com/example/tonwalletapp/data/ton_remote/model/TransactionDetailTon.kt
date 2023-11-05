@@ -1,7 +1,6 @@
-package com.example.tonwalletapp.data.remote.model
+package com.example.tonwalletapp.data.ton_remote.model
 
 import org.ton.bitstring.BitString
-import java.time.LocalDate
 
 data class TransactionDetailTon(
     val blockId: Int,

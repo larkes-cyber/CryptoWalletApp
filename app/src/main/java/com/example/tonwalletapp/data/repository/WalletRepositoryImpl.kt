@@ -1,17 +1,13 @@
 package com.example.tonwalletapp.data.repository
 
-import android.util.Log
 import com.example.tonwalletapp.data.database.entity.WalletEntity
-import com.example.tonwalletapp.data.remote.model.TransactionDetailTon
+import com.example.tonwalletapp.data.ton_remote.model.TransactionDetailTon
 import com.example.tonwalletapp.data.wallet_data_source.WalletDiskDataSource
 import com.example.tonwalletapp.data.wallet_data_source.WalletTonDataSource
-import com.example.tonwalletapp.domain.mapper.toTransactionDetail
 import com.example.tonwalletapp.domain.mapper.toWallet
 import com.example.tonwalletapp.domain.mapper.toWalletEntity
 import com.example.tonwalletapp.domain.mapper.toWalletTon
 import com.example.tonwalletapp.domain.mapper.toWordsList
-import com.example.tonwalletapp.domain.model.Wallet
-import com.example.tonwalletapp.domain.model.WalletDetail
 import com.example.tonwalletapp.domain.repository.WalletRepository
 
 class WalletRepositoryImpl(

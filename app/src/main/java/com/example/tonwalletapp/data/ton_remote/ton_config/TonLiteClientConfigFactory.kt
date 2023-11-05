@@ -1,8 +1,8 @@
-package com.example.tonwalletapp.data.remote.ton_lite_client
+package com.example.tonwalletapp.data.ton_remote.ton_config
 
 import org.ton.api.liteclient.config.LiteClientConfigGlobal
 
-interface TonLiteClientFactory {
+interface TonLiteClientConfigFactory {
 
     suspend fun initLiteClientConfig()
     fun getLiteClientConfig():LiteClientConfigGlobal
