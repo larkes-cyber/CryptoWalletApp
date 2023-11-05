@@ -8,6 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.tonwalletapp.presentation.screen.QrCodeScannerScreen
 import com.example.tonwalletapp.presentation.screen.congrats_screen.CongratsScreen
 import com.example.tonwalletapp.presentation.screen.congrats_screen.CongratsViewModel
 import com.example.tonwalletapp.presentation.screen.import_phrase_screen.ImportPhraseScreen
@@ -35,11 +36,15 @@ import kotlinx.coroutines.flow.flow
 @Composable
 fun Navigation(navController: NavHostController) {
 
-    NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
+    NavHost(navController = navController, startDestination = "qr_code"){
 
         composable(Screen.SplashScreen.route){
             val viewModel:SplashScreenViewModel = hiltViewModel()
             SplashScreen(viewModel = viewModel, navController = navController)
+        }
+
+        composable("qr_code"){
+            QrCodeScannerScreen()
         }
 
         composable(Screen.StartScreen.route){
@@ -106,7 +111,7 @@ fun Navigation(navController: NavHostController) {
 
             val viewModel:MainWalletViewModel = hiltViewModel()
 
-            MainWalletScreen(navController = navController, viewModel = viewModel)
+            MainWalletScreen(viewModel = viewModel)
         }
 
     }

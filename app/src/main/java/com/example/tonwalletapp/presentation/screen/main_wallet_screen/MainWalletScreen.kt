@@ -41,12 +41,9 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class,
-    ExperimentalFoundationApi::class
-)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun MainWalletScreen(
-    navController: NavController,
     viewModel: MainWalletViewModel
 ) {
 
