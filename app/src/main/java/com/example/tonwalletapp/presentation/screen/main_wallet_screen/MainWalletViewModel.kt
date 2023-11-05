@@ -8,7 +8,9 @@ import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetTransactions
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWalletInfo
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseGetWallets
 import com.example.tonwalletapp.domain.usecase.wallet_usecase.UseMakeTransaction
+import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.AddressScanUIState
 import com.example.tonwalletapp.until.Constants.FEE
+import com.example.tonwalletapp.until.Constants.SEND_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Constants.TRANSACTIONS_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Constants.TRANSACTION_BOTTOM_SHEET_CONTENT
 import com.example.tonwalletapp.until.Resource
@@ -38,6 +40,9 @@ class MainWalletViewModel @Inject constructor(
 
     private val _currentBottomSheetContentUIState = MutableStateFlow(TRANSACTIONS_BOTTOM_SHEET_CONTENT)
     val currentBottomSheetContentUIState:StateFlow<Int> = _currentBottomSheetContentUIState
+
+    private val _scanAddressUIState = MutableStateFlow(AddressScanUIState())
+    val scanAddressUIState:StateFlow<AddressScanUIState> = _scanAddressUIState
 
     init {
          loadMainWallet()
@@ -103,6 +108,15 @@ class MainWalletViewModel @Inject constructor(
                 }
             }
         }.launchIn(CoroutineScope(Dispatchers.IO))
+    }
+
+    fun onScanChange(text:String){
+        _scanAddressUIState.value = AddressScanUIState(address = text)
+        _currentBottomSheetContentUIState.value = SEND_BOTTOM_SHEET_CONTENT
+    }
+
+    fun switchScanActive(bool: Boolean){
+        _scanAddressUIState.value = AddressScanUIState(active = bool)
     }
 
     fun getTxtTransferFlow(amount: Float, receiverAddr:String, message:String?):Flow<Resource<String>>{

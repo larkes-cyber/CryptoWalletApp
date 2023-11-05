@@ -46,18 +46,20 @@ fun SendTonView(
     walletDetail: WalletDetail,
     startSending:(Float, String, String?) -> Flow<Resource<String>>,
     getTxtFee:(Float) -> Float,
-    onBack:() -> Unit
+    sendAddr:String = "",
+    onBack:(Boolean) -> Unit
 ) {
 
     val sendTonUIState by viewController.sendTonUIState.collectAsState()
 
     LaunchedEffect(Unit){
         viewController.initWalletInfo(walletDetail)
+        viewController.onAddressChange(sendAddr)
     }
 
     LaunchedEffect(sendTonUIState.transferProgress){
         if(sendTonUIState.transferProgress <= 0) {
-            onBack()
+            onBack(false)
             viewController.resetTonSendViewData()
         }
     }
@@ -101,6 +103,9 @@ fun SendTonView(
                        },
                        onAddressChange = {
                            viewController.onAddressChange(it)
+                       },
+                       onScanAddress = {
+                           onBack(true)
                        }
                    )
                }

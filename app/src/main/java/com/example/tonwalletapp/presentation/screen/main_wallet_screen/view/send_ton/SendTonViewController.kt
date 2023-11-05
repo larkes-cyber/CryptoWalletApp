@@ -43,6 +43,7 @@ class SendTonViewController @Inject constructor():ViewModel() {
         }
     }
 
+
     fun nextTransferStep(){
         _sendTonUIState.value = sendTonUIState.value.copy(transferProgress = sendTonUIState.value.transferProgress + 1)
     }

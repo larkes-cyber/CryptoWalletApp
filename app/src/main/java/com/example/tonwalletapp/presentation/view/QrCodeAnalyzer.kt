@@ -1,4 +1,4 @@
-package com.example.tonwalletapp.until
+package com.example.tonwalletapp.presentation.view
 
 import android.graphics.ImageFormat
 import androidx.camera.core.ImageAnalysis

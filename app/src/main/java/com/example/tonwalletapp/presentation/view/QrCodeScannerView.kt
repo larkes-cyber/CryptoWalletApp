@@ -1,7 +1,9 @@
 package com.example.tonwalletapp.presentation.screen
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.util.Log
 import android.util.Size
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,11 +21,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
@@ -34,22 +36,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants.SCAN_QR_CODE_TITLE
-import com.example.tonwalletapp.until.QrCodeAnalyzer
+import com.example.tonwalletapp.presentation.view.QrCodeAnalyzer
 
+@SuppressLint("RestrictedApi")
 @Composable
-fun QrCodeScannerScreen() {
-    var code by remember {
-        mutableStateOf("")
-    }
+fun QrCodeScannerView(
+    onBack:() -> Unit,
+    onScanDone:(String) -> Unit
+) {
+
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val cameraProviderFuture = remember {
-        ProcessCameraProvider.getInstance(context)
-    }
+    val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
 
-    var hasCamPermission by remember {
+
+    var hasCamPermission by rememberSaveable {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
                 context,
@@ -66,6 +68,8 @@ fun QrCodeScannerScreen() {
     LaunchedEffect(key1 = true) {
         launcher.launch(Manifest.permission.CAMERA)
     }
+
+    Log.d("dfgvwefgfdsdfgb", hasCamPermission.toString())
 
     val stroke = Stroke(width = 5f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(70f, 20f), 0f)
@@ -95,7 +99,8 @@ fun QrCodeScannerScreen() {
                     imageAnalysis.setAnalyzer(
                         ContextCompat.getMainExecutor(context),
                         QrCodeAnalyzer { result ->
-                            code = result
+                            cameraProviderFuture.get().shutdown()
+                            onScanDone(result)
                         }
                     )
                     try {
@@ -170,7 +175,10 @@ fun QrCodeScannerScreen() {
         Box(
             modifier = Modifier.padding(16.dp)
         ) {
-            IconButton(onClick = {  }) {
+            IconButton(onClick = {
+                cameraProviderFuture.get().shutdown()
+                onBack()
+            }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "",
