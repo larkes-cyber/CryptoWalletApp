@@ -8,15 +8,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tonwalletapp.ui.theme.AppTheme
 import com.example.tonwalletapp.until.Constants
-import com.example.tonwalletapp.R
 import com.example.tonwalletapp.presentation.component.PrimaryButtonApp
+import com.example.tonwalletapp.presentation.qr_code_untils.rememberQrBitmapPainter
 import com.example.tonwalletapp.until.copyToClipboard
 
 @Composable
@@ -49,7 +48,7 @@ fun ReceiveTonView(address:String) {
                 modifier = Modifier.fillMaxWidth()
             )
             Image(
-                painter = painterResource(id = R.drawable.qr_icon),
+                painter = rememberQrBitmapPainter(content = address),
                 contentDescription = "",
                 modifier = Modifier.size(160.dp),
                 contentScale = ContentScale.Crop

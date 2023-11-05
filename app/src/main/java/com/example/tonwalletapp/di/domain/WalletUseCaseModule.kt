@@ -51,4 +51,9 @@ object WalletUseCaseModule {
             walletRepository = walletRepository
         )
     }
+
+    @Provides
+    fun provideUseDeleteWallet(walletRepository: WalletRepository):UseDeleteWallet{
+        return UseDeleteWallet(walletRepository)
+    }
 }

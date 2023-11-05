@@ -36,7 +36,8 @@ import com.example.tonwalletapp.until.copyToClipboard
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TransactionDetailView(
-    transactionDetail: TransactionDetail
+    transactionDetail: TransactionDetail,
+    onTonSendClick:(String) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -163,7 +164,7 @@ fun TransactionDetailView(
                 text = SEND_TON_BTN_TITLE,
                 modifier = Modifier.fillMaxWidth()
             ) {
-
+                onTonSendClick(if(transactionDetail.transactionType == IN_TRANSACTION) transactionDetail.senderAddr!! else transactionDetail.recipientAddr!!)
             }
         }
 

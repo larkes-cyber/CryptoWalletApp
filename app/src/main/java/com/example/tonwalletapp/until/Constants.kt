@@ -127,6 +127,7 @@ object Constants {
     const val RECEIVE_TON_SUBTITLE = "Share this address with other TON wallet owners to receive TON from them."
     const val RECEIVE_TON_BTN_TITLE = "Share Wallet Address"
     const val SCAN_QR_CODE_TITLE = "Scan QR Code"
+    const val WALLET_SETTINGS_TITLE = "Wallet Settings"
 }
 
 

@@ -15,5 +15,6 @@ interface WalletRepository {
     suspend fun makeTransfer(wallet: WalletEntity, address: String, amount:Double, message:String?)
     suspend fun getWalletByAddress(address: String):WalletEntity
     suspend fun getWalletBalance(address: String):Float?
+    suspend fun deleteWallet()
 
 }

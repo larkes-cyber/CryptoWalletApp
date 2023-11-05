@@ -20,6 +20,8 @@ import com.example.tonwalletapp.presentation.screen.recovery_phrase_screen.Recov
 import com.example.tonwalletapp.presentation.screen.recovery_phrase_screen.RecoveryPhraseViewModel
 import com.example.tonwalletapp.presentation.screen.set_password_screen.SetPasswordScreen
 import com.example.tonwalletapp.presentation.screen.set_password_screen.SetPasswordViewModel
+import com.example.tonwalletapp.presentation.screen.settings_screen.SettingsScreen
+import com.example.tonwalletapp.presentation.screen.settings_screen.SettingsScreenViewModel
 import com.example.tonwalletapp.presentation.screen.start_screen.StartScreen
 import com.example.tonwalletapp.presentation.screen.success_screen.SuccessScreen
 import com.example.tonwalletapp.presentation.screen.test_time_screen.TestTimeScreen
@@ -104,7 +106,11 @@ fun Navigation(navController: NavHostController) {
 
             val viewModel:MainWalletViewModel = hiltViewModel()
 
-            MainWalletScreen(viewModel = viewModel)
+            MainWalletScreen(viewModel = viewModel, navController = navController)
+        }
+        composable(Screen.SettingsScreen.route){
+            val viewModel:SettingsScreenViewModel = hiltViewModel()
+            SettingsScreen(navController = navController, viewModel = viewModel)
         }
 
     }

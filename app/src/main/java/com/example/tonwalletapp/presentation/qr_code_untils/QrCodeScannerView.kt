@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.example.tonwalletapp.until.Constants.SCAN_QR_CODE_TITLE
-import com.example.tonwalletapp.presentation.view.QrCodeAnalyzer
+import com.example.tonwalletapp.presentation.qr_code_untils.QrCodeAnalyzer
 
 @SuppressLint("RestrictedApi")
 @Composable

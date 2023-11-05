@@ -55,4 +55,8 @@ class WalletRepositoryImpl(
         return walletTonDataSource.getWalletBalance(address)
     }
 
+    override suspend fun deleteWallet() {
+        walletDiskDataSource.nukeWalletTable()
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.tonwalletapp.presentation.screen.main_wallet_screen
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -19,12 +20,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.tonwalletapp.R
 import com.example.tonwalletapp.domain.mapper.toRoundAmount
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.send_ton.SendTonView
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.TransactionsListView
 import com.example.tonwalletapp.presentation.component.PrimaryButtonApp
 import com.example.tonwalletapp.presentation.component.TonCrystalLoadingSpinner
+import com.example.tonwalletapp.presentation.navigation.Screen
 import com.example.tonwalletapp.presentation.screen.QrCodeScannerView
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.receive_ton.ReceiveTonView
 import com.example.tonwalletapp.presentation.screen.main_wallet_screen.view.txt_detail.TransactionDetailView
@@ -41,9 +44,11 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun MainWalletScreen(
+    navController: NavController,
     viewModel: MainWalletViewModel
 ) {
 
@@ -54,7 +59,7 @@ fun MainWalletScreen(
     val transactionUIState by viewModel.transactionsUIState.collectAsState()
     val walletAddressUIState by viewModel.walletAddressUIState.collectAsState()
     val currentBottomSheetContentUIState by viewModel.currentBottomSheetContentUIState.collectAsState()
-    val scanAddressUIState by viewModel.scanAddressUIState.collectAsState()
+    val sendAddressUIState by viewModel.sendAddressUIState.collectAsState()
 
     val scaffoldState = rememberBottomSheetScaffoldState()
     val scrollableState = rememberScrollState()
@@ -110,9 +115,9 @@ fun MainWalletScreen(
                                     delay(200)
                                     scaffoldState.bottomSheetState.expand()
                                 }
-                                Log.d("wefgfdsefghgfefg", scanAddressUIState.address)
+                                Log.d("wefgfdsefghgfefg", sendAddressUIState.address)
                                 SendTonView(
-                                    sendAddr = scanAddressUIState.address,
+                                    sendAddr = sendAddressUIState.address,
                                     walletDetail = walletUIState.walletDetail!!,
                                     getTxtFee = { amount -> viewModel.getTxtFee(amount) },
                                     startSending = { amount, addr, msg ->
@@ -138,7 +143,9 @@ fun MainWalletScreen(
                                 viewModel.switchScanActive(false)
                             }
                             TRANSACTION_BOTTOM_SHEET_CONTENT -> {
-                                TransactionDetailView(transactionDetail = transactionUIState.txt!![transactionUIState.selectedTxt!!])
+                                TransactionDetailView(transactionDetail = transactionUIState.txt!![transactionUIState.selectedTxt!!]){addr ->
+                                    viewModel.onSendAddrChange(addr)
+                                }
                             }
 
                             RECEIVE_BOTTOM_SHEET_CONTENT -> {
@@ -275,7 +282,7 @@ fun MainWalletScreen(
                                 modifier = Modifier
                                     .size(24.dp)
                                     .clickable {
-
+                                        navController.navigate(Screen.SettingsScreen.route)
                                     }
                             )
 
@@ -291,13 +298,13 @@ fun MainWalletScreen(
                 }
             }
         }
-        if(scanAddressUIState.active) {
+        if(sendAddressUIState.isScanActive) {
             QrCodeScannerView(
                 onBack = {
                     viewModel.switchScanActive(false)
                 },
                 onScanDone = { text ->
-                    viewModel.onScanChange(text)
+                    viewModel.onSendAddrChange(text)
                 }
             )
         }

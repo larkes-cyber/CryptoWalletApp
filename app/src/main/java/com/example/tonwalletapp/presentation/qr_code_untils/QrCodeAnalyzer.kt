@@ -1,4 +1,4 @@
-package com.example.tonwalletapp.presentation.view
+package com.example.tonwalletapp.presentation.qr_code_untils
 
 import android.graphics.ImageFormat
 import androidx.camera.core.ImageAnalysis

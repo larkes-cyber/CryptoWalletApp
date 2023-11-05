@@ -13,6 +13,7 @@ sealed class Screen(val route:String) {
     object WrongPhraseScreen:Screen("wrong_phrase_screen")
     object MainWalletScreen:Screen("main_wallet_screen")
     object SplashScreen:Screen("splash_screen")
+    object SettingsScreen:Screen("settings_screen")
     fun withArgs(vararg args: String):String{
         return buildString {
             append(route)
