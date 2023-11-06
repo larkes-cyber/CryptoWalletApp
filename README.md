@@ -24,4 +24,7 @@ Ton sdk, Kotlin, Jetpack Compose, Dagger-Hilt, MVVM
 
 ![image](https://github.com/larkes-cyber/SniWalletApp/assets/79082708/1c274bd5-fb11-4343-8191-f56c53295596)
 
+![image](https://github.com/larkes-cyber/SniWalletApp/assets/79082708/424d8b1f-977e-481d-9bae-4e0763ea6d69)
+
+
 
