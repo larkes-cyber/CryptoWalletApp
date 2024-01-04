@@ -1,15 +1,16 @@
 # SniWalletApp
 Ton wallet app with all basic functions
 
-Functions:
+Tech: 
+Ton sdk, Kotlin, Jetpack Compose, Dagger-Hilt, RoomDB, Ktor-Client, MVVM
+
+Features:
 1. Create/import wallet
 2. View transactions
 3. Send transaction
 4. Receive wallet
 5. QR code scanner
 
-Tech: 
-Ton sdk, Kotlin, Jetpack Compose, Dagger-Hilt, MVVM
 
 
 ![image](https://github.com/larkes-cyber/SniWalletApp/assets/79082708/84c1bbad-f688-4904-be77-798b6de6cf97)
