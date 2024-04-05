@@ -1,8 +1,8 @@
-# SniWalletApp
+# CryptoWalletApp
 Ton wallet app with all basic functions
 
 Tech: 
-Ton sdk, Kotlin, Android Sdk, Jetpack Compose, Dagger-Hilt, RoomDB, Ktor-Client, MVVM, Clean Architecture
+Ton sdk, Android sdk, Kotlin, Jetpack Compose, Dagger-Hilt, RoomDB, Ktor-Client, MVVM, Clean Architecture
 
 Features:
 1. Create/import wallet
