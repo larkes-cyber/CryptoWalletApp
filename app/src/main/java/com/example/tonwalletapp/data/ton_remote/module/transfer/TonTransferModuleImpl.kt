@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.ton.api.pk.PrivateKeyEd25519
+import org.ton.api.pub.PublicKeyEd25519
 import org.ton.bitstring.BitString
 import org.ton.block.AddrNone
 import org.ton.block.AddrStd
@@ -26,12 +27,14 @@ import org.ton.cell.CellBuilder
 import org.ton.cell.buildCell
 import org.ton.contract.wallet.WalletContract
 import org.ton.contract.wallet.WalletTransfer
+import org.ton.contract.wallet.WalletV4R2Contract
 import org.ton.lite.api.liteserver.functions.LiteServerSendMessage
 import org.ton.lite.client.LiteClient
 import org.ton.tlb.CellRef
 import org.ton.tlb.constructor.AnyTlbConstructor
 import org.ton.tlb.storeRef
 import org.ton.tlb.storeTlb
+import kotlin.coroutines.coroutineContext
 
 class TonTransferModuleImpl(
     private val tonWalletModule: TonWalletModule,
@@ -41,29 +44,33 @@ class TonTransferModuleImpl(
 
     private val liteClientConfig = liteClientFactory.getLiteClientConfig()
 
+    private fun getSeqno(publicKeyEd25519: PublicKeyEd25519):Int?{
+        return try {
+            WalletV4R2Contract(0, publicKeyEd25519).getSeqno()
+        }catch (e:Exception){
+            null
+        }
+    }
     override suspend fun makeTransfer(walletTon: WalletTon, amount: Double, address: String, message:String?) {
 
 
-        val checkWalletInit = tonWalletModule.checkWalletInitialization(walletTon.address)
+        val seqno = getSeqno(walletTon.publicKey)
 
-        createTransfer(
-            stateInit = if(checkWalletInit) null else tonStateModule.createStateInit(walletTon.privateKey),
+
+        val liteClient = LiteClient(coroutineContext, liteClientConfig)
+        WalletV4R2Contract(0, walletTon.publicKey).transfer(
+            liteApi = liteClient.liteApi,
             privateKey = walletTon.privateKey,
-            seqno = if(!checkWalletInit) 0 else tonWalletModule.getSeqno(walletTon.address)!!,
-            address = AddrStd(walletTon.address),
-            transfers = arrayOf(
-                WalletTransfer {
-                    destination = AddrStd(address)
-                    coins = Coins.ofNano(amount.toNano())
-                    bounceable = true
-                    sendMode = 1
-                    body = if(message == null) null else
-                        buildCell {
-                        storeUInt(0, 32)
-                        storeBytes(message.toByteArray())
-                    }
-                }
-            )
+            WalletTransfer {
+                destination = AddrStd(address)
+                coins = Coins.ofNano(amount.toNano())
+                sendMode = 1
+                body = if(message != null) buildCell {
+                    storeUInt(0, 32)
+                    storeBytes(message.toByteArray())
+                } else Cell.empty()
+                bounceable = seqno != null
+            }
         )
     }
 
