@@ -11,6 +11,9 @@ Ton sdk, Android sdk, Kotlin, Jetpack Compose, Dagger-Hilt, RoomDB, Ktor-Client,
 4. Receive wallet
 5. QR code scanner
 
+## Multiplatform version [link](https://github.com/larkes-cyber/TonMultiplatformWallet.git)
+
+
 ## Screens:
 
 ![image](https://github.com/larkes-cyber/SniWalletApp/assets/79082708/84c1bbad-f688-4904-be77-798b6de6cf97)
